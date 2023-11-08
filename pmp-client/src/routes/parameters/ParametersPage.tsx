@@ -1,4 +1,5 @@
 import { Button } from 'rmwc';
+import { Environment } from '../../features/environment/environment';
 import QueryExample from './QueryExample';
 import useCommitStore from '../../features/changes/useCommitStore';
 
@@ -6,15 +7,26 @@ import useCommitStore from '../../features/changes/useCommitStore';
  * Page for displaying and editing parameters.
  */
 const ParametersPage = () => {
-    const addChange = useCommitStore((s) => s.addChange);
+    const addParameterChange = useCommitStore((s) => s.addParameterChange);
 
     const handleClick = () => {
         const now = Date.now();
-        addChange({
-            parameterKey: now.toString(),
-            newValue: `test-${now}`,
-            oldValue: 'test'
-        });
+        addParameterChange(
+            {
+                name: 'ServiceName1',
+                address: 'ServiceAddress1',
+                environment: Environment.TEST
+            },
+            {
+                parameter: {
+                    id: `paramId1`,
+                    name: `nameKey1-${now}`,
+                    value: `test-${now}`,
+                    type: 'string'
+                },
+                newValue: `test-${now}`
+            }
+        );
     };
 
     return (

@@ -1,32 +1,36 @@
-import { isParameterChange, isRevert } from '../../../utils/predicates/change';
-
 import useCommitStore from '../useCommitStore';
 
 /**
  * Displays a list of changes made in the current commit.
  */
 const ChangeList = () => {
-    const changes = useCommitStore((s) => s.changes);
+    const changes = useCommitStore((s) => s.serviceChanges);
 
     return (
         <div>
-            <div>
-                {changes.filter(isParameterChange).map((change) => (
-                    <div key={change.parameterKey} className='bg-gray-500'>
-                        <p>{change.parameterKey}</p>
-                        <br />
-                        <p>{change.newValue.toString()}</p>
-                    </div>
-                ))}
-            </div>
-            <div className='h-2'></div>
-            <div>
-                {changes.filter(isRevert).map((change) => (
-                    <div key={change.commitReference} className='bg-gray-500'>
-                        <p>{change.commitReference}</p>
-                    </div>
-                ))}
-            </div>
+            {/** List services */}
+            {changes.map((serviceChange) => (
+                <div key={serviceChange.service.address}>
+                    <p>{serviceChange.service.name}</p>
+
+                    {/** List reverts */}
+                    {serviceChange.reverts.map((revert) => (
+                        <div key={revert.commitReference}>
+                            <p>{revert.commitReference}</p>
+                        </div>
+                    ))}
+
+                    {/** Write each parameter change */}
+                    {serviceChange.parameterChanges.map((parameterChange) => (
+                        <div key={parameterChange.parameter.id} className='bg-gray-500'>
+                            <p>{parameterChange.parameter.name}</p>
+                            <br />
+                            <p>{parameterChange.parameter.value.toString()}</p>
+                            <p>{parameterChange.newValue.toString()}</p>
+                        </div>
+                    ))}
+                </div>
+            ))}
         </div>
     );
 };
