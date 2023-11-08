@@ -5,13 +5,13 @@ import { selectedServiceContext } from './selectedServiceContext';
 import useEnvironment from '../environment/useEnvironment';
 
 /**
- * Provider for the commit store. Handles creation of new stores if none exists.
+ * Provider for the list of selected services.
  */
 export const SelectedServiceProvider = ({ children }: { children: ReactNode }) => {
     const [services, setServices] = useState<Service[]>([]);
     const { environment } = useEnvironment();
 
-    // Clear the store when the environment changes.
+    // Clear the list when the environment changes.
     useEffect(() => {
         setServices([]);
     }, [environment]);
