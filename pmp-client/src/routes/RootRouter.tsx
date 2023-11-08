@@ -9,6 +9,7 @@ import Layout from './Layout';
 import { MsalAuthenticationTemplate } from '@azure/msal-react';
 import ParametersPage from './parameters/ParametersPage';
 import Redirecter from '../features/routing/Redirecter';
+import { SelectedServiceProvider } from '../features/services/SelectedServiceProvider';
 import SignOut from './signout/SignOut';
 import { redirectRequest } from '../features/auth/authConfig';
 
@@ -35,9 +36,11 @@ const router = createBrowserRouter([
                             interactionType={InteractionType.Redirect}
                             authenticationRequest={redirectRequest}
                         >
-                            <CommitStoreProvider>
-                                <Outlet />
-                            </CommitStoreProvider>
+                            <SelectedServiceProvider>
+                                <CommitStoreProvider>
+                                    <Outlet />
+                                </CommitStoreProvider>
+                            </SelectedServiceProvider>
                         </MsalAuthenticationTemplate>
                     </>
                 ),
