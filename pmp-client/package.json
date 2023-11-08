@@ -9,7 +9,7 @@
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
         "prettier": "npx prettier --write .",
-        "test": "vitest",
+        "test": "tsc && vitest",
         "test:e2e": "npx playwright test",
         "test:ci": "npm run test:unit && npm run test:e2e"
     },

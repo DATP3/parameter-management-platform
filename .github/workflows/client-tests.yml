@@ -1,9 +1,9 @@
-name: Playwright Tests
+name: Client Tests
 on:
   push:
-    branches: [main, frontend-scaffolding]
+    branches: [main]
   pull_request:
-    branches: [main, frontend-scaffolding]
+    branches: [main]
 jobs:
   test:
     timeout-minutes: 60
@@ -15,13 +15,20 @@ jobs:
           node-version: 18
       - name: Install dependencies
         working-directory: pmp-client
-        run: npm ci
-      - name: Install Playwright Browsers
+        run: |
+          npm ci
+          npx playwright install --with-deps
+      # - uses: stepek/tsc-action@master
+      - name: Typescript typecheck
+        uses: andoshin11/typescript-error-reporter-action@v1.0.2
+      - name: Unit / Integration tests
         working-directory: pmp-client
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
+        run: npm run test
+      - name: Playwright tests
         working-directory: pmp-client
-        run: npx playwright test
+        run: npm run test:e2e
+
+        # TODO: upload unit / integration test report
       - uses: actions/upload-artifact@v3
         if: always()
         with:
