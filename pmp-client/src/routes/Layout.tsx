@@ -2,6 +2,7 @@ import { Button, Grid, GridCell } from 'rmwc';
 
 import AppBar from './AppBar';
 import ChangeList from '../features/changes/sidebar/ChangeList';
+import ListofServices from '../features/services/ListOfServices';
 import { Environment } from '../features/environment/environment';
 import { Outlet } from 'react-router-dom';
 import useEnvironment from '../features/environment/useEnvironment';
@@ -41,7 +42,10 @@ const Layout = () => {
             )}
             {isValid && (
                 <Grid>
-                    <GridCell span={9}>
+                    <GridCell span={3}>
+                        <ListofServices />
+                    </GridCell>
+                    <GridCell span={6}>
                         <Outlet />
                     </GridCell>
                     <GridCell span={3}>
