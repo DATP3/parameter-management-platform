@@ -1,18 +1,68 @@
 import {
     Button,
-    Select,
+    Menu,
+    MenuItem,
+    MenuSurfaceAnchor,
     TopAppBar,
-    TopAppBarActionItem,
     TopAppBarFixedAdjust,
     TopAppBarRow,
-    TopAppBarSection
+    TopAppBarSection,
+    TopAppBarTitle
 } from 'rmwc';
-import { VALID_ENVIRONMENTS, toReadableEnvironment } from '../features/environment/environment';
+import { Link, useLocation } from 'react-router-dom';
 
-import { ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
+import EnvironmentSelect from '../features/environment/EnvironmentSelect';
 import useEnvironment from '../features/environment/useEnvironment';
-import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
+import { useMsal } from '@azure/msal-react';
+import { useState } from 'react';
+
+const NavigationSection = () => {
+    const { environment } = useEnvironment();
+    const { pathname } = useLocation();
+    const pageName = /^\/\w*\/(\w*)/i.exec(pathname)?.[1];
+
+    const pages = ['parameters', 'audit'];
+
+    return (
+        <TopAppBarSection alignStart>
+            {pages.map((page) => (
+                <Button
+                    key={page}
+                    theme={pageName === page ? 'textSecondaryOnDark' : 'onPrimary'}
+                    tag={Link}
+                    to={`/${environment}/${page}`}
+                    label={page}
+                />
+            ))}
+        </TopAppBarSection>
+    );
+};
+
+const AccountSection = () => {
+    const [open, setOpen] = useState(false);
+    const { accounts } = useMsal();
+
+    return (
+        <>
+            <TopAppBarSection alignEnd>
+                <MenuSurfaceAnchor>
+                    <Button
+                        theme={'onPrimary'}
+                        label={accounts[0].name ?? accounts[0].username}
+                        trailingIcon='account_circle'
+                        style={{ width: '100%' }}
+                        onClick={() => setOpen(true)}
+                    />
+                    <Menu open={open} onClose={() => setOpen(false)} anchorCorner='bottomStart'>
+                        <MenuItem tag={Link} to='/signout'>
+                            Sign Out
+                        </MenuItem>
+                    </Menu>
+                </MenuSurfaceAnchor>
+            </TopAppBarSection>
+        </>
+    );
+};
 
 /**
  * The top app bar in the main application layout.
@@ -22,38 +72,17 @@ import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_
  * TODO: Environment logic should be moved to a separate component.
  */
 const AppBar = () => {
-    const { environment, isValid } = useEnvironment();
-    const setEnvironment = useSetEnvironment_UNSAFE();
-
-    const selectOptions = VALID_ENVIRONMENTS.map((env) => ({
-        value: env,
-        label: toReadableEnvironment(env)
-    }));
-
-    const handleSelectChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-        const newEnv = evt.currentTarget.value as typeof environment;
-        console.log('Changing environment to', newEnv);
-        setEnvironment(newEnv);
-    };
+    const { isValid } = useEnvironment();
 
     return (
         <>
             <TopAppBar fixed>
                 <TopAppBarRow>
-                    <TopAppBarSection alignStart className='bg-red-500'>
-                        <Select value={environment} options={selectOptions} onChange={handleSelectChange} />
+                    <TopAppBarSection alignStart>
+                        {isValid ? <EnvironmentSelect /> : <TopAppBarTitle>No Environment</TopAppBarTitle>}
                     </TopAppBarSection>
-                    {isValid && (
-                        <TopAppBarSection alignStart className='bg-red-300'>
-                            <Button tag={Link} to={`/${environment}/parameters`} label={'Parameters'} />
-                            <Button tag={Link} to={`/${environment}/audit`} label={'Audit'} />
-                        </TopAppBarSection>
-                    )}
-                    <TopAppBarSection alignEnd>
-                        <TopAppBarActionItem icon='favorite' />
-                        <TopAppBarActionItem icon='star' />
-                        <TopAppBarActionItem icon='mood' />
-                    </TopAppBarSection>
+                    {isValid && <NavigationSection />}
+                    <AccountSection />
                 </TopAppBarRow>
             </TopAppBar>
             <TopAppBarFixedAdjust />

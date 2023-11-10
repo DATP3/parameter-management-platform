@@ -20,7 +20,6 @@ const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges})
     }
 
     return (
-
         <>
             <Card outlined style={{paddingLeft: '10px', marginLeft: '5px', marginBottom: '5px'}}>
                 <Grid style={{padding: '0px'}}>
@@ -31,7 +30,7 @@ const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges})
                                     <ListItemText>
                                         <Typography use="headline5">{serviceChanges.service.name}</Typography>
                                     </ListItemText>
-                                    <ListItemSecondaryText>
+                                    <ListItemSecondaryText style={{}}>
                                         <Typography use="subtitle1">{serviceChanges.service.address}</Typography>
                                     </ListItemSecondaryText>
                                 </List>
@@ -40,12 +39,12 @@ const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges})
                                 <IconButton onClick={removeChangesFromService} icon="delete"></IconButton>
                             </GridCell>
                         </GridRow>
-                        <GridRow>
+                        <GridRow style={{marginTop: '-42px'}}>
                             <GridCell span={12} style={{textAlign: 'right', padding: '0px'}}>
-                                <CollapsibleList onOpen={() => {setOpen(true)}} onClose={() => setOpen(false)} handle={<Button icon={buttonIcon}>{buttonText}</Button>}>
+                                <CollapsibleList defaultOpen onOpen={() => {setOpen(true)}} onClose={() => setOpen(false)} handle={<Button icon={buttonIcon}>{buttonText}</Button>}>
                                     {serviceChanges.parameterChanges.map((parameterChange) => (
-                                        <Card outlined style={{padding: '0px', marginBottom: '5px', marginRight: '5px'}}>
-                                            <ParamChangeEntry key={parameterChange.parameter.id} change={parameterChange} service={serviceChanges.service}/>
+                                        <Card key={parameterChange.parameter.id} outlined style={{padding: '0px', marginBottom: '5px', marginRight: '5px'}}>
+                                            <ParamChangeEntry change={parameterChange} service={serviceChanges.service}/>
                                         </Card>
                                     ))}
                                 </CollapsibleList>
@@ -55,9 +54,7 @@ const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges})
                 </Grid>
             </Card>
         </>
-
     )
-
 }
 
 export default ServiceChangeList;
