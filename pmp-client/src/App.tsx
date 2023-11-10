@@ -3,7 +3,6 @@ import 'rmwc/dist/styles';
 import AuthProvider from './features/auth/AuthProvider';
 import { QueryProvider } from './features/network/query';
 import RMWCComnponentProvider from './features/theme/RMWCComponentProvider';
-import RMWCThemeProvider from './features/theme/RMWCThemeProvider';
 import RootRouter from './routes/RootRouter';
 
 /**
@@ -15,11 +14,9 @@ function App() {
         <>
             <AuthProvider>
                 <QueryProvider>
-                    <RMWCThemeProvider>
-                        <RMWCComnponentProvider>
-                            <RootRouter />
-                        </RMWCComnponentProvider>
-                    </RMWCThemeProvider>
+                    <RMWCComnponentProvider>
+                        <RootRouter />
+                    </RMWCComnponentProvider>
                 </QueryProvider>
             </AuthProvider>
         </>

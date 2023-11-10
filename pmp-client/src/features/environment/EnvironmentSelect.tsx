@@ -26,7 +26,7 @@ const EnvironmentSelect = () => {
         <>
             <MenuSurfaceAnchor>
                 <Button
-                    theme={['onPrimary', 'secondaryBg']}
+                    theme={['onSecondary', 'secondaryBg']}
                     unelevated
                     label={toReadableEnvironment(environment)}
                     onClick={() => setMenuOpen(true)}

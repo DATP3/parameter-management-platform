@@ -8,6 +8,7 @@ import { InteractionType } from '@azure/msal-browser';
 import Layout from './Layout';
 import { MsalAuthenticationTemplate } from '@azure/msal-react';
 import ParametersPage from './parameters/ParametersPage';
+import RMWCThemeProvider from '../features/theme/RMWCThemeProvider';
 import Redirecter from '../features/routing/Redirecter';
 import { SelectedServiceProvider } from '../features/services/SelectedServiceProvider';
 import SignOut from './signout/SignOut';
@@ -38,7 +39,9 @@ const router = createBrowserRouter([
                         >
                             <SelectedServiceProvider>
                                 <CommitStoreProvider>
-                                    <Outlet />
+                                    <RMWCThemeProvider>
+                                        <Outlet />
+                                    </RMWCThemeProvider>
                                 </CommitStoreProvider>
                             </SelectedServiceProvider>
                         </MsalAuthenticationTemplate>

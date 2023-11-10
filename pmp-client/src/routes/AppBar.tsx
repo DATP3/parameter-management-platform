@@ -9,30 +9,22 @@ import {
     TopAppBarSection,
     TopAppBarTitle
 } from 'rmwc';
-import { Link, useLocation } from 'react-router-dom';
 
 import EnvironmentSelect from '../features/environment/EnvironmentSelect';
+import { Link } from 'react-router-dom';
 import useEnvironment from '../features/environment/useEnvironment';
 import { useMsal } from '@azure/msal-react';
 import { useState } from 'react';
 
 const NavigationSection = () => {
     const { environment } = useEnvironment();
-    const { pathname } = useLocation();
-    const pageName = /^\/\w*\/(\w*)/i.exec(pathname)?.[1];
 
     const pages = ['parameters', 'audit'];
 
     return (
         <TopAppBarSection alignStart>
             {pages.map((page) => (
-                <Button
-                    key={page}
-                    theme={pageName === page ? 'textSecondaryOnDark' : 'onPrimary'}
-                    tag={Link}
-                    to={`/${environment}/${page}`}
-                    label={page}
-                />
+                <Button key={page} theme={'onPrimary'} tag={Link} to={`/${environment}/${page}`} label={page} />
             ))}
         </TopAppBarSection>
     );
