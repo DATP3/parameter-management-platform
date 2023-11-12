@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "formulahendry.auto-rename-tag",
+        "aaron-bond.better-comments",
+        "dsznajder.es7-react-js-snippets",
+        "dbaeumer.vscode-eslint",
+        "wix.vscode-import-cost",
+        "ms-vscode.vscode-typescript-next",
+        "ms-playwright.playwright",
+        "esbenp.prettier-vscode",
+        "amatiasq.sort-imports",
+        "bradlc.vscode-tailwindcss",
+        "ZixuanChen.vitest-explorer"
+    ]
+}

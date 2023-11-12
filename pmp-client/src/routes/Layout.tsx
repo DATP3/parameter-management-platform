@@ -1,12 +1,12 @@
-import { Button, Grid, GridCell } from 'rmwc';
-
 import AppBar from './AppBar';
+import ChangeList from '../features/changes/sidebar/ChangeList';
+import InvalidEnvironmentScreen from './InvalidEnvironmentScreen';
 import ListofServices from '../features/services/ListOfServices';
-import { Environment } from '../features/environment/environment';
 import { Outlet } from 'react-router-dom';
+import PendingChanges from '../features/changes/sidebar/PendingChanges';
+import SideDrawer from '../features/components/SideDrawer';
 import useEnvironment from '../features/environment/useEnvironment';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
-import PendingChanges from '../features/changes/sidebar/PendingChanges';
 
 /**
  * Root layout encompassing the entire app
@@ -15,44 +15,38 @@ import PendingChanges from '../features/changes/sidebar/PendingChanges';
  */
 const Layout = () => {
     const { isValid } = useEnvironment();
-    const setEnvironment = useSetEnvironment_UNSAFE();
 
     return (
         <>
-            <AppBar />
-            {!isValid && (
-                <>
-                    <div className='prose max-w-full'>
-                        <h3>To proceed, please pick an environment</h3>
-
-                        <Button raised onClick={() => setEnvironment(Environment.TEST)}>
-                            Test
-                        </Button>
-                        <Button outlined onClick={() => setEnvironment(Environment.DEV)}>
-                            Dev
-                        </Button>
-                        <Button outlined danger onClick={() => setEnvironment(Environment.PREPROD)}>
-                            Preprod
-                        </Button>
-                        <Button raised danger onClick={() => setEnvironment(Environment.PROD)}>
-                            Prod
-                        </Button>
-                    </div>
-                </>
-            )}
-            {isValid && (
-                <Grid>
-                    <GridCell span={3}>
-                        <ListofServices />
-                    </GridCell>
-                    <GridCell span={6}>
-                        <Outlet />
-                    </GridCell>
-                    <GridCell span={3}>
-                        <PendingChanges />
-                    </GridCell>
-                </Grid>
-            )}
+            <div className='flex flex-col h-screen'>
+                {/** Top */}
+                <div className='flex-none'>
+                    <AppBar />
+                </div>
+                <div className='flex flex-1 overflow-hidden'>
+                    {!isValid && <InvalidEnvironmentScreen />}
+                    {isValid && (
+                        <>
+                            {/** Left */}
+                            <div className='flex-none h-full overflow-auto max-w-xs'>
+                                <SideDrawer>
+                                    <ListofServices />
+                                </SideDrawer>
+                            </div>
+                            {/** Middle */}
+                            <div className='flex-1 p-4 h-full overflow-auto'>
+                                <Outlet />
+                            </div>
+                            {/** Right */}
+                            <div className='flex-none h-full overflow-auto max-w-xs'>
+                                <SideDrawer rtl>
+                                    <ChangeList />
+                                </SideDrawer>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
         </>
     );
 };

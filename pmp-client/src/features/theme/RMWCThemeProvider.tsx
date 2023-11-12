@@ -1,4 +1,6 @@
 import { ThemeProvider } from 'rmwc';
+import { getTheme } from './themes';
+import useEnvironment from '../environment/useEnvironment';
 
 /**
  * Adds theming to the app, depending on the current environment
@@ -6,7 +8,9 @@ import { ThemeProvider } from 'rmwc';
  * TODO: Add themeing
  */
 const RMWCThemeProvider = ({ children }: { children: React.ReactNode }) => {
-    return <ThemeProvider options={{}}>{children}</ThemeProvider>;
+    const { environment } = useEnvironment();
+    const theme = getTheme(environment);
+    return <ThemeProvider options={theme}>{children}</ThemeProvider>;
 };
 
 export default RMWCThemeProvider;
