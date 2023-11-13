@@ -12,7 +12,7 @@ export interface ParameterResponse {
 }
 
 
-export enum SortingOption {
+export enum SortingCatagory {
 	Type = 'type',
 	Name = 'name',
 	Value = 'value',
