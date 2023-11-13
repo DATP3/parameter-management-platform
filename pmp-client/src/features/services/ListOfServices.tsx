@@ -1,4 +1,3 @@
-import useServices from './useServices';
 import {
     Checkbox,
     DataTable,
@@ -7,14 +6,22 @@ import {
     DataTableContent,
     DataTableHead,
     DataTableHeadCell,
-    DataTableRow
+    DataTableRow,
+    Typography
 } from 'rmwc';
+
 import { ChangeEvent } from 'react';
 import useSelectedServices from './useSelectedServices';
+import useServices from './useServices';
 
 const ListofServices = () => {
-    const list = useServices();
+    const { data: list, isPending, error } = useServices();
     const [selectedServices, setSelectedServices] = useSelectedServices();
+
+    // TODO: Add pending UI
+    if (isPending) return <></>;
+
+    if (error) return <Typography use='headline6'>Error loading services</Typography>;
 
     return (
         <DataTable>
