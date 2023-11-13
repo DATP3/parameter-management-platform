@@ -15,13 +15,13 @@ const ParameterList = (props: ParameterListProps) => {
     const [sortingDirection, setSortingDirection] = useState(1);
 
 	const sort = (parameters: Parameter[], catagory: string) => {
-		if (catagory === SortingCatagory.Name)
+		if (catagory === SortingCatagory.NAME)
 			return parameters.sort((a, b) => a.name.localeCompare(b.name) * sortingDirection);
 
-		if (catagory === SortingCatagory.Type)
+		if (catagory === SortingCatagory.TYPE)
 			return parameters.sort((a, b) => a.type.localeCompare(b.type) * sortingDirection);
 
-		if (catagory === SortingCatagory.Value)
+		if (catagory === SortingCatagory.VALUE)
 			return parameters.sort((a, b) => (a.value as string).localeCompare(b.value as string) * sortingDirection);
 
 		return parameters;
@@ -36,25 +36,25 @@ const ParameterList = (props: ParameterListProps) => {
 					<DataTableRow>
 						<DataTableHeadCell
 							className="headCell"
-							sort={sortingCatagory === SortingCatagory.Name ? sortingDirection : 0}
+							sort={sortingCatagory === SortingCatagory.NAME ? sortingDirection : 0}
 							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.Name)}
+							onClick={() => setSortingCatagory(SortingCatagory.NAME)}
 						>
 							Name
 						</DataTableHeadCell>
 						<DataTableHeadCell
 							className="headCell"
-							sort={sortingCatagory === SortingCatagory.Type ? sortingDirection : 0}
+							sort={sortingCatagory === SortingCatagory.TYPE ? sortingDirection : 0}
 							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.Type)}
+							onClick={() => setSortingCatagory(SortingCatagory.VALUE)}
 						>
 							Type
 						</DataTableHeadCell>
 						<DataTableHeadCell
 							className="headCell"
-							sort={sortingCatagory === SortingCatagory.Value ? sortingDirection : 0}
+							sort={sortingCatagory === SortingCatagory.VALUE ? sortingDirection : 0}
 							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.Value)}
+							onClick={() => setSortingCatagory(SortingCatagory.VALUE)}
 						>
 							Value
 						</DataTableHeadCell>
