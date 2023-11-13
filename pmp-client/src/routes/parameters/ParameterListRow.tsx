@@ -1,4 +1,4 @@
-import { Button, DataTableCell, DataTableRow, TextField } from "rmwc";
+import { Button, DataTableCell, DataTableRow } from "rmwc";
 import "./style.css"
 import { Parameter } from "../../features/parameters/types";
 import useCommitStore from "../../features/changes/useCommitStore";
