@@ -1,8 +1,7 @@
 
 import { Switch, TextField } from "rmwc";
-import { ParameterValue } from "../../features/changes/types";
-import { InputTextFieldTypes } from "./types";
-import { ParameterType } from "../../features/parameters/types";
+import { ParameterValue } from "../changes/types";
+import { InputTextFieldTypes, ParameterType, TextTypes } from "./types";
 
 interface InputProps {
 	isValid: boolean;
@@ -18,7 +17,7 @@ const Input = (props: InputProps) => {
 	if (InputTextFieldTypes.includes(type))
 		return (<TextField
 			invalid={!isValid}
-			type={type === ParameterType.STRING ? "text" : "number"}
+			type={TextTypes.includes(type) ? "text" : "number"}
 			outlined
 			className={"parameterInput" + (isValid ? "" : " invalid")}
 			value={value as string}
