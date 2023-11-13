@@ -2,6 +2,9 @@ import {
     Button,
     Card,
     CollapsibleList,
+    DataTable,
+    DataTableBody,
+    DataTableContent,
     Grid,
     GridCell,
     GridRow,
@@ -32,7 +35,7 @@ const ChangeList = () => {
     return (
         <div className='flex flex-col h-full'>
             <div className='flex-none'>
-                <Grid style={{ padding: '5px' }}>
+                <Grid style={{ padding: '0px', paddingRight: '0px', paddingLeft: '5px', paddingBottom: '5px' }}>
                     <GridCell span={7}>
                         <Button raised={hasChanges} outlined={!hasChanges} disabled={!hasChanges}>
                             Push to {environment}

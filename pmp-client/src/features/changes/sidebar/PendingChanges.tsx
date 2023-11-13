@@ -1,8 +1,9 @@
-import { Typography, GridRow, Grid, GridCell, List, ListItemPrimaryText, ListItemSecondaryText, IconButton } from "rmwc";
-import useEnvironment from "../../environment/useEnvironment";
+import { Grid, GridCell, GridRow, IconButton, List, ListItemPrimaryText, ListItemSecondaryText, Typography } from "rmwc";
+
 import ChangeList from "./ChangeList";
 import useCommitStore from "../useCommitStore";
- 
+import useEnvironment from "../../environment/useEnvironment";
+
 const PendingChanges = () => {
 
     const environment = useEnvironment();
@@ -11,11 +12,7 @@ const PendingChanges = () => {
 
     return (
         <>
-        <div style={{}}>
-            {/** 
-             * TODO: Make "no changes" message appear when there are no changes.
-             * 
-            */}
+        <div>
             <Grid style={{padding: '0px', height: '100%', width: '100%'}}>
                 <GridRow style={{paddingLeft: '10px'}}>
                     <GridCell span={12} style={{}}>
