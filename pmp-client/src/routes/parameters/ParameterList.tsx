@@ -14,7 +14,7 @@ const ParameterList = (props: ParameterListProps) => {
     const [sortingCatagory, setSortingCatagory] = useState<SortingCatagory>(SortingCatagory.NAME);
     const [sortingDirection, setSortingDirection] = useState(1);
 
-	const sort = (parameters: Parameter[], catagory: string) => {
+	const sort = (parameters: Parameter[], catagory: string, sortingDirection: number) => {
 		if (catagory === SortingCatagory.NAME)
 			return parameters.sort((a, b) => a.name.localeCompare(b.name) * sortingDirection);
 
@@ -27,7 +27,7 @@ const ParameterList = (props: ParameterListProps) => {
 		return parameters;
 	}
 
-	const sortedParameters = sort(parameters, sortingCatagory);
+	const sortedParameters = sort(parameters, sortingCatagory, sortingDirection);
 
 	return (
 		<DataTable className="parameterTable">
@@ -46,7 +46,7 @@ const ParameterList = (props: ParameterListProps) => {
 							className="headCell"
 							sort={sortingCatagory === SortingCatagory.TYPE ? sortingDirection : 0}
 							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.VALUE)}
+							onClick={() => setSortingCatagory(SortingCatagory.TYPE)}
 						>
 							Type
 						</DataTableHeadCell>
