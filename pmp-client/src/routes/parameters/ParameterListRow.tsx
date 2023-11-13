@@ -5,7 +5,7 @@ import useCommitStore from "../../features/changes/useCommitStore";
 import { Service } from "../../features/services/types";
 import { ParameterValue } from "../../features/changes/types";
 import validateParamChange from "../../features/changes/validateParamChange";
-import Input from "./Input";
+import Input from "../../features/parameters/Input";
 
 interface ParameterListRowProps {
 	parameter: Parameter;

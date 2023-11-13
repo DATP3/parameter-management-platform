@@ -1,8 +1,8 @@
 
 import { Switch, TextField } from "rmwc";
 import { ParameterValue } from "../../features/changes/types";
-import { InputTextFieldTypes, TextTypes } from "./types";
-import { ParameterType } from "../../features/parameters/types";
+import { InputTextFieldTypes, TextTypes } from "../../routes/parameters/types";
+import { ParameterType } from "./types";
 
 interface InputProps {
 	isValid: boolean;
