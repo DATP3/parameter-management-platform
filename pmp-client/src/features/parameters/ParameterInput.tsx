@@ -9,10 +9,11 @@ import "./style.css"
 interface ParameterInputProps {
 	parameter: Parameter;
 	service: Service;
+	disabled?: boolean;
 }
 
 const ParameterInput = (props: ParameterInputProps) => {
-	const { parameter, service } = props;
+	const { parameter, service, disabled } = props;
 	const addParameterChange = useCommitStore((s) => s.addParameterChange);
 
 	const parameterChange = useCommitStore((s) => s.findParameterChange(service, parameter));
@@ -25,7 +26,7 @@ const ParameterInput = (props: ParameterInputProps) => {
 	};
 
 	return (
-		<Input isValid={isValid} value={value} type={parameter.type} onParamChange={handleParameterChange} />
+		<Input disabled={disabled} isValid={isValid} value={value} type={parameter.type} onParamChange={handleParameterChange} />
 	);
 }
 

@@ -8,18 +8,19 @@ interface InputProps {
 	value: ParameterValue;
 	type: string;
 	onParamChange: (newValue: ParameterValue) => void;
-
+	disabled?: boolean;
 }
 
 const Input = (props: InputProps) => {
-	const { type, isValid, value, onParamChange } = props;
+	const { type, isValid, disabled, value, onParamChange } = props;
 
 	if (InputTextFieldTypes.includes(type))
 		return (<TextField
 			invalid={!isValid}
+			disabled={disabled}
 			type={TextTypes.includes(type) ? "text" : "number"}
 			outlined
-			className={"parameterInput" + (isValid ? "" : " invalid")}
+			className={"parameterInput" + (isValid ? " " : " invalid ")}
 			value={value as string}
 			onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 				onParamChange(e.target.value)
