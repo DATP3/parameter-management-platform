@@ -1,20 +1,11 @@
-import { Button, DataTableCell, DataTableRow } from "rmwc";
-import "./style.css"
-import { Parameter } from "../../features/parameters/types";
-import useCommitStore from "../../features/changes/useCommitStore";
-import { Service } from "../../features/services/types";
-import { ParameterValue } from "../../features/changes/types";
-import validateParamChange from "../../features/changes/validateParamChange";
-import Input from "../../features/parameters/Input";
-
 import { Button, DataTableCell, DataTableRow } from 'rmwc';
 
-import Input from './Input';
 import { Parameter } from '../../features/parameters/types';
 import { ParameterValue } from '../../features/changes/types';
 import { Service } from '../../features/services/types';
 import useCommitStore from '../../features/changes/useCommitStore';
 import validateParamChange from '../../features/changes/validateParamChange';
+import Input from '../../features/parameters/Input';
 
 interface ParameterListRowProps {
     parameter: Parameter;
