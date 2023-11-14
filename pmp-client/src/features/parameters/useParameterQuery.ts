@@ -6,13 +6,13 @@ const parametersMock: Parameter[] = [
     {
         id: '1',
         name: 'key1',
-        type: 'integer',
+        type: ParameterType.INTEGER,
         value: '2'
     },
     {
         id: '2',
         name: 'key2',
-        type: 'string',
+        type: ParameterType.STRING,
         value: 'value2erfwsdhfdiweuidsnviuwendiukweds'
     },
     {
