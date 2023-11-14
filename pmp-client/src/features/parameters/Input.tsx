@@ -68,8 +68,18 @@ const Input = (props: InputProps) => {
 			/>);
 	}
 
-
-	return <TextField />
+	//String input as defalut
+	return <TextField
+		invalid={!isValid}
+		disabled={disabled}
+		type={"text"}
+		outlined
+		className={"parameterInput" + (isValid ? " " : " invalid ")}
+		value={value as string}
+		onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+			onParamChange(e.target.value)
+		}}
+	/>
 }
 
 export default Input;
