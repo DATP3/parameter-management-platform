@@ -1,9 +1,8 @@
-import { DataTableCell, DataTableRow, Grid, GridCell, GridRow, IconButton, List, ListItemPrimaryText, ListItemSecondaryText, TextField } from "rmwc";
+import { DataTableCell, DataTableRow, IconButton, List, ListItemPrimaryText, ListItemSecondaryText, Typography } from "rmwc";
 import { ParameterChange, ParameterValue } from "../types";
 
 import Input from "../../parameters/Input";
 import { Service } from "../../services/types";
-import { isValid } from "zod";
 import useCommitStore from "../useCommitStore";
 import validateParamChange from "../validateParamChange";
 
@@ -21,7 +20,6 @@ const ParamChangeEntry = ({ change, service }: { change: ParameterChange, servic
         addParameterChange(service, { parameter, newValue })
     }
 
-
     return (
         <>
             <DataTableRow style={{borderBottom: 'none'}}>
@@ -31,34 +29,24 @@ const ParamChangeEntry = ({ change, service }: { change: ParameterChange, servic
                         <ListItemSecondaryText>{change.parameter.type}</ListItemSecondaryText>
                     </List>
                 </DataTableCell>
+                <DataTableCell alignEnd>
+                    <IconButton className="-mr-3" icon="delete" onClick={() => {removeParameterChange(service, change)}}></IconButton>
+                </DataTableCell>
             </DataTableRow>
             <DataTableRow className="tableRow" style={{borderTop: 'none', borderBottom: 'none'}}>
+                <DataTableCell className="w-1">
+                    <Typography use="body1">Old</Typography>
+                </DataTableCell>
                 <DataTableCell style={{padding: '10px'}}>
-                    <TextField 
-                        style={{width: '100%'}} 
-                        outlined 
-                        value={change.parameter.value.toString()} 
-                        label="Old Value" 
-                        disabled 
-                        type={change.parameter.type}/>
+                    <Input type={change.parameter.type} disabled value={change.parameter.value} isValid={true} onParamChange={() => { } }></Input>
                 </DataTableCell>
             </DataTableRow>
             <DataTableRow className="tableRow" style={{borderTop: 'none'}}>
+                <DataTableCell>
+                    <Typography use="body1">New</Typography>
+                </DataTableCell>
                 <DataTableCell style={{padding: '10px', paddingTop: '7px'}}>
-                    <Input isValid={isValid} value={change.newValue} type={change.parameter.type} onParamChange={handleParameterChange}>
-                    </Input>
-
-                    <TextField 
-                        style={{width: '100%'}} 
-                        outlined 
-                        label="New Value" 
-                        value={change.newValue.toString()} 
-                        type={change.parameter.type}
-                        trailingIcon={{
-                            icon: 'delete',
-                            tabIndex: 0,
-                            onClick: () => removeParameterChange(service, change)
-                        }}/>
+                    <Input isValid={isValid} value={change.newValue} type={change.parameter.type} onParamChange={handleParameterChange}/>
                 </DataTableCell>
             </DataTableRow>
         </>

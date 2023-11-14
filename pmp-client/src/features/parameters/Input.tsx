@@ -1,7 +1,7 @@
-
-import { Switch, TextField } from "rmwc";
-import { ParameterValue } from "../changes/types";
 import { InputTextFieldTypes, ParameterType, TextTypes } from "./types";
+import { Switch, TextField } from "rmwc";
+
+import { ParameterValue } from "../changes/types";
 
 interface InputProps {
 	isValid: boolean;
@@ -34,6 +34,7 @@ const Input = (props: InputProps) => {
 			<TextField
 				outlined
 				invalid={!isValid}
+				disabled={disabled}
 				className="parameterInput"
 				type="datetime-local"
 				value={value as string}

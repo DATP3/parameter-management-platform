@@ -1,20 +1,16 @@
-import {Button, Card, CollapsibleList, DataTable, DataTableBody, DataTableContent, DataTableHead, DataTableHeadCell, DataTableRow, Grid, GridCell, GridRow, IconButton, List, ListItemSecondaryText, ListItemText, SimpleListItem, Typography} from "rmwc";
+import {CollapsibleList, DataTable, DataTableBody, DataTableContent, Grid, GridCell, IconButton, SimpleListItem} from "rmwc";
 import { ParameterChange, ServiceChanges } from "../types";
 
 import ParamChangeEntry from "./ParamChangeEntry";
-import ParameterChangeList from "./ParameterChangeList";
 import React from "react";
 import useCommitStore from "../useCommitStore";
 
 const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges}) => {
 
-    const [open, setOpen] = React.useState(false);
-    const buttonText = open ? "Collapse" : "Show";
-    const buttonIcon = open ? "chevron_right" : "expand_more";
-
     const removeParameterChange = useCommitStore((s) => s.removeParameterChange);
 
-    const removeChangesFromService = () => {
+    const removeChangesFromService = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         serviceChanges.parameterChanges.forEach((change) => {
             removeParameterChange(serviceChanges.service, change);
         }
@@ -36,7 +32,8 @@ const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges})
                             secondaryText={serviceChanges.service.address}
                             metaIcon="chevron_right"
                             style={{padding: '5px'}}
-                        />
+                            
+                        ><IconButton icon="delete" onClick={removeChangesFromService}/></SimpleListItem>
                     }
                 >
                         <DataTable className="parameterTable">
