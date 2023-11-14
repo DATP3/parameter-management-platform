@@ -25,10 +25,10 @@ const PendingChanges = () => {
                             </GridCell>
                             <GridRow style={{paddingTop: '10px', paddingLeft: '40px'}}>
                                 <GridCell span={2}>
-                                    <IconButton icon="undo" onClick={() => {undo}}></IconButton>
+                                    <IconButton icon="undo" onClick={undo}></IconButton>
                                 </GridCell>
                                 <GridCell span={2} style={{textAlign: 'center'}}>
-                                    <IconButton icon="redo" onClick={() => {redo}}></IconButton>
+                                    <IconButton icon="redo" onClick={redo}></IconButton>
                                 </GridCell>
                             </GridRow>
                         </GridRow>
