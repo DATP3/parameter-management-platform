@@ -1,0 +1,14 @@
+[
+    { "name": "service1", "address": "1.1.1.1", "environment": "test" },
+    { "name": "service2", "address": "2.2.2.2", "environment": "prod" },
+    { "name": "service3", "address": "3.3.3.3", "environment": "preprod" },
+    { "name": "service1", "address": "1.1.1.1", "environment": "prod" },
+    { "name": "service2", "address": "2.2.2.2", "environment": "dev" },
+    { "name": "service3", "address": "3.3.3.3", "environment": "test" },
+    { "name": "service4", "address": "4.4.4.4", "environment": "test" },
+    { "name": "service5", "address": "5.5.5.5", "environment": "prod" },
+    { "name": "service6", "address": "6.6.6.6", "environment": "test" },
+    { "name": "service7", "address": "7.7.7.7", "environment": "prod" },
+    { "name": "service8", "address": "8.8.8.8", "environment": "preprod" },
+    { "name": "service9", "address": "9.9.9.9", "environment": "dev" }
+]

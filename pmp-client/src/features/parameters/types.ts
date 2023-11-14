@@ -3,7 +3,7 @@ import { ParameterValue } from '../changes/types';
 export interface Parameter<T extends ParameterValue = ParameterValue> {
     id: string;
     name: string;
-    type: string;
+    type: ParameterType;
     value: T;
 }
 
@@ -34,11 +34,24 @@ export interface ParameterFilter {
 
 export interface ParameterSortingOption {
     ascending: boolean;
-    option: SortingOption;
+    option: SortingCatagory;
 }
-
-export enum SortingOption {
+export enum SortingCatagory {
     TYPE = 'type',
     NAME = 'name',
     VALUE = 'value'
 }
+
+export const TextTypes = ['string', 'character'];
+
+export const InputTextFieldTypes = [
+    'string',
+    'character',
+    'integer',
+    'long',
+    'short',
+    'byte',
+    'float',
+    'double',
+    'bigdecimal'
+];
