@@ -1,0 +1,4 @@
+div.mdc-dialog.audit-dialog .mdc-dialog__surface {
+    max-width: 80vw;
+    max-height: 75vh;
+}

@@ -1,0 +1,170 @@
+{
+    "name": "service6",
+    "commits": [
+        {
+            "email": "olivia@example.com",
+            "hash": "j1k2l3m4n5o6",
+            "pushDate": "2023-11-25T09:20:30Z",
+            "message": "Feature: Analytics dashboard",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param14",
+                        "oldValue": "oldValue14",
+                        "newValue": "newValue14"
+                    },
+                    {
+                        "name": "param15",
+                        "oldValue": "oldValue15",
+                        "newValue": "newValue15"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "k1l2m3n4o5p6",
+                        "revertType": "type7",
+                        "parameterChanges": [
+                            {
+                                "name": "param16",
+                                "oldValue": "oldValue16",
+                                "newValue": "newValue16"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "email": "leo@example.com",
+            "hash": "q1r2s3t4u5v6",
+            "pushDate": "2023-11-24T14:35:45Z",
+            "message": "Bugfix: Security update",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param17",
+                        "oldValue": "oldValue17",
+                        "newValue": "newValue17"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "q1r2s3t4u5v6",
+                        "revertType": "type8",
+                        "parameterChanges": [
+                            {
+                                "name": "param18",
+                                "oldValue": "oldValue18",
+                                "newValue": "newValue18"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "email": "mia@example.com",
+            "hash": "w1x2y3z4a5b6",
+            "pushDate": "2023-11-23T11:50:22Z",
+            "message": "Refactoring data processing",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param19",
+                        "oldValue": "oldValue19",
+                        "newValue": "newValue19"
+                    },
+                    {
+                        "name": "param20",
+                        "oldValue": "oldValue20",
+                        "newValue": "newValue20"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "w1x2y3z4a5b6",
+                        "revertType": "type9",
+                        "parameterChanges": [
+                            {
+                                "name": "param21",
+                                "oldValue": "oldValue21",
+                                "newValue": "newValue21"
+                            },
+                            {
+                                "name": "param22",
+                                "oldValue": "oldValue22",
+                                "newValue": "newValue22"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "email": "liam@example.com",
+            "hash": "c1d2e3f4g5h6",
+            "pushDate": "2023-11-22T09:25:30Z",
+            "message": "Feature: Mobile app integration",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param23",
+                        "oldValue": "oldValue23",
+                        "newValue": "newValue23"
+                    },
+                    {
+                        "name": "param24",
+                        "oldValue": "oldValue24",
+                        "newValue": "newValue24"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "c1d2e3f4g5h6",
+                        "revertType": "type10",
+                        "parameterChanges": [
+                            {
+                                "name": "param25",
+                                "oldValue": "oldValue25",
+                                "newValue": "newValue25"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "email": "ava@example.com",
+            "hash": "i1j2k3l4m5n6",
+            "pushDate": "2023-11-21T16:10:45Z",
+            "message": "Code cleanup",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param26",
+                        "oldValue": "oldValue26",
+                        "newValue": "newValue26"
+                    },
+                    {
+                        "name": "param27",
+                        "oldValue": "oldValue27",
+                        "newValue": "newValue27"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "i1j2k3l4m5n6",
+                        "revertType": "type11",
+                        "parameterChanges": [
+                            {
+                                "name": "param28",
+                                "oldValue": "oldValue28",
+                                "newValue": "newValue28"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,108 @@
+{
+    "name": "service1",
+    "commits": [
+        {
+            "email": "john.doe@example.com",
+            "hash": "a1b2c3d4e5f6",
+            "pushDate": "2023-11-16T12:34:56Z",
+            "message": "Initial commit",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param1",
+                        "oldValue": "oldValue1",
+                        "newValue": "newValue1"
+                    },
+                    {
+                        "name": "param2",
+                        "oldValue": "oldValue2",
+                        "newValue": "newValue2"
+                    },
+                    {
+                        "name": "param3",
+                        "oldValue": "oldValue3",
+                        "newValue": "newValue3"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "b1c2d3e4f5g6",
+                        "revertType": "type1",
+                        "parameterChanges": [
+                            {
+                                "name": "param4",
+                                "oldValue": "oldValue4",
+                                "newValue": "newValue4"
+                            },
+                            {
+                                "name": "param5",
+                                "oldValue": "oldValue5",
+                                "newValue": "newValue5"
+                            }
+                        ]
+                    },
+                    {
+                        "referenceHash": "c1d2e3f4g5h6",
+                        "revertType": "type2",
+                        "parameterChanges": [
+                            {
+                                "name": "param6",
+                                "oldValue": "oldValue6",
+                                "newValue": "newValue6"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "email": "jane.smith@example.com",
+            "hash": "g6f5e4d3c2b1",
+            "pushDate": "2023-11-15T09:45:30Z",
+            "message": "Feature implementation",
+            "changes": {
+                "parameterChanges": [
+                    {
+                        "name": "param7",
+                        "oldValue": "oldValue7",
+                        "newValue": "newValue7"
+                    },
+                    {
+                        "name": "param8",
+                        "oldValue": "oldValue8",
+                        "newValue": "newValue8"
+                    }
+                ],
+                "reverts": [
+                    {
+                        "referenceHash": "h1i2j3k4l5m6",
+                        "revertType": "type3",
+                        "parameterChanges": [
+                            {
+                                "name": "param9",
+                                "oldValue": "oldValue9",
+                                "newValue": "newValue9"
+                            }
+                        ]
+                    },
+                    {
+                        "referenceHash": "m1n2o3p4q5r6",
+                        "revertType": "type4",
+                        "parameterChanges": [
+                            {
+                                "name": "param10",
+                                "oldValue": "oldValue10",
+                                "newValue": "newValue10"
+                            },
+                            {
+                                "name": "param11",
+                                "oldValue": "oldValue11",
+                                "newValue": "newValue11"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
