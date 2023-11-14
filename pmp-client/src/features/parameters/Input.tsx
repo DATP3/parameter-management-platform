@@ -6,7 +6,7 @@ import { InputTextFieldTypes, ParameterType, TextTypes } from "./types";
 interface InputProps {
 	isValid: boolean;
 	value: ParameterValue;
-	type: string;
+	type: ParameterType;
 	onParamChange: (newValue: ParameterValue) => void;
 	disabled?: boolean;
 }
@@ -62,7 +62,7 @@ const Input = (props: InputProps) => {
 			<Switch
 				label={value as string}
 				checked={boolValue}
-				onChange={(e: any) => {
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 					onParamChange(e.target.checked ? "true" : "false");
 				}}
 			/>);
