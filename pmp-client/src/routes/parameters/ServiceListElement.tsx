@@ -5,7 +5,7 @@ import { Service } from '../../features/services/types';
 import useParameterQuery from '../../features/parameters/useParameterQuery';
 
 interface ServiceListElementProps {
-    service: Service;
+	service: Service;
 }
 
 const ServiceListElement = ({ service }: ServiceListElementProps) => {
@@ -17,14 +17,14 @@ const ServiceListElement = ({ service }: ServiceListElementProps) => {
 
     const hasParms = parameters.length > 0;
 
-    return (
-        <CollapsibleList
-            defaultOpen
-            handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
-        >
-            {hasParms && <ParameterList service={service} parameters={parameters} />}
-        </CollapsibleList>
-    );
+	return (
+		<CollapsibleList
+			defaultOpen
+			handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
+		>
+			{hasParms && <ParameterList service={service} parameters={parameters} />}
+		</CollapsibleList>
+	);
 };
 
 export default ServiceListElement;
