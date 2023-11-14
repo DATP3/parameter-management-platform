@@ -22,7 +22,7 @@ interface Actions {
     addRevert: (service: Service, revert: Revert) => void;
     removeParameterChange: (service: Service, change: ParameterChange) => void;
     removeRevert: (service: Service, revert: Revert) => void;
-	findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
+    findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
     undo: () => void;
     redo: () => void;
     clear: () => void;
@@ -55,14 +55,15 @@ export const createCommitStore = (storageKey: string) => {
         persist(
             (set, get) => ({
                 ...initialState,
-				findParameterChange: (service, parameter) => {
-					const serviceParameterChanges = get().serviceChanges.find((sc) => sc.service.address === service.address)?.parameterChanges;
-					return serviceParameterChanges?.find((pc) => pc.parameter.id === parameter.id);
-				},
+                findParameterChange: (service, parameter) => {
+                    const serviceParameterChanges = get().serviceChanges.find(
+                        (sc) => sc.service.address === service.address
+                    )?.parameterChanges;
+                    return serviceParameterChanges?.find((pc) => pc.parameter.id === parameter.id);
+                },
                 addParameterChange: (service, change) => {
                     // Assume service is unique on address
-					console.log(change);
-					
+                    console.log(change);
 
                     const oldServiceChange = get().serviceChanges.find((c) => c.service.address === service.address);
                     let filteredParameterChanges = oldServiceChange?.parameterChanges.filter(
@@ -75,16 +76,16 @@ export const createCommitStore = (storageKey: string) => {
                         parameterChanges: [...filteredParameterChanges, change],
                         reverts: oldServiceChange?.reverts ?? []
                     };
-					
+
                     set((s) => ({
                         serviceChanges: [...s.serviceChanges.filter((c) => c !== oldServiceChange), newServiceChange],
                         __past: [...s.__past, s.serviceChanges],
                         __future: []
                     }));
 
-					if (change.newValue == change.parameter.value) {
-						get().removeParameterChange(service, change);
-					}
+                    if (change.newValue == change.parameter.value) {
+                        get().removeParameterChange(service, change);
+                    }
                 },
                 // TODO: Implement
                 addRevert: (_service, _revert) => {},

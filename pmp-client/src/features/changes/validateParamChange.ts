@@ -1,5 +1,6 @@
-import { ParameterType } from '../parameters/types';
 import { ParameterChange, ParameterValue } from './types';
+
+import { ParameterType } from '../parameters/types';
 
 const validateNonDecimalNumber = (value: ParameterValue, bits: number): boolean => {
     const isNonDecimal = /^-?\d+$/.test(value as string);
@@ -17,18 +18,17 @@ const validateNonDecimalNumber = (value: ParameterValue, bits: number): boolean 
 };
 
 enum Bits {
-	INTEGER = 32,
-	SHORT = 16,
-	BYTE = 8,
-	LONG = 64
+    INTEGER = 32,
+    SHORT = 16,
+    BYTE = 8,
+    LONG = 64
 }
-
 
 const validateParamChange = (change: ParameterChange): boolean => {
     const { newValue, parameter } = change;
     const { type } = parameter;
 
-	const decimalRegex = /^-?\d+(\.\d+)?$/;
+    const decimalRegex = /^-?\d+(\.\d+)?$/;
 
     if (type === ParameterType.STRING) {
         return true;

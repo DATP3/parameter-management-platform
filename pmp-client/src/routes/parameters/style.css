@@ -1,42 +1,39 @@
-
 .parameterInput {
-	padding: 10px;
-	margin: 0;
-	height: auto;
-	width: 100%;
+    padding: 10px;
+    margin: 0;
+    height: auto;
+    width: 100%;
 }
 
-
 .parameterTable {
-	margin-bottom: 20px;
-	/* margin-left: 20px; */
-	width: 100%;
-	background-color: transparent;
+    margin-bottom: 20px;
+    /* margin-left: 20px; */
+    width: 100%;
+    background-color: transparent;
 }
 
 .headCell {
-	background-color: transparent;
+    background-color: transparent;
 }
 
 .hidden {
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .tableRow {
-	background-color: #00000005;
+    background-color: #00000005;
 }
 
 .tableHead {
-	background-color: #00000005;
-
+    background-color: #00000005;
 }
 
 .serviceListItem {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .invalid {
-	background-color: rgba(255, 0, 0, 0.068);
+    background-color: rgba(255, 0, 0, 0.068);
 }
 
 /* .paramPage {
