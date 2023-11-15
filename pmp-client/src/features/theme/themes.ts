@@ -1,29 +1,44 @@
-import { Environment } from '../environment/environment';
 import { ThemeOptions } from './types';
 
 export const DEFAULT_THEME: ThemeOptions = {};
 
-export const THEMES: Record<Environment, ThemeOptions> = {
-    [Environment.INVALID]: {},
-    [Environment.TEST]: {
-        primary: '#d9e5d6',
-        secondary: '#55828b'
+export const THEMES: Record<string, ThemeOptions> = {
+    ['invalid']: {},
+    ['test']: {
+        primary: '#55828b',
+        secondary: '#d9e5d6'
     },
-    [Environment.DEV]: {},
-    [Environment.PREPROD]: {
+    ['dev']: {},
+    ['preprod']: {
         primary: '#f85e00',
         secondary: '#ffee88'
     },
-    [Environment.PROD]: {
+    ['prod']: {
         primary: '#750d37',
         secondary: '#210124'
     }
 };
 
-export const getTheme = (environment: Environment): ThemeOptions => {
+export const getTheme = (environment?: string): ThemeOptions => {
+    const env = environment?.toLowerCase();
+    let pickTheme: string;
+    if (env === undefined) {
+        pickTheme = 'invalid';
+    } else if (env.startsWith('test')) {
+        pickTheme = 'test';
+    } else if (env.startsWith('dev')) {
+        pickTheme = 'dev';
+    } else if (env.startsWith('preprod')) {
+        pickTheme = 'preprod';
+    } else if (env.startsWith('prod')) {
+        pickTheme = 'prod';
+    } else {
+        pickTheme = 'invalid';
+    }
+
     const theme = {
         ...DEFAULT_THEME,
-        ...THEMES[environment]
+        ...THEMES[pickTheme]
     };
 
     // Calculate unset values if possible

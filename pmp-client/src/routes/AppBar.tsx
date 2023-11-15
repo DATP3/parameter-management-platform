@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import useEnvironment from '../features/environment/useEnvironment';
 import { useMsal } from '@azure/msal-react';
 import { useState } from 'react';
+import useIsEnvironmentValid from '../features/environment/useIsEnvironmentValid';
 
 const NavigationSection = () => {
     const { environment } = useEnvironment();
@@ -64,7 +65,7 @@ const AccountSection = () => {
  * TODO: Environment logic should be moved to a separate component.
  */
 const AppBar = () => {
-    const { isValid } = useEnvironment();
+    const isValid = useIsEnvironmentValid();
 
     return (
         <>

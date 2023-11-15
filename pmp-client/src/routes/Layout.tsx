@@ -4,7 +4,7 @@ import ListofServices from '../features/services/ListOfServices';
 import { Outlet } from 'react-router-dom';
 import PendingChanges from '../features/changes/sidebar/PendingChanges';
 import SideDrawer from '../features/components/SideDrawer';
-import useEnvironment from '../features/environment/useEnvironment';
+import useIsEnvironmentValid from '../features/environment/useIsEnvironmentValid';
 
 /**
  * Root layout encompassing the entire app
@@ -12,7 +12,7 @@ import useEnvironment from '../features/environment/useEnvironment';
  * Adds a top app bar for navigation and prohibits the user from navigating to any page before picking an environment
  */
 const Layout = () => {
-    const { isValid } = useEnvironment();
+    const isValid = useIsEnvironmentValid();
 
     return (
         <>

@@ -1,9 +1,9 @@
-import { Button, Menu, MenuItem, MenuSurfaceAnchor } from 'rmwc';
-import { VALID_ENVIRONMENTS, toReadableEnvironment } from './environment';
+import { Button, CircularProgress, Menu, MenuItem, MenuSurfaceAnchor, Typography } from 'rmwc';
 
 import useEnvironment from './useEnvironment';
 import useSetEnvironment_UNSAFE from './useSetEnvironment_UNSAFE';
 import { useState } from 'react';
+import useEnvironmentQuery from './useEnvironmentQuery';
 
 /* Not exhaustive. Generated from observed runtime behavior. */
 interface RMWCMenuSelectEvent {
@@ -16,9 +16,19 @@ const EnvironmentSelect = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { environment } = useEnvironment();
     const setEnvironment = useSetEnvironment_UNSAFE();
+    const { data: environments, isPending, error } = useEnvironmentQuery();
+
+    if (isPending)
+        return (
+            <>
+                <Typography use='headline6'>Waiting on environments</Typography> <CircularProgress />
+            </>
+        );
+
+    if (error) return <Typography use='headline6'>Error getting environments</Typography>;
 
     const handleSelect = (e: RMWCMenuSelectEvent) => {
-        const environment = VALID_ENVIRONMENTS[e.detail.index];
+        const environment = environments[e.detail.index];
         setEnvironment(environment);
     };
 
@@ -28,7 +38,7 @@ const EnvironmentSelect = () => {
                 <Button
                     theme={['onSecondary', 'secondaryBg']}
                     unelevated
-                    label={toReadableEnvironment(environment)}
+                    label={environment}
                     onClick={() => setMenuOpen(true)}
                 />
                 <Menu
@@ -37,8 +47,8 @@ const EnvironmentSelect = () => {
                     anchorCorner='bottomStart'
                     onSelect={handleSelect}
                 >
-                    {VALID_ENVIRONMENTS.map((e) => (
-                        <MenuItem key={e}>{toReadableEnvironment(e)}</MenuItem>
+                    {environments.map((e) => (
+                        <MenuItem key={e.environment}>{e.environment}</MenuItem>
                     ))}
                 </Menu>
             </MenuSurfaceAnchor>

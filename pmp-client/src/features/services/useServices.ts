@@ -1,4 +1,3 @@
-import { Environment } from '../environment/environment';
 import axios from 'axios';
 import useEnvironment from '../environment/useEnvironment';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +8,7 @@ const servicesParser = z.array(
     z.object({
         name: z.string(),
         address: z.string(),
-        environment: z.nativeEnum(Environment)
+        environment: z.object({ environment: z.string() })
     })
 );
 
@@ -39,7 +38,7 @@ const useServices = () => {
             return data;
         },
         select: (data) => {
-            return data.filter((s) => s.environment === environment);
+            return data.filter((s) => s.environment.environment === environment);
         }
     });
 };

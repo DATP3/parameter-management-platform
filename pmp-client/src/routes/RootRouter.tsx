@@ -1,5 +1,4 @@
-import { ENVIRONMENTS, Environment } from '../features/environment/environment';
-import { Outlet, RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import AuditPage from './audit/AuditPage';
 import { CommitStoreProvider } from '../features/changes/commitStoreProvider';
@@ -55,7 +54,7 @@ const router = createBrowserRouter([
                          * It was causing a redirect loop with microsoft when the user was not authenticated
                          * Likely because the loader was being called before the user was fully authenticated
                          */
-                        element: <Redirecter to={`/${Environment.INVALID}/parameters`} />
+                        element: <Redirecter to={`/invalid/parameters`} />
                     },
                     {
                         path: '/:environment/',
@@ -72,15 +71,6 @@ const router = createBrowserRouter([
                                     status: 404,
                                     statusText: 'Not Found'
                                 });
-                            }
-
-                            // Redirect to Enviroment.INVALID if environment is not recognized
-                            if (!ENVIRONMENTS.includes(params.environment.toLowerCase() as Environment)) {
-                                const newUrl = request.url.replace(
-                                    /^(https?:\/\/[^/]+\/)([^/]*)(.*)$/,
-                                    `$1${Environment.INVALID}$3`
-                                );
-                                return redirect(newUrl);
                             }
 
                             return null;
