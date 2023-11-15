@@ -10,6 +10,7 @@ const FilterElement = ({ filter }: FilterElementProps) => {
 	return (
 		<CollapsibleList
 			key={filter.name}
+			open={true}
 			handle={
 				<SimpleListItem
 					text={
@@ -17,12 +18,12 @@ const FilterElement = ({ filter }: FilterElementProps) => {
 							{filter.name}
 							{filter.setAll && <Checkbox
 								defaultChecked
-								onChange={(e: ChangeEvent<HTMLInputElement>) =>
+								onChange={(e: ChangeEvent<HTMLInputElement>) => {
 									filter.setAll && filter.setAll(e.currentTarget.checked)}
+								}
 							/>}
 						</>
 					}
-					metaIcon="chevron_right"
 				/>
 			}
 		>
@@ -31,8 +32,9 @@ const FilterElement = ({ filter }: FilterElementProps) => {
 					key={data.name}
 					label={data.name}
 					checked={filter.checkedCriteria(data)}
-					onChange={(e: ChangeEvent<HTMLInputElement>) =>
-						filter.onChange(data, e.currentTarget.checked)}
+					onChange={(e: ChangeEvent<HTMLInputElement>) => 
+						filter.onChange(data, e.currentTarget.checked)
+					}
 				/>
 			)}
 		</CollapsibleList>
