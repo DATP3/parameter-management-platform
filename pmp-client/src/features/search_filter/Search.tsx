@@ -6,11 +6,6 @@ interface SearchProps {
 }
 
 const Search = ({value, setQuery}: SearchProps) => {
-	const convertToRegex = (query: string) => {
-		const regex = query.replace(" ", "/")
-		return new RegExp(regex, 'i');
-	}
-
 	return (
 		<TextField outlined
 			className="search w-full"

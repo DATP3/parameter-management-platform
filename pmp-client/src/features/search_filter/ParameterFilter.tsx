@@ -1,8 +1,5 @@
 import { useEffect } from "react";
-import useSelectedServices from "../services/useSelectedServices";
-import useServices from "../services/useServices";
 import { useParameterFilter } from "./useParamererFilter";
-import { Service } from "../services/types";
 import { FilterData, Namable } from "./types";
 import { ParameterType } from "../parameters/types";
 import Filter from "./Filter";

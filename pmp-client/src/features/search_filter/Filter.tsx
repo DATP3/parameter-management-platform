@@ -1,6 +1,5 @@
-import { Button, Checkbox, CollapsibleList, SimpleListItem, SimpleMenuSurface } from "rmwc";
+import { Button, SimpleMenuSurface } from "rmwc";
 import { FilterData } from "./types";
-import { ChangeEvent } from "react";
 import FilterElement from "./FilterElement";
 
 interface FilterProps {
