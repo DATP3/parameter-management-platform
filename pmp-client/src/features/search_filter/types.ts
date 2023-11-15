@@ -1,11 +1,11 @@
 import { ParameterType } from '../parameters/types';
 
 export interface FilterData<T extends Namable = Namable> {
-    name: string;
+	name: string;
     data: T[];
-	setAll?: (isSelected: boolean) => void
+    setAll?: (isSelected: boolean) => void;
     checkedCriteria: (data: T) => boolean;
-    onChange: (data: T, isChecked: boolean) => void;
+	onChange: (data: T, isChecked: boolean) => void;
 }
 
 export interface Namable {

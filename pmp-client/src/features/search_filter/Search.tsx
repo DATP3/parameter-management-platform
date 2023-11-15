@@ -5,7 +5,7 @@ interface SearchProps {
 	setQuery: (query: string) => void;
 }
 
-const Search = ({value, setQuery}: SearchProps) => {
+const Search = ({ value, setQuery }: SearchProps) => {
 	return (
 		<TextField outlined
 			className="search w-full"

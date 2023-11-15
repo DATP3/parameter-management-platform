@@ -10,7 +10,7 @@ const Filter = ({ filters }: FilterProps) => {
 	return (
 		<SimpleMenuSurface handle={<Button className={"mt-4"} outlined>Filters</Button>}>
 			{filters.map((filter) =>
-				<FilterElement key={filter.name} filter={filter}/>)}
+				<FilterElement key={filter.name} filter={filter} />)}
 		</SimpleMenuSurface>
 	);
 }

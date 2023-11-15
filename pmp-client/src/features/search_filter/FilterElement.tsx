@@ -19,7 +19,8 @@ const FilterElement = ({ filter }: FilterElementProps) => {
 							{filter.setAll && <Checkbox
 								defaultChecked
 								onChange={(e: ChangeEvent<HTMLInputElement>) => {
-									filter.setAll && filter.setAll(e.currentTarget.checked)}
+									filter.setAll && filter.setAll(e.currentTarget.checked)
+								}
 								}
 							/>}
 						</>
@@ -32,7 +33,7 @@ const FilterElement = ({ filter }: FilterElementProps) => {
 					key={data.name}
 					label={data.name}
 					checked={filter.checkedCriteria(data)}
-					onChange={(e: ChangeEvent<HTMLInputElement>) => 
+					onChange={(e: ChangeEvent<HTMLInputElement>) =>
 						filter.onChange(data, e.currentTarget.checked)
 					}
 				/>

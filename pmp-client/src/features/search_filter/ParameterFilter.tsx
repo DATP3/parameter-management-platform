@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParameterFilter } from "./useParamererFilter";
-import { FilterData, Namable } from "./types";
+import { Namable } from "./types";
 import { ParameterType } from "../parameters/types";
 import Filter from "./Filter";
 
@@ -47,9 +47,8 @@ const ParameterFilter = () => {
 					onChange: handleTypeChecked,
 					checkedCriteria: typeCheckedCriteria,
 				},
-			] as FilterData[]}
+			]}
 		/>
-
 	);
 }
 

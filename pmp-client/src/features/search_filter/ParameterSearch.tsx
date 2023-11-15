@@ -6,13 +6,13 @@ const ParameterSearch = () => {
 	const [filter, setFilter] = useParameterFilter();
 
 	const handleSearch = (searchQuery: string) => {
-		setFilter({ ...filter, searchQuery});
+		setFilter({ ...filter, searchQuery });
 	}
 
 	const value = filter.searchQuery ?? '';
 
 	return (
-		<Search value={value} setQuery={handleSearch}/>
+		<Search value={value} setQuery={handleSearch} />
 	);
 }
 
