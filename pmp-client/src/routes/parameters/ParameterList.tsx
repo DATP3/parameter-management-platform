@@ -3,7 +3,6 @@ import ParameterListRow from './ParameterListRow';
 import { Parameter, SortingCatagory } from '../../features/parameters/types';
 import { Service } from '../../features/services/types';
 import { useState } from 'react';
-import { useParameterFilter } from '../../features/search_filter/useParamererFilter';
 
 interface ParameterListProps {
 	parameters: Parameter[];
