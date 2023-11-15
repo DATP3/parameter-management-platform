@@ -56,8 +56,3 @@ export const InputTextFieldTypes = [
     'double',
     'bigdecimal'
 ];
-
-export interface ParameterFilter {
-	types?: ParameterType[];
-	searchQuery?: string;
-}
