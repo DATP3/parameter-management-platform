@@ -3,6 +3,7 @@ import ParameterListRow from './ParameterListRow';
 import { Parameter, SortingCatagory } from '../../features/parameters/types';
 import { Service } from '../../features/services/types';
 import { useState } from 'react';
+import ThemeMarkerWrapper from '../../features/components/ThemedDataTable';
 
 interface ParameterListProps {
 	parameters: Parameter[];
@@ -30,43 +31,46 @@ const ParameterList = (props: ParameterListProps) => {
 	const sortedParameters = sort(parameters, sortingCatagory, sortingDirection);
 
 	return (
-		<DataTable className='parameterTable'>
-			<DataTableContent className='tableHead'>
-				<DataTableHead>
-					<DataTableRow>
-						<DataTableHeadCell
-							className='headCell'
-							sort={sortingCatagory === SortingCatagory.NAME ? sortingDirection : 0}
-							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.NAME)}
-						>
-							Name
-						</DataTableHeadCell>
-						<DataTableHeadCell
-							className='headCell'
-							sort={sortingCatagory === SortingCatagory.TYPE ? sortingDirection : 0}
-							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.TYPE)}
-						>
-							Type
-						</DataTableHeadCell>
-						<DataTableHeadCell
-							className='headCell'
-							sort={sortingCatagory === SortingCatagory.VALUE ? sortingDirection : 0}
-							onSortChange={() => setSortingDirection(sortingDirection * -1)}
-							onClick={() => setSortingCatagory(SortingCatagory.VALUE)}
-						>
-							Value
-						</DataTableHeadCell>
-					</DataTableRow>
-				</DataTableHead>
-				<DataTableBody>
-					{sortedParameters.map((parameter) =>
-						<ParameterListRow key={parameter.id} service={service} parameter={parameter} />
-					)}
-				</DataTableBody>
-			</DataTableContent>
-		</DataTable>
+		<ThemeMarkerWrapper>
+			<DataTable className='parameterTable'>
+				<DataTableContent className='tableHead'>
+					<DataTableHead>
+						<DataTableRow>
+							<DataTableHeadCell
+								className='headCell'
+								sort={sortingCatagory === SortingCatagory.NAME ? sortingDirection : 0}
+								onSortChange={() => setSortingDirection(sortingDirection * -1)}
+								onClick={() => setSortingCatagory(SortingCatagory.NAME)}
+							>
+								Name
+							</DataTableHeadCell>
+							<DataTableHeadCell
+								className='headCell'
+								sort={sortingCatagory === SortingCatagory.TYPE ? sortingDirection : 0}
+								onSortChange={() => setSortingDirection(sortingDirection * -1)}
+								onClick={() => setSortingCatagory(SortingCatagory.TYPE)}
+							>
+								Type
+							</DataTableHeadCell>
+							<DataTableHeadCell
+								className='headCell'
+								sort={sortingCatagory === SortingCatagory.VALUE ? sortingDirection : 0}
+								onSortChange={() => setSortingDirection(sortingDirection * -1)}
+								onClick={() => setSortingCatagory(SortingCatagory.VALUE)}
+							>
+								Value
+							</DataTableHeadCell>
+						</DataTableRow>
+					</DataTableHead>
+					<DataTableBody>
+						{sortedParameters.map((parameter) =>
+							<ParameterListRow key={parameter.id} service={service} parameter={parameter} />
+						)}
+					</DataTableBody>
+				</DataTableContent>
+			</DataTable>
+		</ThemeMarkerWrapper>
+
 	);
 };
 
