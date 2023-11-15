@@ -1,5 +1,6 @@
 import {
     Checkbox,
+    CircularProgress,
     DataTable,
     DataTableBody,
     DataTableCell,
@@ -18,8 +19,12 @@ const ListofServices = () => {
     const { data: list, isPending, error } = useServices();
     const [selectedServices, setSelectedServices] = useSelectedServices();
 
-    // TODO: Add pending UI
-    if (isPending) return <></>;
+    if (isPending)
+        return (
+            <>
+                <Typography use='headline6'>Waiting on services</Typography> <CircularProgress />
+            </>
+        );
 
     if (error) return <Typography use='headline6'>Error loading services</Typography>;
 
