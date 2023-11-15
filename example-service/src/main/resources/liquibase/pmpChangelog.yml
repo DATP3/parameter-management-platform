@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: PMP_table_generate_01
+      author: REL
+      changes:
+        - createTable:
+            tableName: PARAMETER_MANAGEMENT
+            columns:
+              - column:
+                  name: ID
+                  type: VARCHAR2(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: NAME
+                  type: VARCHAR2(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: TYPE
+                  type: VARCHAR2(255)
+              - column:
+                  name: PVALUE
+                  type: VARCHAR2(4000)

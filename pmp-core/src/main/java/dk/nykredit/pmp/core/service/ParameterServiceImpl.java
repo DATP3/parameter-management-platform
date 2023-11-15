@@ -1,11 +1,12 @@
 package dk.nykredit.pmp.core.service;
 
 
-import javax.inject.Inject;
 
 import dk.nykredit.pmp.core.persistence.ParameterEntity;
 import dk.nykredit.pmp.core.repository.ParameterRepository;
 import dk.nykredit.pmp.core.util.EntityParser;
+
+import javax.inject.Inject;
 
 
 public class ParameterServiceImpl implements ParameterService {
@@ -32,11 +33,13 @@ public class ParameterServiceImpl implements ParameterService {
 
     @Override
     public <P> ParameterEntity persistParameter(String name, P value) {
-
-
+        System.out.println("persisting");
         if (repository.checkIfParameterExists(name)) {
+            System.out.println("Parameter exists");
             return null;
         }
+
+        System.out.println("Parameter does not exist");
 
         ParameterEntity entity = new ParameterEntity();
         entity.setName(name);

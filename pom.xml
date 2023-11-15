@@ -22,7 +22,8 @@
     </scm>
 
     <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
 
         <!-- Dependencies -->
         <jakarta.enterprise.cdi-api.version>2.0.2</jakarta.enterprise.cdi-api.version>
@@ -127,6 +128,6 @@
 
     <modules>
         <module>pmp-core</module>
-        <module>pmp-component-tests</module>
+        <module>example-service</module>
     </modules>
 </project>

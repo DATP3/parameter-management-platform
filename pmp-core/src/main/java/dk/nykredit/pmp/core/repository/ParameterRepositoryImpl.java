@@ -32,7 +32,9 @@ public class ParameterRepositoryImpl implements ParameterRepository {
 
     @Override
     public ParameterEntity persistParameterEntity(ParameterEntity entity) {
+        em.getTransaction().begin();
         em.persist(entity);
+        em.getTransaction().commit();
         return entity;
     }
 

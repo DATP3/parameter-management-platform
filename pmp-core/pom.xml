@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>pmp-core</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
