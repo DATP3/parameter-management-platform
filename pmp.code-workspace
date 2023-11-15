@@ -13,16 +13,18 @@
       "path": "pmp-core"
     },
     {
-      "name": "PMP Component Tests",
-      "path": "pmp-component-tests"
+      "name": "Example Service",
+      "path": "example-service"
     }
   ],
   "settings": {
     "files.exclude": {
       "pmp-client": true,
       "pmp-core": true,
-      "pmp-component-tests": true
-    }
+      "pmp-component-tests": true,
+      "example-service": true
+    },
+    "java.configuration.updateBuildConfiguration": "automatic"
   },
   "extensions": {
     "recommendations": [

@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import dk.nykredit.pmp.core.persistence.ParameterEntity;
@@ -19,7 +20,8 @@ public class ParameterRepositoryImpl implements ParameterRepository {
 
     @Override
     public ParameterEntity getValueByName(String name) {
-        Query query = em.createQuery("SELECT e FROM ParameterEntity e where e.name = :parameterName");
+        TypedQuery<ParameterEntity> query = em
+                .createQuery("SELECT e FROM ParameterEntity e where e.name = :parameterName", ParameterEntity.class);
         query.setParameter("parameterName", name);
 
         List<ParameterEntity> parameterValue = query.getResultList();
@@ -44,6 +46,5 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         query.setParameter(1, name);
         return (Boolean) query.getSingleResult();
     }
-
 
 }

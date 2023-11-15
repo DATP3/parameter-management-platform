@@ -1,7 +1,6 @@
 package dk.nykredit.example.pmp;
 
 import dk.nykredit.pmp.core.service.ParameterService;
-import org.eclipse.jetty.util.log.Log;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
