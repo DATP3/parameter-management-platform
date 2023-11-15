@@ -5,7 +5,7 @@ import { Service } from '../../features/services/types';
 import useParameterQuery from '../../features/parameters/useParameterQuery';
 
 interface ServiceListElementProps {
-    service: Service;
+	service: Service;
 }
 
 const ServiceListElement = ({ service }: ServiceListElementProps) => {

@@ -1,4 +1,5 @@
 import { ParameterValue } from '../changes/types';
+import { Service } from '../services/types';
 
 export interface Parameter<T extends ParameterValue = ParameterValue> {
     id: string;
