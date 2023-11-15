@@ -3,6 +3,7 @@ import ParameterListRow from './ParameterListRow';
 import { Parameter, SortingCatagory } from '../../features/parameters/types';
 import { Service } from '../../features/services/types';
 import { useState } from 'react';
+import { useParameterFilter } from '../../features/search_filter/useParamererFilter';
 
 interface ParameterListProps {
 	parameters: Parameter[];
@@ -13,6 +14,7 @@ const ParameterList = (props: ParameterListProps) => {
 	const { parameters, service } = props;
 	const [sortingCatagory, setSortingCatagory] = useState<SortingCatagory>(SortingCatagory.NAME);
 	const [sortingDirection, setSortingDirection] = useState(1);
+	const [filter] = useParameterFilter();
 
 	const sort = (parameters: Parameter[], catagory: SortingCatagory, sortingDirection: number) => {
 		if (catagory === SortingCatagory.NAME)
@@ -62,7 +64,7 @@ const ParameterList = (props: ParameterListProps) => {
 				</DataTableHead>
 				<DataTableBody>
 					{sortedParameters.map((parameter) => (
-						<ParameterListRow key={parameter.id} service={service} parameter={parameter} />
+						(filter.types?.includes(parameter.type) && <ParameterListRow key={parameter.id} service={service} parameter={parameter} />)
 					))}
 				</DataTableBody>
 			</DataTableContent>
