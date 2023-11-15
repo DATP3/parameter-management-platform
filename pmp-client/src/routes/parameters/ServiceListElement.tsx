@@ -1,4 +1,4 @@
-import { CollapsibleList, SimpleListItem } from 'rmwc';
+import { CollapsibleList, SimpleListItem, Typography } from 'rmwc';
 
 import ParameterList from './ParameterList';
 import { Service } from '../../features/services/types';
@@ -9,7 +9,12 @@ interface ServiceListElementProps {
 }
 
 const ServiceListElement = ({ service }: ServiceListElementProps) => {
-    const { data: parameters } = useParameterQuery(service);
+    const { data: parameters, isPending, error } = useParameterQuery(service);
+
+    if (isPending) return <></>;
+
+    if (error) return <Typography use='headline6'>Error loading parameters</Typography>;
+
     const hasParms = parameters.length > 0;
 
     return (

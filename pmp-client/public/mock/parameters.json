@@ -1,0 +1,9 @@
+[
+    { "id": "1", "name": "key1", "type": "integer", "value": "2" },
+    { "id": "2", "name": "key2", "type": "string", "value": "value2erfwsdhfdiweuidsnviuwendiukweds" },
+    { "id": "3", "name": "key3", "type": "localdate", "value": "2020-10-20" },
+    { "id": "4", "name": "key4", "type": "boolean", "value": "true" },
+    { "id": "5", "name": "key5", "type": "character", "value": "t" },
+    { "id": "6", "name": "key6", "type": "localdatetime", "value": "2023-11-16T12:13" },
+    { "id": "7", "name": "key7", "type": "float", "value": "0.3" }
+]
