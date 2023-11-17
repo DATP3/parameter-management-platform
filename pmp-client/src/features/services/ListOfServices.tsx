@@ -16,7 +16,7 @@ import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
 
 const ListofServices = () => {
-	const { data: list, isPending, error } = useServices();
+	const { data: services, isPending, error } = useServices();
 	const [selectedServices, setSelectedServices] = useSelectedServices();
 
 	if (isPending)
@@ -28,7 +28,9 @@ const ListofServices = () => {
 
 	if (error) return <Typography use='headline6'>Error loading services</Typography>;
 
-	const sortedServices = list.sort((s1, s2) => s1.name.localeCompare(s2.name));
+	
+
+	const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
 
 	return (
 		<DataTable>
@@ -38,10 +40,10 @@ const ListofServices = () => {
 						<DataTableHeadCell>Services</DataTableHeadCell>
 						<DataTableHeadCell hasFormControl alignEnd>
 							<Checkbox
-								checked={selectedServices.length === list.length}
+								checked={selectedServices.length === services.length}
 								onChange={(evt: ChangeEvent<HTMLInputElement>) => {
 									if (evt.currentTarget.checked) {
-										setSelectedServices(list);
+										setSelectedServices(services);
 									} else {
 										setSelectedServices([]);
 									}

@@ -8,4 +8,4 @@ export interface Service {
 }
 
 /** Value kept in the selectedServiceContext */
-export type SelectedServiceContextValue = [Service[], React.Dispatch<React.SetStateAction<Service[]>>];
+export type SelectedServiceContextValue = [Service[], (services: Service[]) => void];
