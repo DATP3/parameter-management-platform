@@ -48,6 +48,7 @@ const Input = (props: InputProps) => {
 			<TextField
 				outlined
 				invalid={!isValid}
+				disabled={disabled}
 				className="parameterInput"
 				type="date"
 				value={value as string}
@@ -63,6 +64,7 @@ const Input = (props: InputProps) => {
 			<Switch
 				label={value as string}
 				checked={boolValue}
+				disabled={disabled}
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 					onParamChange(e.target.checked ? "true" : "false");
 				}}
