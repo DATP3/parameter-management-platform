@@ -6,6 +6,7 @@
             "hash": "1a2b3c4d5e6f",
             "pushDate": "2023-11-14T08:12:45Z",
             "message": "Bugfix: Issue #123",
+            "affectedServices": ["service2", "service3", "service5", "service7"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -34,6 +35,7 @@
             "hash": "f6e5d4c3b2a1",
             "pushDate": "2023-11-13T15:20:10Z",
             "message": "Refactoring codebase",
+            "affectedServices": ["service2", "service3", "service5", "service7"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -67,6 +69,7 @@
             "hash": "d1e2f3g4h5i6",
             "pushDate": "2023-11-12T18:55:22Z",
             "message": "Documentation update",
+            "affectedServices": ["service2", "service3", "service5", "service7"],
             "changes": {
                 "parameterChanges": [
                     {

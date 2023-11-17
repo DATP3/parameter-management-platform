@@ -6,6 +6,7 @@
             "hash": "a1b2c3d4e5f6",
             "pushDate": "2023-11-20T10:00:00Z",
             "message": "Initial commit",
+            "affectedServices": ["service2", "service1", "service5", "service7", "service9"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -27,6 +28,7 @@
             "hash": "b1c2d3e4f5g6",
             "pushDate": "2023-11-19T15:30:00Z",
             "message": "Feature: Login functionality",
+            "affectedServices": ["service9"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -48,6 +50,7 @@
             "hash": "h1i2j3k4l5m6",
             "pushDate": "2023-11-18T12:45:00Z",
             "message": "Bugfix: Security patch",
+            "affectedServices": ["service9"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -64,6 +67,7 @@
             "hash": "m1n2o3p4q5r6",
             "pushDate": "2023-11-17T08:20:00Z",
             "message": "Refactoring codebase",
+            "affectedServices": ["service9"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -85,6 +89,7 @@
             "hash": "s1t2u3v4w5x6",
             "pushDate": "2023-11-16T05:55:00Z",
             "message": "Feature: User profile update",
+            "affectedServices": ["service9"],
             "changes": {
                 "parameterChanges": [
                     {

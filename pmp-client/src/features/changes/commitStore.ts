@@ -1,9 +1,10 @@
 import { ParameterChange, Revert, ServiceChanges } from './types';
 
+import { Parameter } from '../parameters/types';
 import { Service } from '../services/types';
+import { areRevertsEqual } from './commitStoreHelpers';
 import { createStore } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Parameter } from '../parameters/types';
 
 /**
  * Internal state of the commit store
@@ -22,7 +23,7 @@ interface Actions {
     addRevert: (service: Service, revert: Revert) => void;
     removeParameterChange: (service: Service, change: ParameterChange) => void;
     removeRevert: (service: Service, revert: Revert) => void;
-	findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
+    findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
     undo: () => void;
     redo: () => void;
     clear: () => void;
@@ -55,39 +56,56 @@ export const createCommitStore = (storageKey: string) => {
         persist(
             (set, get) => ({
                 ...initialState,
-				findParameterChange: (service, parameter) => {
-					const serviceParameterChanges = get().serviceChanges.find((sc) => sc.service.address === service.address)?.parameterChanges;
-					return serviceParameterChanges?.find((pc) => pc.parameter.id === parameter.id);
-				},
+                findParameterChange: (service, parameter) => {
+                    const serviceParameterChanges = get().serviceChanges.find(
+                        (sc) => sc.service.address === service.address
+                    )?.parameterChanges;
+                    return serviceParameterChanges?.find((pc) => pc.parameter.id === parameter.id);
+                },
                 addParameterChange: (service, change) => {
-                    // Assume service is unique on address
-					console.log(change);
-					
-
                     const oldServiceChange = get().serviceChanges.find((c) => c.service.address === service.address);
-                    let filteredParameterChanges = oldServiceChange?.parameterChanges.filter(
-                        (p) => p.parameter.id !== change.parameter.id
-                    );
-                    filteredParameterChanges ??= [];
+
+                    // If the new value is the same as the original value, remove the change
+                    if (change.newValue === change.parameter.value) {
+                        const oldParameterChange = oldServiceChange?.parameterChanges.find(
+                            (p) => p.parameter.id === change.parameter.id
+                        );
+                        if (oldParameterChange) get().removeParameterChange(service, oldParameterChange);
+                        return;
+                    }
+
+                    const newParameterChanges =
+                        oldServiceChange?.parameterChanges.filter((p) => p.parameter.id !== change.parameter.id) ?? [];
 
                     const newServiceChange = {
                         service,
-                        parameterChanges: [...filteredParameterChanges, change],
+                        parameterChanges: [...newParameterChanges, change],
                         reverts: oldServiceChange?.reverts ?? []
                     };
-					
+
                     set((s) => ({
                         serviceChanges: [...s.serviceChanges.filter((c) => c !== oldServiceChange), newServiceChange],
                         __past: [...s.__past, s.serviceChanges],
                         __future: []
                     }));
-
-					if (change.newValue == change.parameter.value) {
-						get().removeParameterChange(service, change);
-					}
                 },
-                // TODO: Implement
-                addRevert: (_service, _revert) => {},
+                addRevert: (service, revert) => {
+                    const s = get();
+                    const oldServiceChange = s.serviceChanges.find((c) => c.service.address === service.address);
+                    if (oldServiceChange?.reverts.some((r) => areRevertsEqual(r, revert))) return;
+
+                    const newServiceChange = {
+                        service,
+                        parameterChanges: oldServiceChange?.parameterChanges ?? [],
+                        reverts: [...(oldServiceChange?.reverts ?? []), revert]
+                    };
+
+                    set({
+                        serviceChanges: [...s.serviceChanges.filter((c) => c !== oldServiceChange), newServiceChange],
+                        __past: [...s.__past, s.serviceChanges],
+                        __future: []
+                    });
+                },
                 removeParameterChange: (service, change) => {
                     // If someone has a prettier way of doing this, please tell me
                     const s = get();
@@ -113,8 +131,20 @@ export const createCommitStore = (storageKey: string) => {
                         __future: []
                     }));
                 },
-                // TODO: Implement
-                removeRevert: (_service, _revert) => {},
+                removeRevert: (service, revert) => {
+                    set((s) => ({
+                        serviceChanges: s.serviceChanges.map((c) => {
+                            if (c.service.address !== service.address) return c;
+
+                            return {
+                                ...c,
+                                reverts: c.reverts.filter((r) => !areRevertsEqual(r, revert))
+                            };
+                        }),
+                        __past: [...s.__past, s.serviceChanges],
+                        __future: []
+                    }));
+                },
                 undo: () => {
                     if (get().__past.length === 0) return;
 

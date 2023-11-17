@@ -23,6 +23,7 @@ const logParser = z.object({
             pushDate: z.coerce.date(),
             email: z.string(),
             message: z.string(),
+            affectedServices: z.array(z.string()),
             changes: z.object({
                 reverts: revertParser.array(),
                 parameterChanges: paramerterChangeParser.array()
@@ -45,6 +46,7 @@ export interface AuditLogEntry {
     pushDate: Date;
     email: string;
     message: string;
+    affectedServices: string[];
     changes: AuditLogEntryChange[];
 }
 
@@ -96,6 +98,7 @@ const useAuditLogEntries = (queryString: string) => {
                         pushDate: commit.pushDate,
                         email: commit.email,
                         message: commit.message,
+                        affectedServices: commit.affectedServices,
                         changes: []
                     };
 

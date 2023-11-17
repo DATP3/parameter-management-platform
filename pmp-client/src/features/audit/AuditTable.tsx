@@ -28,6 +28,7 @@ const AuditList = () => {
                         <DataTableHeadCell>User</DataTableHeadCell>
                         <DataTableHeadCell>Hash</DataTableHeadCell>
                         <DataTableHeadCell>Message</DataTableHeadCell>
+                        <DataTableHeadCell>Options</DataTableHeadCell>
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>

@@ -6,6 +6,7 @@
             "hash": "j1k2l3m4n5o6",
             "pushDate": "2023-11-25T09:20:30Z",
             "message": "Feature: Analytics dashboard",
+            "affectedServices": ["service2", "service4", "service6", "service8"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -39,6 +40,7 @@
             "hash": "q1r2s3t4u5v6",
             "pushDate": "2023-11-24T14:35:45Z",
             "message": "Bugfix: Security update",
+            "affectedServices": ["service2", "service4", "service6", "service8"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -67,6 +69,7 @@
             "hash": "w1x2y3z4a5b6",
             "pushDate": "2023-11-23T11:50:22Z",
             "message": "Refactoring data processing",
+            "affectedServices": ["service2", "service4", "service6", "service8"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -105,6 +108,7 @@
             "hash": "c1d2e3f4g5h6",
             "pushDate": "2023-11-22T09:25:30Z",
             "message": "Feature: Mobile app integration",
+            "affectedServices": ["service2", "service4", "service6", "service8"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -138,6 +142,7 @@
             "hash": "i1j2k3l4m5n6",
             "pushDate": "2023-11-21T16:10:45Z",
             "message": "Code cleanup",
+            "affectedServices": ["service2", "service4", "service6", "service8"],
             "changes": {
                 "parameterChanges": [
                     {

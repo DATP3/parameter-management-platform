@@ -18,12 +18,23 @@ export interface ParameterChange<T extends ParameterValue = ParameterValue> {
     newValue: T;
 }
 
+interface IRevert {
+    commitReference: string;
+}
+
+export interface CommitRevert extends IRevert {
+    revertType: 'commit';
+}
+
+export interface ParameterRevert extends IRevert {
+    revertType: 'parameter';
+    parameterName: string;
+}
+
 /**
  * A revert change.
  */
-export interface Revert {
-    commitReference: string;
-}
+export type Revert = CommitRevert | ParameterRevert;
 
 /** A change entry with all changes for the service */
 export interface ServiceChanges {
