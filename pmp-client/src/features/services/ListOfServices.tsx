@@ -49,7 +49,7 @@ const ListofServices = () => {
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
-                    {list.map((s) => (
+                    {list.sort((s1, s2) => s1.name.localeCompare(s2.name)).map((s) => (
                         <DataTableRow key={s.name}>
                             <DataTableCell>{s.name}</DataTableCell>
                             <DataTableCell hasFormControl>
