@@ -37,7 +37,7 @@ const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges})
                     }
                 >
                         <DataTable className="parameterTable">
-                        <DataTableContent className="tableHead">
+                        <DataTableContent>
                             <DataTableBody>
                                 {sortedChanges.map((change: ParameterChange) => (
                                     <ParamChangeEntry key={change.parameter.id} service={serviceChanges.service} change={change} />

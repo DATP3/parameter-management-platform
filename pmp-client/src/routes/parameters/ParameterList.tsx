@@ -3,7 +3,7 @@ import ParameterListRow from './ParameterListRow';
 import { Parameter, SortingCatagory } from '../../features/parameters/types';
 import { Service } from '../../features/services/types';
 import { useState } from 'react';
-import ThemeMarkerWrapper from '../../features/components/ThemedDataTable';
+import ThemeMarkerWrapper from '../../features/components/ThemeMarkerWrapper';
 
 interface ParameterListProps {
 	parameters: Parameter[];
@@ -33,8 +33,8 @@ const ParameterList = (props: ParameterListProps) => {
 	return (
 		<ThemeMarkerWrapper>
 			<DataTable className='parameterTable'>
-				<DataTableContent className='tableHead'>
-					<DataTableHead>
+				<DataTableContent>
+					<DataTableHead className='tableHead'>
 						<DataTableRow>
 							<DataTableHeadCell
 								className='headCell'
@@ -60,6 +60,12 @@ const ParameterList = (props: ParameterListProps) => {
 							>
 								Value
 							</DataTableHeadCell>
+							<DataTableHeadCell
+								className='headCell'
+								onSortChange={() => setSortingDirection(sortingDirection * -1)}
+								onClick={() => setSortingCatagory(SortingCatagory.VALUE)}
+							>
+							</DataTableHeadCell>
 						</DataTableRow>
 					</DataTableHead>
 					<DataTableBody>
@@ -69,7 +75,7 @@ const ParameterList = (props: ParameterListProps) => {
 					</DataTableBody>
 				</DataTableContent>
 			</DataTable>
-		</ThemeMarkerWrapper>
+		</ThemeMarkerWrapper >
 
 	);
 };

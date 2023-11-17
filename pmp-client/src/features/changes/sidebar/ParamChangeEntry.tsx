@@ -22,7 +22,7 @@ const ParamChangeEntry = ({ change, service }: { change: ParameterChange, servic
 
     return (
         <>
-            <DataTableRow style={{borderBottom: 'none'}}>
+            <DataTableRow className={"tableHead"} style={{borderBottom: 'none'}}>
                 <DataTableCell className="headCell">
                     <List twoLine style={{padding: '0px', paddingBottom: '5px'}}>
                         <ListItemPrimaryText>{change.parameter.name}</ListItemPrimaryText>
