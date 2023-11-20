@@ -53,7 +53,7 @@ export interface AuditLogEntry {
 const useAuditLogEntries = (queryString: string) => {
     const [selectedServices] = useSelectedServices();
     const { environment } = useEnvironment();
-	const { accounts } = useMsal();
+    const { accounts } = useMsal();
 
     return useQueries({
         queries: selectedServices.map((service) => ({
