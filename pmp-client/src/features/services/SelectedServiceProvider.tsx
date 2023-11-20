@@ -22,12 +22,12 @@ export const SelectedServiceProvider = ({ children }: { children: ReactNode }) =
         },
         [environment]
     );
-	
-	let selectedServices = selctedServicesRecord[environment] ?? [];
-	
-	if (services !== undefined) {
-		selectedServices = selctedServicesRecord[environment] ?? services;
-	} 
+
+    let selectedServices = selctedServicesRecord[environment] ?? [];
+
+    if (services !== undefined) {
+        selectedServices = selctedServicesRecord[environment] ?? services;
+    }
 
     return (
         <selectedServiceContext.Provider value={[selectedServices, setSelectedServices]}>
