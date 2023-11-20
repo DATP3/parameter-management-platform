@@ -3,6 +3,8 @@ import axios from 'axios';
 import useEnvironment from '../environment/useEnvironment';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
+import { useMsalAuthentication } from '@azure/msal-react';
+import { InteractionType } from '@azure/msal-browser';
 
 const servicesParser = z.array(
     z.object({
@@ -20,11 +22,20 @@ const servicesParser = z.array(
  */
 const useServices = () => {
     const { environment } = useEnvironment();
+    const { acquireToken } = useMsalAuthentication(InteractionType.Redirect);
 
     return useQuery({
         queryKey: ['services', environment],
         queryFn: async () => {
-            const result = await axios.get('/mock/services.json');
+            const token = await acquireToken();
+            if (!token) throw new Error('No token');
+
+            const result = await axios.get('/mock/services.json', {
+                headers: {
+                    'pmp-environment': environment,
+                    Authorization: `Bearer ${token.accessToken}`
+                }
+            });
             const data = servicesParser.parse(result.data);
             return data;
         },
