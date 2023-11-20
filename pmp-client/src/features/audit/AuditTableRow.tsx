@@ -4,11 +4,11 @@ import AuditDetailsDialog from './AuditDetailsDialog';
 import { AuditLogEntry } from './useAuditLogEntries';
 import { useState } from 'react';
 
-interface AuditRowProps {
+interface AuditTableRowProps {
     entry: AuditLogEntry;
 }
 
-const AuditTableRow = ({ entry }: AuditRowProps) => {
+const AuditTableRow = ({ entry }: AuditTableRowProps) => {
     const [open, setOpen] = useState(false);
     return (
         <>

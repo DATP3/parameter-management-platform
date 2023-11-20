@@ -1,28 +1,27 @@
-import { ParameterChange, Revert, ServiceChanges } from './types';
+import { Change, ParameterChange } from './types';
+import { compareChanges, isParameterChange } from './commitStoreHelpers';
 
+import { Parameter } from '../parameters/types';
 import { Service } from '../services/types';
 import { createStore } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Parameter } from '../parameters/types';
 
 /**
  * Internal state of the commit store
  */
 interface State {
-    serviceChanges: ServiceChanges[];
-    __past: ServiceChanges[][];
-    __future: ServiceChanges[][];
+    changes: Change[];
+    __past: Change[][];
+    __future: Change[][];
 }
 
 /**
  * Allowed actions on the commit store
  */
 interface Actions {
-    addParameterChange: (service: Service, change: ParameterChange) => void;
-    addRevert: (service: Service, revert: Revert) => void;
-    removeParameterChange: (service: Service, change: ParameterChange) => void;
-    removeRevert: (service: Service, revert: Revert) => void;
-	findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
+    addChange: (change: Change) => void;
+    removeChange: (change: Change) => void;
+    findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
     undo: () => void;
     redo: () => void;
     clear: () => void;
@@ -39,7 +38,7 @@ export type CommitStore = ReturnType<typeof createCommitStore>;
 export type CommitStoreState = State & Actions;
 
 const initialState: State = {
-    serviceChanges: [],
+    changes: [],
     __past: [],
     __future: []
 };
@@ -55,81 +54,49 @@ export const createCommitStore = (storageKey: string) => {
         persist(
             (set, get) => ({
                 ...initialState,
-				findParameterChange: (service, parameter) => {
-					const serviceParameterChanges = get().serviceChanges.find((sc) => sc.service.address === service.address)?.parameterChanges;
-					return serviceParameterChanges?.find((pc) => pc.parameter.id === parameter.id);
-				},
-                addParameterChange: (service, change) => {
-                    // Assume service is unique on address
-					console.log(change);
-					
-
-                    const oldServiceChange = get().serviceChanges.find((c) => c.service.address === service.address);
-                    let filteredParameterChanges = oldServiceChange?.parameterChanges.filter(
-                        (p) => p.parameter.id !== change.parameter.id
-                    );
-                    filteredParameterChanges ??= [];
-
-                    const newServiceChange = {
-                        service,
-                        parameterChanges: [...filteredParameterChanges, change],
-                        reverts: oldServiceChange?.reverts ?? []
-                    };
-					
-                    set((s) => ({
-                        serviceChanges: [...s.serviceChanges.filter((c) => c !== oldServiceChange), newServiceChange],
-                        __past: [...s.__past, s.serviceChanges],
-                        __future: []
-                    }));
-
-					if (change.newValue == change.parameter.value) {
-						get().removeParameterChange(service, change);
-					}
+                findParameterChange: (service, parameter) => {
+                    const change = get()
+                        .changes.filter(isParameterChange)
+                        .find((c) => c.service.name === service.name && c.parameter.name === parameter.name);
+                    return change;
                 },
-                // TODO: Implement
-                addRevert: (_service, _revert) => {},
-                removeParameterChange: (service, change) => {
-                    // If someone has a prettier way of doing this, please tell me
+                addChange: (change) => {
                     const s = get();
-                    const serviceChange = s.serviceChanges.find((c) => c.service.address === service.address);
-                    if (!serviceChange) return;
-
-                    const newParameterChanges = serviceChange?.parameterChanges.filter((c) => c !== change);
-                    if (newParameterChanges.length === serviceChange?.parameterChanges.length) return;
-
-                    const newServiceChange = {
-                        ...serviceChange,
-                        parameterChanges: newParameterChanges
-                    };
-
-                    const newServiceChanges = s.serviceChanges.filter((c) => c !== serviceChange);
-                    if (newServiceChange.parameterChanges.length > 0) {
-                        newServiceChanges.push(newServiceChange);
+                    if (s.changes.some((c) => compareChanges(c, change) === 0)) {
+                        s.removeChange(change);
                     }
 
+                    set((s) => {
+                        const changes = [...s.changes, change].sort(compareChanges);
+                        return {
+                            changes,
+                            __past: [...s.__past, s.changes],
+                            __future: []
+                        };
+                    });
+                },
+                removeChange: (change) => {
                     set((s) => ({
-                        serviceChanges: newServiceChanges,
-                        __past: [...s.__past, s.serviceChanges],
+                        changes: s.changes.filter((c) => compareChanges(c, change) !== 0),
+                        __past: [...s.__past, s.changes],
                         __future: []
                     }));
                 },
-                // TODO: Implement
-                removeRevert: (_service, _revert) => {},
                 undo: () => {
                     if (get().__past.length === 0) return;
 
                     set((s) => ({
-                        serviceChanges: s.__past[s.__past.length - 1],
+                        changes: s.__past[s.__past.length - 1],
                         __past: s.__past.slice(0, s.__past.length - 1),
-                        __future: [s.serviceChanges, ...s.__future]
+                        __future: [s.changes, ...s.__future]
                     }));
                 },
                 redo: () => {
                     if (get().__future.length === 0) return;
 
                     set((s) => ({
-                        serviceChanges: s.__future[0],
-                        __past: [...s.__past, s.serviceChanges],
+                        changes: s.__future[0],
+                        __past: [...s.__past, s.changes],
                         __future: s.__future.slice(1)
                     }));
                 },

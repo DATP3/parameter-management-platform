@@ -16,14 +16,29 @@ export type ParameterValue = { toString(): string };
 export interface ParameterChange<T extends ParameterValue = ParameterValue> {
     parameter: Parameter<T>;
     newValue: T;
+    service: Service;
+}
+
+interface IRevert {
+    commitReference: string;
+}
+
+export interface CommitRevert extends IRevert {
+    revertType: 'commit';
+}
+
+export interface ParameterRevert extends IRevert {
+    revertType: 'parameter';
+    parameterName: string; // TODO: Check if this can feasibly be a full parameter instead
+    service: Service;
 }
 
 /**
  * A revert change.
  */
-export interface Revert {
-    commitReference: string;
-}
+export type Revert = CommitRevert | ParameterRevert;
+
+export type Change = ParameterChange | Revert;
 
 /** A change entry with all changes for the service */
 export interface ServiceChanges {

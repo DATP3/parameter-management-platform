@@ -6,6 +6,7 @@
             "hash": "a1b2c3d4e5f6",
             "pushDate": "2023-11-16T12:34:56Z",
             "message": "Initial commit",
+            "affectedServices": ["service2", "service1", "service5", "service7", "service9"],
             "changes": {
                 "parameterChanges": [
                     {
@@ -60,6 +61,7 @@
             "hash": "g6f5e4d3c2b1",
             "pushDate": "2023-11-15T09:45:30Z",
             "message": "Feature implementation",
+            "affectedServices": ["service2", "service1", "service5", "service7"],
             "changes": {
                 "parameterChanges": [
                     {

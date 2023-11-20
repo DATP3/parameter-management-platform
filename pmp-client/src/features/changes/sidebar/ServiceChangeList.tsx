@@ -1,55 +1,65 @@
-import {CollapsibleList, DataTable, DataTableBody, DataTableContent, Grid, GridCell, IconButton, SimpleListItem} from "rmwc";
-import { ParameterChange, ServiceChanges } from "../types";
+import {
+    CollapsibleList,
+    DataTable,
+    DataTableBody,
+    DataTableContent,
+    Grid,
+    GridCell,
+    IconButton,
+    SimpleListItem
+} from 'rmwc';
 
-import ParamChangeEntry from "./ParamChangeEntry";
-import React from "react";
-import useCommitStore from "../useCommitStore";
+import ParamChangeEntry from './ParamChangeEntry';
+import { ParameterChange } from '../types';
+import React from 'react';
+import useCommitStore from '../useCommitStore';
 
-const ServiceChangeList = ({ serviceChanges }: {serviceChanges: ServiceChanges}) => {
+interface ServiceChangeListProps {
+    serviceName: string;
+    changes: ParameterChange[];
+}
 
-    const removeParameterChange = useCommitStore((s) => s.removeParameterChange);
+const ServiceChangeList = ({ serviceName, changes }: ServiceChangeListProps) => {
+    const removeChange = useCommitStore((s) => s.removeChange);
 
     const removeChangesFromService = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        serviceChanges.parameterChanges.forEach((change) => {
-            removeParameterChange(serviceChanges.service, change);
-        }
-        );
-    }
-
-    const sortedChanges = serviceChanges.parameterChanges.sort((a, b) => a.parameter.name.localeCompare(b.parameter.name));
+        changes.forEach((change) => {
+            removeChange(change);
+        });
+    };
 
     return (
         <>
-            <Grid style={{padding: '0px'}}>
+            <Grid style={{ padding: '0px' }}>
                 <GridCell span={12}>
-                <CollapsibleList
-                    defaultOpen
-                    handle={
-                        <SimpleListItem
-                            className="serviceListItem"
-                            text={serviceChanges.service.name}
-                            secondaryText={serviceChanges.service.address}
-                            metaIcon="chevron_right"
-                            style={{padding: '5px'}}
-                            
-                        ><IconButton icon="delete" onClick={removeChangesFromService}/></SimpleListItem>
-                    }
-                >
-                        <DataTable className="parameterTable">
-                        <DataTableContent className="tableHead">
-                            <DataTableBody>
-                                {sortedChanges.map((change: ParameterChange) => (
-                                    <ParamChangeEntry key={change.parameter.id} service={serviceChanges.service} change={change} />
-                                ))}
-                            </DataTableBody>
-                        </DataTableContent>
+                    <CollapsibleList
+                        defaultOpen
+                        handle={
+                            <SimpleListItem
+                                className='serviceListItem'
+                                text={serviceName}
+                                metaIcon='chevron_right'
+                                style={{ padding: '5px' }}
+                            >
+                                <IconButton icon='delete' onClick={removeChangesFromService} />
+                            </SimpleListItem>
+                        }
+                    >
+                        <DataTable className='parameterTable'>
+                            <DataTableContent className='tableHead'>
+                                <DataTableBody>
+                                    {changes.map((change) => (
+                                        <ParamChangeEntry key={change.parameter.id} change={change} />
+                                    ))}
+                                </DataTableBody>
+                            </DataTableContent>
                         </DataTable>
-                </CollapsibleList>
+                    </CollapsibleList>
                 </GridCell>
             </Grid>
         </>
-    )
-}
+    );
+};
 
 export default ServiceChangeList;

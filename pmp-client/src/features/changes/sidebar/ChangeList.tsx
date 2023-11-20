@@ -13,6 +13,8 @@ import {
 } from 'rmwc';
 
 import ServiceChangeList from './ServiceChangeList';
+import { groupBy } from '../../../utils/array';
+import { isParameterChange } from '../commitStoreHelpers';
 import useCommitStore from '../useCommitStore';
 import useEnvironment from '../../environment/useEnvironment';
 
@@ -20,12 +22,14 @@ import useEnvironment from '../../environment/useEnvironment';
  * Displays a list of changes made in the current commit.
  */
 const ChangeList = () => {
-    const serviceChanges = useCommitStore((s) => s.serviceChanges);
+    const changes = useCommitStore((s) => s.changes);
     const clearChanges = useCommitStore((s) => s.clear);
     const { environment } = useEnvironment();
 
-    const sortedChanges = serviceChanges.sort((a, b) => a.service.name.localeCompare(b.service.name));
-    const hasChanges = sortedChanges.length > 0;
+    const parameterChanges = changes.filter(isParameterChange);
+    const hasChanges = parameterChanges.length > 0;
+    const serviceChanges = groupBy(parameterChanges, (c) => c.service.name);
+    const sortedNames = Object.keys(serviceChanges).sort();
 
     // TODO: Implement push functionality
 
@@ -49,8 +53,8 @@ const ChangeList = () => {
                 {!hasChanges ? (
                     <EmptyEntry />
                 ) : (
-                    sortedChanges.map((serviceChange) => (
-                        <ServiceChangeList key={serviceChange.service.address} serviceChanges={serviceChange} />
+                    sortedNames.map((name) => (
+                        <ServiceChangeList key={name} serviceName={name} changes={serviceChanges[name]} />
                     ))
                 )}
             </div>
