@@ -25,7 +25,7 @@ export const SelectedServiceProvider = ({ children }: { children: ReactNode }) =
 	
 	let selectedServices = selctedServicesRecord[environment] ?? [];
 	
-	if (services && services.length > 0 && services[1].name) {
+	if (services !== undefined) {
 		selectedServices = selctedServicesRecord[environment] ?? services;
 	} 
 
