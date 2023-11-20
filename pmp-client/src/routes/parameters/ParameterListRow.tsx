@@ -5,7 +5,6 @@ import { Parameter } from '../../features/parameters/types';
 import { ParameterValue } from '../../features/changes/types';
 import { Service } from '../../features/services/types';
 import useCommitStore from '../../features/changes/useCommitStore';
-import { useEffect } from 'react';
 import { useParameterFilter } from '../../features/search_filter/useParamererFilter';
 import validateParamChange from '../../features/changes/validateParamChange';
 import validateParameterFilterMatch from '../../features/search_filter/validateParameterFilterMatch';
@@ -23,18 +22,6 @@ const ParameterListRow = ({ parameter, service }: ParameterListRowProps) => {
     const parameterChange = useCommitStore((s) => s.findParameterChange(service, parameter));
     const hasChange = parameterChange !== undefined;
     const value = hasChange ? parameterChange.newValue : parameter.value;
-
-    useEffect(() => {
-        console.log('[ParameterListRow] parameter:', parameter);
-    }, [parameter]);
-
-    useEffect(() => {
-        console.log('[ParameterListRow] parameterChange:', parameterChange);
-    }, [parameterChange]);
-
-    useEffect(() => {
-        console.log('[ParameterListRow] value:', value);
-    }, [value]);
 
     const isValid = !hasChange || validateParamChange(parameterChange);
 

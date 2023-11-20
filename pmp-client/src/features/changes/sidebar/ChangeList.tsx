@@ -12,6 +12,7 @@ import {
     Typography
 } from 'rmwc';
 
+import RevertList from './RevertList';
 import ServiceChangeList from './ServiceChangeList';
 import { groupBy } from '../../../utils/array';
 import { isParameterChange } from '../commitStoreHelpers';
@@ -27,7 +28,7 @@ const ChangeList = () => {
     const { environment } = useEnvironment();
 
     const parameterChanges = changes.filter(isParameterChange);
-    const hasChanges = parameterChanges.length > 0;
+    const hasChanges = changes.length > 0;
     const serviceChanges = groupBy(parameterChanges, (c) => c.service.name);
     const sortedNames = Object.keys(serviceChanges).sort();
 
@@ -53,9 +54,12 @@ const ChangeList = () => {
                 {!hasChanges ? (
                     <EmptyEntry />
                 ) : (
-                    sortedNames.map((name) => (
-                        <ServiceChangeList key={name} serviceName={name} changes={serviceChanges[name]} />
-                    ))
+                    <>
+                        <RevertList />
+                        {sortedNames.map((name) => (
+                            <ServiceChangeList key={name} serviceName={name} changes={serviceChanges[name]} />
+                        ))}
+                    </>
                 )}
             </div>
         </div>

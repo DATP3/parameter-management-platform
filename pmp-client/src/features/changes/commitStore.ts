@@ -22,6 +22,7 @@ interface Actions {
     addChange: (change: Change) => void;
     removeChange: (change: Change) => void;
     findParameterChange: (service: Service, parameter: Parameter) => ParameterChange | undefined;
+    findChange: (change: Change) => Change | undefined;
     undo: () => void;
     redo: () => void;
     clear: () => void;
@@ -60,14 +61,18 @@ export const createCommitStore = (storageKey: string) => {
                         .find((c) => c.service.name === service.name && c.parameter.name === parameter.name);
                     return change;
                 },
+                findChange: (change) => {
+                    return get().changes.find((c) => compareChanges(c, change) === 0);
+                },
                 addChange: (change) => {
                     const s = get();
-                    if (s.changes.some((c) => compareChanges(c, change) === 0)) {
+                    // Ignore value when comparing, to remove existing parameter change, if one exists
+                    if (s.changes.some((c) => compareChanges(c, change, { ignoreValue: true }) === 0)) {
                         s.removeChange(change);
                     }
 
                     set((s) => {
-                        const changes = [...s.changes, change].sort(compareChanges);
+                        const changes = [...s.changes, change];
                         return {
                             changes,
                             __past: [...s.__past, s.changes],

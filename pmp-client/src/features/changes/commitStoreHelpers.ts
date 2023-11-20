@@ -12,13 +12,17 @@ export const isParameterChange = (change: Change): change is ParameterChange => 
     return !isRevert(change);
 };
 
-export const compareChanges = (a: Change, b: Change): number => {
+interface CompareChangesOptions {
+    ignoreValue?: boolean;
+}
+
+export const compareChanges = (a: Change, b: Change, options?: CompareChangesOptions): number => {
     if (isRevert(a) && isRevert(b)) {
         return a.commitReference.localeCompare(b.commitReference);
     }
 
     if (isParameterChange(a) && isParameterChange(b)) {
-        return compareParameterChanges(a, b);
+        return compareParameterChanges(a, b, options);
     }
 
     if (isRevert(a)) {
@@ -28,11 +32,19 @@ export const compareChanges = (a: Change, b: Change): number => {
     return 1;
 };
 
-export const compareParameterChanges = (a: ParameterChange, b: ParameterChange): number => {
+export const compareParameterChanges = (
+    a: ParameterChange,
+    b: ParameterChange,
+    options?: CompareChangesOptions
+): number => {
     const comparedServices = a.service.name.localeCompare(b.service.name);
     if (comparedServices !== 0) return comparedServices;
 
-    return a.parameter.name.localeCompare(b.parameter.name);
+    const comparedNames = a.parameter.name.localeCompare(b.parameter.name);
+    if (comparedNames !== 0 || options?.ignoreValue) return comparedNames;
+
+    // TODO: Implement a better value comparison
+    return a.parameter.value.toString().localeCompare(b.parameter.value.toString());
 };
 
 export const compareReverts = (a: Revert, b: Revert): number => {
@@ -40,12 +52,4 @@ export const compareReverts = (a: Revert, b: Revert): number => {
     if (typeComparison !== 0) return typeComparison;
 
     return a.commitReference.localeCompare(b.commitReference);
-};
-
-export const areRevertsEqual = (a: Revert, b: Revert): boolean => {
-    if (isParameterRevert(a) && isParameterRevert(b)) {
-        return a.parameterName === b.parameterName;
-    }
-
-    return a.commitReference === b.commitReference && a.revertType === b.revertType;
 };

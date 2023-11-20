@@ -1,10 +1,10 @@
 import { Service } from '../services/types';
 import axios from 'axios';
+import useEnvironment from '../environment/useEnvironment';
+import { useMsal } from '@azure/msal-react';
 import { useQueries } from '@tanstack/react-query';
 import useSelectedServices from '../services/useSelectedServices';
 import { z } from 'zod';
-import useEnvironment from '../environment/useEnvironment';
-import { useMsal } from '@azure/msal-react';
 
 const paramerterChangeParser = z.object({
     name: z.string(),
@@ -93,7 +93,7 @@ const useAuditLogEntries = (queryString: string) => {
             const isError = errors.length;
             if (isPending || isError)
                 return {
-                    data: [],
+                    data: undefined,
                     isPending,
                     isError,
                     errors: errors
