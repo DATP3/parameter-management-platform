@@ -3,7 +3,7 @@ import { QueryKey, UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { z } from 'zod';
 import useEnvironment from '../environment/useEnvironment';
-import { useMsalAuthentication } from '@azure/msal-react';
+import { useMsal, useMsalAuthentication } from '@azure/msal-react';
 import { InteractionType } from '@azure/msal-browser';
 
 /**
@@ -22,17 +22,18 @@ function useSimpleQuery<TParser extends z.ZodType>(
 ): UseQueryResult<z.infer<TParser>>;
 function useSimpleQuery<TData>(queryKey: QueryKey, url: string, parser?: z.ZodType<TData>) {
     const { environment } = useEnvironment();
-    const { acquireToken } = useMsalAuthentication(InteractionType.Redirect);
+	const { accounts } = useMsal();
 
     return useQuery({
         queryKey,
         queryFn: async () => {
-            const token = await acquireToken();
+            const token = accounts[0].idToken;
             if (!token) throw new Error('No token');
+
             const response = await axios.get<TData>(url, {
                 headers: {
                     'pmp-environment': environment,
-                    Authorization: `Bearer ${token.accessToken}`
+                    Authorization: `Bearer ${token}`
                 }
             });
             if (parser) return parser.parse(response.data);

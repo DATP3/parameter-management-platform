@@ -4,7 +4,7 @@ import { useQueries } from '@tanstack/react-query';
 import useSelectedServices from '../services/useSelectedServices';
 import { z } from 'zod';
 import useEnvironment from '../environment/useEnvironment';
-import { useMsalAuthentication } from '@azure/msal-react';
+import { useMsal, useMsalAuthentication } from '@azure/msal-react';
 import { InteractionType } from '@azure/msal-browser';
 
 const paramerterChangeParser = z.object({
@@ -54,7 +54,7 @@ export interface AuditLogEntry {
 const useAuditLogEntries = (queryString: string) => {
     const [selectedServices] = useSelectedServices();
     const { environment } = useEnvironment();
-    const { acquireToken } = useMsalAuthentication(InteractionType.Redirect);
+	const { accounts } = useMsal();
 
     return useQueries({
         queries: selectedServices.map((service) => ({
@@ -62,13 +62,13 @@ const useAuditLogEntries = (queryString: string) => {
             queryFn: async () => {
                 // TODO: Use real data
                 // const data = axios.get(`${service.address}/pmp/log?query=${queryString}`);
-                const token = await acquireToken();
+                const token = accounts[0].idToken;
                 if (!token) throw new Error('No token');
 
                 const response = await axios.get(`/mock/auditentries/${service.address}.json`, {
                     headers: {
                         'pmp-environment': environment,
-                        Authorization: `Bearer ${token.accessToken}`
+                        Authorization: `Bearer ${token}`
                     }
                 });
                 const parsed = await logParser.parseAsync(response.data);
