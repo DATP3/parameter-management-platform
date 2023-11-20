@@ -3,8 +3,7 @@ import { QueryKey, UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { z } from 'zod';
 import useEnvironment from '../environment/useEnvironment';
-import { useMsal, useMsalAuthentication } from '@azure/msal-react';
-import { InteractionType } from '@azure/msal-browser';
+import { useMsal } from '@azure/msal-react';
 
 /**
  * An abstraction over react-query's useQuery hook, which makes it easier to make simple, validated get requests
@@ -22,7 +21,7 @@ function useSimpleQuery<TParser extends z.ZodType>(
 ): UseQueryResult<z.infer<TParser>>;
 function useSimpleQuery<TData>(queryKey: QueryKey, url: string, parser?: z.ZodType<TData>) {
     const { environment } = useEnvironment();
-	const { accounts } = useMsal();
+    const { accounts } = useMsal();
 
     return useQuery({
         queryKey,

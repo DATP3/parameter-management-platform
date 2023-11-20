@@ -4,8 +4,7 @@ import { useQueries } from '@tanstack/react-query';
 import useSelectedServices from '../services/useSelectedServices';
 import { z } from 'zod';
 import useEnvironment from '../environment/useEnvironment';
-import { useMsal, useMsalAuthentication } from '@azure/msal-react';
-import { InteractionType } from '@azure/msal-browser';
+import { useMsal } from '@azure/msal-react';
 
 const paramerterChangeParser = z.object({
     name: z.string(),
