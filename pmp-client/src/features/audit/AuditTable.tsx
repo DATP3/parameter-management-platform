@@ -13,7 +13,7 @@ const AuditList = () => {
         return <div>Error</div>;
     }
 
-    entries.forEach((e) => {
+    entries!.forEach((e) => {
         e.changes.forEach((c) => {
             if (!c.service) console.log("Shit's missing.", e, c);
         });
@@ -32,7 +32,7 @@ const AuditList = () => {
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
-                    {entries.map((e) => (
+                    {entries!.map((e) => (
                         <AuditTableRow key={e.hash} entry={e} />
                     ))}
                 </DataTableBody>
