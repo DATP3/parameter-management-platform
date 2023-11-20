@@ -47,4 +47,9 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         return (Boolean) query.getSingleResult();
     }
 
+    @Override
+    public List<ParameterEntity> getParameters() {
+        TypedQuery<ParameterEntity> query = em.createQuery("SELECT e from ParameterEntity e", ParameterEntity.class);
+        return query.getResultList();
+    }
 }

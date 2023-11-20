@@ -22,5 +22,5 @@ Note that _both_ these commands should be run in order to see changes in pmp-cor
 Changes to the example server itself only requires running the second command.
 
 The backing database runs on port 7050, and its web interface on port 7051, and can be accessed with the JDBC URL
-`jdbc:h2:tcp://localhost:7050/mem:pmptest`, with `sa` as both username and password.
+`jdbc:h2:tcp://localhost:7050/file:./database`, with `sa` as both username and password.
 PMP will create a table named `PARAMETER_MANAGEMENT` that stores all the parameters.

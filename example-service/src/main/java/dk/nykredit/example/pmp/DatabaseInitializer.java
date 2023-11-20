@@ -2,6 +2,9 @@ package dk.nykredit.example.pmp;
 
 import liquibase.Contexts;
 import liquibase.Liquibase;
+import liquibase.command.CommandScope;
+import liquibase.command.core.UpdateCommandStep;
+import liquibase.command.core.helpers.DbUrlConnectionCommandStep;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
@@ -17,6 +20,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.enterprise.event.Observes;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,6 +34,8 @@ public class DatabaseInitializer {
     private static final int WEB_PORT = 7051;
 
     private static final Logger LOGGER = Log.getLogger(DatabaseInitializer.class);
+
+    private static final String changelogPath = "liquibase/pmpChangelog.yml";
 
     private Server tcp;
     private Server ws;
@@ -49,12 +55,17 @@ public class DatabaseInitializer {
             final Connection con = ds.getConnection();
 
             Database db = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(con));
+            db.setAutoCommit(true);
             db.setDatabaseChangeLogTableName("PMP_CHANGE_LOG");
             db.setDatabaseChangeLogLockTableName("PMP_CHANGE_LOG_LOCK");
 
             // Make sure that the database has the tables required for PMP
-            final Liquibase liquibase = new Liquibase("liquibase/pmpChangelog.yml", new ClassLoaderResourceAccessor(), db);
-            liquibase.update(new Contexts("default"));
+            final Liquibase liquibase = new Liquibase(changelogPath, new ClassLoaderResourceAccessor(), db);
+
+            CommandScope updateCommand = new CommandScope(UpdateCommandStep.COMMAND_NAME);
+            updateCommand.addArgumentValue(DbUrlConnectionCommandStep.DATABASE_ARG, liquibase.getDatabase());
+            updateCommand.addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, changelogPath);
+            updateCommand.execute();
         }
         catch (SQLException | LiquibaseException e) {
             throw new Error(e);
@@ -63,7 +74,7 @@ public class DatabaseInitializer {
 
     private DataSource getDataSource() {
         JdbcDataSource ds = new JdbcDataSource();
-        ds.setUrl("jdbc:h2:tcp://localhost:" + TCP_PORT + "/mem:pmptest");
+        ds.setUrl("jdbc:h2:tcp://localhost:" + TCP_PORT + "/file:./database");
         ds.setUser("sa");
         ds.setPassword("sa");
         return ds;

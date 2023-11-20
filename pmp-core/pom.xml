@@ -7,6 +7,10 @@
         <version>0.0.2-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <org.eclipse.jetty.version>9.4.51.v20230217</org.eclipse.jetty.version>
+    </properties>
+
     <artifactId>pmp-core</artifactId>
     <packaging>jar</packaging>
 
@@ -35,6 +39,29 @@
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- API Dependencies -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-cdi</artifactId>
+            <version>${org.eclipse.jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${org.eclipse.jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-client</artifactId>
+            <version>${org.eclipse.jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+            <version>2.3.0.Final</version>
+            <scope>compile</scope>
         </dependency>
 
         <!--Test dependencies-->

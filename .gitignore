@@ -34,3 +34,5 @@ nb-configuration.xml
 
 # .client has its own gitignore
 !pmp-client/.vscode
+
+*.db
