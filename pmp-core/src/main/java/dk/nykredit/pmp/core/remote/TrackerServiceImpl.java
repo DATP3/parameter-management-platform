@@ -39,6 +39,7 @@ public class TrackerServiceImpl implements TrackerService {
         Request req = new Request.Builder()
                 .url(url)
                 .post(body)
+                .addHeader("pmp-enviroment", environment)
                 .build();
 
         try (Response res = http.newCall(req).execute()) {
