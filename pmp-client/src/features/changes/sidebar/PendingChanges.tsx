@@ -19,7 +19,7 @@ const PendingChanges = () => {
                         <GridRow style={{padding: '0px', marginLeft: '-6px'}}>
                             <GridCell span={8} style={{}}>
                                     <List twoLine>
-                                        <ListItemPrimaryText><Typography use="headline4">Pending Changes</Typography></ListItemPrimaryText>
+                                        <ListItemPrimaryText><Typography use="headline5">Pending Changes</Typography></ListItemPrimaryText>
                                         <ListItemSecondaryText><Typography use="subtitle1">environment: {environment.environment}</Typography></ListItemSecondaryText>
                                     </List>
                             </GridCell>
