@@ -39,7 +39,7 @@ const ChangeList = () => {
             <div className='flex-none'>
                 <Grid style={{ padding: '0px', paddingRight: '0px', paddingLeft: '5px', paddingBottom: '5px' }}>
                     <GridCell span={7}>
-                        <Button raised={hasChanges} outlined={!hasChanges} disabled={!hasChanges}>
+                        <Button onClick={PushDialog} raised={hasChanges} outlined={!hasChanges} disabled={!hasChanges}>
                             Push to {environment}
                         </Button>
                     </GridCell>
