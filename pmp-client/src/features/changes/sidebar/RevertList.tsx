@@ -84,7 +84,7 @@ const RevertList = () => {
                             </DataTableHead>
                             <DataTableBody>
                                 {reverts.map((revert, i) => (
-                                    <DataTableRow className="talbeRow" key={i}>
+                                    <DataTableRow className="tableRow" key={i}>
                                         {/** key i is not optimal */}
                                         <DataTableCell>{revert.revertType}</DataTableCell>
                                         <DataTableCell>
