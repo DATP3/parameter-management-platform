@@ -2,6 +2,7 @@ import { DataTable, DataTableBody, DataTableContent, DataTableHead, DataTableHea
 
 import AuditTableRow from './AuditTableRow';
 import useAuditLogEntries from './useAuditLogEntries';
+import ThemeMarkerWrapper from '../components/ThemeMarkerWrapper';
 
 const AuditList = () => {
     const { data: entries, isPending, isError, errors } = useAuditLogEntries('');
@@ -14,24 +15,26 @@ const AuditList = () => {
     }
 
     return (
-        <DataTable className='dataTable'>
-            <DataTableContent className='tableHead'>
-                <DataTableHead>
-                    <DataTableRow>
-                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Date</DataTableHeadCell>
-                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>User</DataTableHeadCell>
-                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Hash</DataTableHeadCell>
-                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Message</DataTableHeadCell>
-                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Options</DataTableHeadCell>
-                    </DataTableRow>
-                </DataTableHead>
-                <DataTableBody>
-                    {entries!.map((e) => (
-                        <AuditTableRow key={e.hash} entry={e} />
-                    ))}
-                </DataTableBody>
-            </DataTableContent>
-        </DataTable>
+        <ThemeMarkerWrapper>
+            <DataTable className='dataTable'>
+                <DataTableContent className='tableHead'>
+                    <DataTableHead>
+                        <DataTableRow>
+                            <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Date</DataTableHeadCell>
+                            <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>User</DataTableHeadCell>
+                            <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Hash</DataTableHeadCell>
+                            <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Message</DataTableHeadCell>
+                            <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Options</DataTableHeadCell>
+                        </DataTableRow>
+                    </DataTableHead>
+                    <DataTableBody>
+                        {entries!.map((e) => (
+                            <AuditTableRow key={e.hash} entry={e} />
+                        ))}
+                    </DataTableBody>
+                </DataTableContent>
+            </DataTable>
+        </ThemeMarkerWrapper>
     );
 };
 
