@@ -30,8 +30,6 @@ const ListofServices = () => {
 
     const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
 
-	const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
-
 	return (
 		<DataTable>
 			<DataTableContent className="tableHead">
