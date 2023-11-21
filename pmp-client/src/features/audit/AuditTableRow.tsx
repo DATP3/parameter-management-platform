@@ -53,7 +53,7 @@ const AuditTableRow = ({ entry }: AuditTableRowProps) => {
     return (
         <>
             <AuditDetailsDialog entry={entry} open={open} onClose={() => setOpen(false)} />
-            <DataTableRow onClick={() => setOpen(true)}>
+            <DataTableRow className='tableRow' onClick={() => setOpen(true)}>
                 <DataTableCell>{entry.pushDate.toLocaleString()}</DataTableCell>
                 <DataTableCell>{entry.email}</DataTableCell>
                 <DataTableCell>{entry.hash}</DataTableCell>

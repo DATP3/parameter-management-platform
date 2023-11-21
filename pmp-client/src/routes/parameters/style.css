@@ -5,9 +5,8 @@
     width: 100%;
 }
 
-.parameterTable {
+.dataTable {
     margin-bottom: 20px;
-    /* margin-left: 20px; */
     width: 100%;
     background-color: transparent;
 }
@@ -35,7 +34,3 @@
 .invalid {
     background-color: rgba(255, 0, 0, 0.068);
 }
-
-/* .paramPage {
-	background-color: rgb(202, 255, 237);
-} */

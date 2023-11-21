@@ -40,13 +40,13 @@ const AuditDetailsServiceCollaps = ({ service, parameterChanges, reverts }: Audi
             handle={<SimpleListItem className='serviceListItem' text={service.name} metaIcon='chevron_right' />}
         >
             <DataTable className='w-full'>
-                <DataTableContent>
+                <DataTableContent className='tableHead'>
                     <DataTableHead>
                         <DataTableRow>
-                            <DataTableHeadCell>Name</DataTableHeadCell>
-                            <DataTableHeadCell>New Value</DataTableHeadCell>
-                            <DataTableHeadCell>Old Value</DataTableHeadCell>
-                            <DataTableHeadCell>Details</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>Name</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>New Value</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>Old Value</DataTableHeadCell>
+                            <DataTableHeadCell className='headCell'>Details</DataTableHeadCell>
                         </DataTableRow>
                     </DataTableHead>
                     <DataTableBody>
@@ -67,7 +67,7 @@ interface AuditDetailsParameterChangeRowProps extends AuditLogEntryParameterChan
 
 const AuditDetailsParameterChangeRow = ({ name, newValue, oldValue }: AuditDetailsParameterChangeRowProps) => {
     return (
-        <DataTableRow>
+        <DataTableRow className='tableRow'>
             <DataTableCell>{name}</DataTableCell>
             <DataTableCell>{newValue}</DataTableCell>
             <DataTableCell>{oldValue}</DataTableCell>
@@ -86,7 +86,7 @@ interface AuditDetailsRevertRowProps {
 
 const AuditDetailsRevertRow = ({ name, newValue, oldValue, referenceHash, revertType }: AuditDetailsRevertRowProps) => {
     return (
-        <DataTableRow>
+        <DataTableRow className='tableRow'>
             <DataTableCell>{name}</DataTableCell>
             <DataTableCell>{newValue}</DataTableCell>
             <DataTableCell>{oldValue}</DataTableCell>

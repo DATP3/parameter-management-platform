@@ -2,6 +2,7 @@ import { DataTable, DataTableBody, DataTableContent, DataTableHead, DataTableHea
 
 import AuditTableRow from './AuditTableRow';
 import useAuditLogEntries from './useAuditLogEntries';
+import '../../routes/parameters/style.css';
 
 const AuditList = () => {
     const { data: entries, isPending, isError, errors } = useAuditLogEntries('');
@@ -14,8 +15,8 @@ const AuditList = () => {
     }
 
     return (
-        <DataTable stickyRows={1} className='w-full'>
-            <DataTableContent>
+        <DataTable className='dataTable'>
+            <DataTableContent className='tableHead'>
                 <DataTableHead>
                     <DataTableRow>
                         <DataTableHeadCell>Date</DataTableHeadCell>
