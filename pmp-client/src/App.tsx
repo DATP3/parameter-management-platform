@@ -4,6 +4,7 @@ import AuthProvider from './features/auth/AuthProvider';
 import { QueryProvider } from './features/network/query';
 import RMWCComnponentProvider from './features/theme/RMWCComponentProvider';
 import RootRouter from './routes/RootRouter';
+import './App.css';
 
 /**
  * The root component.

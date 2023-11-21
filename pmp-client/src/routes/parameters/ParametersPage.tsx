@@ -1,5 +1,3 @@
-import './style.css';
-
 import ServiceList from './ServiceList';
 import ParameterSearch from '../../features/search_filter/ParameterSearch';
 import ParameterFilterProvider from '../../features/search_filter/ParameterFilterProvider';
