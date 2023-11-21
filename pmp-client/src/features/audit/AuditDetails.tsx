@@ -18,6 +18,7 @@ import {
     Typography
 } from 'rmwc';
 
+import { Fragment } from 'react';
 import useSelectedServices from '../services/useSelectedServices';
 import useServices from '../services/useServices';
 
@@ -134,13 +135,13 @@ const AuditDetails = ({ entry }: AuditDetailsProps) => {
                     <Typography use='subtitle1'>Affected services:</Typography>
                     <br />
                     {affectedServices.map((s) => (
-                        <>
+                        <Fragment key={s.serviceName}>
                             <Typography key={s.serviceName} use='subtitle2'>
                                 {s.serviceName} -{' '}
                                 {!s.connected ? 'not connected' : s.selected ? 'selected' : 'not selected'}
                             </Typography>
                             <br />
-                        </>
+                        </Fragment>
                     ))}
                 </div>
             </div>
