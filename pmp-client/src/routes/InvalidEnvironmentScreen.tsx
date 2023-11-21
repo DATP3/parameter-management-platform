@@ -1,27 +1,34 @@
-import { Button } from 'rmwc';
-import { Environment } from '../features/environment/environment';
+import { Button, CircularProgress, Typography } from 'rmwc';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
+import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
 
 const InvalidEnvironmentScreen = () => {
     const setEnvironment = useSetEnvironment_UNSAFE();
 
-    return (
-        <div className='prose max-w-full'>
-            <h3>To proceed, please pick an environment</h3>
+    const { data: environments, isPending, error } = useEnvironmentQuery();
 
-            <Button raised onClick={() => setEnvironment(Environment.TEST)}>
-                Test
-            </Button>
-            <Button outlined onClick={() => setEnvironment(Environment.DEV)}>
-                Dev
-            </Button>
-            <Button outlined danger onClick={() => setEnvironment(Environment.PREPROD)}>
-                Preprod
-            </Button>
-            <Button raised danger onClick={() => setEnvironment(Environment.PROD)}>
-                Prod
-            </Button>
-        </div>
+    if (isPending)
+        return (
+            <>
+                <Typography use='headline6'>Waiting on environments</Typography> <CircularProgress />
+            </>
+        );
+
+    if (error) return <Typography use='headline6'>Error getting environments</Typography>;
+
+    return (
+        // TODO: Change button style per environment
+        <>
+            <div className='prose max-w-full'>
+                <h3>To proceed, please pick an environment</h3>
+
+                {environments.map((e) => (
+                    <Button key={e.environment} raised onClick={() => setEnvironment(e)}>
+                        {e.environment}
+                    </Button>
+                ))}
+            </div>
+        </>
     );
 };
 
