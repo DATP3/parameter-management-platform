@@ -76,15 +76,15 @@ const RevertList = () => {
                         </SimpleListItem>
                     }
                 >
-                    <DataTable className='parameterTable'>
-                        <DataTableContent>
-                            <DataTableHead className='tableHead'>
-                                <DataTableHeadCell>Type</DataTableHeadCell>
-                                <DataTableHeadCell>Details</DataTableHeadCell>
+                    <DataTable className='dataTable'>
+                        <DataTableContent className='tableHead'>
+                            <DataTableHead>
+                                <DataTableHeadCell style={{backgroundColor: "transparent"}}>Type</DataTableHeadCell>
+                                <DataTableHeadCell style={{backgroundColor: "transparent"}}>Details</DataTableHeadCell>
                             </DataTableHead>
                             <DataTableBody>
                                 {reverts.map((revert, i) => (
-                                    <DataTableRow key={i}>
+                                    <DataTableRow className="talbeRow" key={i}>
                                         {/** key i is not optimal */}
                                         <DataTableCell>{revert.revertType}</DataTableCell>
                                         <DataTableCell>
