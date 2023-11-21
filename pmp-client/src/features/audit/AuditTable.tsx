@@ -18,11 +18,11 @@ const AuditList = () => {
             <DataTableContent className='tableHead'>
                 <DataTableHead>
                     <DataTableRow>
-                        <DataTableHeadCell>Date</DataTableHeadCell>
-                        <DataTableHeadCell>User</DataTableHeadCell>
-                        <DataTableHeadCell>Hash</DataTableHeadCell>
-                        <DataTableHeadCell>Message</DataTableHeadCell>
-                        <DataTableHeadCell>Options</DataTableHeadCell>
+                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Date</DataTableHeadCell>
+                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>User</DataTableHeadCell>
+                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Hash</DataTableHeadCell>
+                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Message</DataTableHeadCell>
+                        <DataTableHeadCell style={{backgroundColor: "transparent"}}>Options</DataTableHeadCell>
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>

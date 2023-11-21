@@ -46,7 +46,7 @@ const ServiceChangeList = ({ serviceName, changes }: ServiceChangeListProps) => 
                             </SimpleListItem>
                         }
                     >
-                        <DataTable className='parameterTable'>
+                        <DataTable className='dataTable'>
                             <DataTableContent className='tableHead'>
                                 <DataTableBody>
                                     {changes.map((change) => (
