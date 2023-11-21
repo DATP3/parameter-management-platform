@@ -30,9 +30,9 @@ const ParamChangeEntry = ({ change }: ParamChangeEntryProps) => {
 
     return (
         <>
-            <DataTableRow style={{ borderBottom: 'none' }}>
-                <DataTableCell className='headCell'>
-                    <List twoLine style={{ padding: '0px', paddingBottom: '5px' }}>
+            <DataTableRow className={"tableHead"} style={{borderBottom: 'none'}}>
+                <DataTableCell className="headCell">
+                    <List twoLine style={{padding: '0px', paddingBottom: '5px'}}>
                         <ListItemPrimaryText>{change.parameter.name}</ListItemPrimaryText>
                         <ListItemSecondaryText>{change.parameter.type}</ListItemSecondaryText>
                     </List>
