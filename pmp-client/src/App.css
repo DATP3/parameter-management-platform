@@ -11,13 +11,14 @@
     background-color: transparent;
 }
 
+.hidden {
+	visibility: hidden;
+}
+
 .headCell {
     background-color: transparent;
 }
 
-.hidden {
-    visibility: hidden;
-}
 
 .tableRow {
     background-color: #ffffff7f;
