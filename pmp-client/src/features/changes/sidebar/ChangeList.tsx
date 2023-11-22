@@ -17,6 +17,8 @@ import ServiceChangeList from './ServiceChangeList';
 import { groupBy } from '../../../utils/array';
 import { isParameterChange } from '../commitStoreHelpers';
 import useCommitStore from '../useCommitStore';
+import PushDialog from './PushDialog';
+import { useState } from 'react';
 import useEnvironment from '../../environment/useEnvironment';
 
 /**
@@ -25,12 +27,13 @@ import useEnvironment from '../../environment/useEnvironment';
 const ChangeList = () => {
     const changes = useCommitStore((s) => s.changes);
     const clearChanges = useCommitStore((s) => s.clear);
-    const { environment } = useEnvironment();
-
     const parameterChanges = changes.filter(isParameterChange);
     const hasChanges = changes.length > 0;
     const serviceChanges = groupBy(parameterChanges, (c) => c.service.name);
     const sortedNames = Object.keys(serviceChanges).sort();
+    const [open, setOpen] = useState(false);
+    const { environment } = useEnvironment();
+    const showEnvironmentWarning = environment.startsWith('pre') || environment.startsWith('prod');
 
     // TODO: Implement push functionality
 
@@ -39,7 +42,18 @@ const ChangeList = () => {
             <div className='flex-none'>
                 <Grid style={{ padding: '0px', paddingRight: '0px', paddingLeft: '5px', paddingBottom: '5px' }}>
                     <GridCell span={7}>
-                        <Button onClick={PushDialog} raised={hasChanges} outlined={!hasChanges} disabled={!hasChanges}>
+                        <PushDialog
+                            environment={environment}
+                            showWarning={showEnvironmentWarning}
+                            open={open}
+                            onClose={() => setOpen(false)}
+                        />
+                        <Button
+                            onClick={() => setOpen(true)}
+                            raised={hasChanges}
+                            outlined={!hasChanges}
+                            disabled={!hasChanges}
+                        >
                             Push to {environment}
                         </Button>
                     </GridCell>
