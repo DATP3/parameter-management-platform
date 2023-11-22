@@ -8,6 +8,18 @@ const validateAuditFilterMatch = (filter: AuditFilter, entry: AuditLogEntry) => 
         compareString += `¤${affectedService}`;
     }
 
+    for (const change of entry.changes) {
+        for (const revert of change.reverts) {
+            compareString += `¤${revert.referenceHash}¤${revert.revertType}`;
+            for (const parameterChange of revert.parameterChanges) {
+                compareString += `¤${parameterChange.name}¤${parameterChange.oldValue}¤${parameterChange.newValue}`;
+            }
+        }
+        for (const parameterChange of change.parameterChanges) {
+            compareString += `¤${parameterChange.name}¤${parameterChange.oldValue}¤${parameterChange.newValue}`;
+        }
+    }
+
     let isMatching = true;
 
     if (filter.searchQuery) {
