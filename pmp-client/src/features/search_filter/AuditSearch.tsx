@@ -1,8 +1,8 @@
 import Search from './Search';
-import { useParameterFilter } from './useParamererFilter';
+import { useAuditFilter } from './useAuditFilter';
 
-const ParameterSearch = () => {
-    const [filter, setFilter] = useParameterFilter();
+const AuditSearch = () => {
+    const [filter, setFilter] = useAuditFilter();
 
     const handleSearch = (searchQuery: string) => {
         setFilter({ ...filter, searchQuery });
@@ -13,4 +13,4 @@ const ParameterSearch = () => {
     return <Search value={value} setQuery={handleSearch} />;
 };
 
-export default ParameterSearch;
+export default AuditSearch;

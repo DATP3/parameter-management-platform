@@ -3,9 +3,12 @@ import { DataTable, DataTableBody, DataTableContent, DataTableHead, DataTableHea
 import AuditTableRow from './AuditTableRow';
 import useAuditLogEntries from './useAuditLogEntries';
 import ThemeMarkerWrapper from '../components/ThemeMarkerWrapper';
+import validateAuditFilterMatch from '../search_filter/validateAuditFilterMatch';
+import { useAuditFilter } from '../search_filter/useAuditFilter';
 
 const AuditList = () => {
     const { data: entries, isPending, isError, errors } = useAuditLogEntries('');
+    const [filter] = useAuditFilter();
 
     if (isPending) return <div>Loading...</div>;
 
@@ -13,6 +16,8 @@ const AuditList = () => {
         console.error(errors);
         return <div>Error</div>;
     }
+
+    const filteredEntries = entries?.filter((e) => validateAuditFilterMatch(filter, e));
 
     return (
         <ThemeMarkerWrapper>
@@ -28,7 +33,7 @@ const AuditList = () => {
                         </DataTableRow>
                     </DataTableHead>
                     <DataTableBody>
-                        {entries!.map((e) => (
+                        {filteredEntries!.map((e) => (
                             <AuditTableRow key={e.hash} entry={e} />
                         ))}
                     </DataTableBody>
