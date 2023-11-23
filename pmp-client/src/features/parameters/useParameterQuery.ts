@@ -19,7 +19,7 @@ const parameterParser = z.array(
  * TODO: Remove mock data.
  */
 const useParameterQuery = (service: Service) => {
-    return useSimpleQuery(['parameters', service.name], '/mock/parameters.json', parameterParser);
+    return useSimpleQuery(['parameters', service.name], `/mock/parameters/${service.address}.json`, parameterParser);
 };
 
 export default useParameterQuery;

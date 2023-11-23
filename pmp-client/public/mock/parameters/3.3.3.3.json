@@ -1,0 +1,22 @@
+[
+    { "id": "67", "name": "timeout_threshold", "type": "integer", "value": "15" },
+    { "id": "68", "name": "service_url_prefix", "type": "string", "value": "https://api.service-example.com" },
+    { "id": "69", "name": "logging_enabled", "type": "boolean", "value": "true" },
+    { "id": "70", "name": "preferred_data_format", "type": "string", "value": "avsc" },
+    { "id": "71", "name": "retry_limit", "type": "integer", "value": "2" },
+    { "id": "72", "name": "alert_email", "type": "string", "value": "alerts@example.com" },
+    { "id": "73", "name": "failure_threshold_percent", "type": "float", "value": "0.1" },
+    { "id": "74", "name": "data_expiration", "type": "localdate", "value": "2025-11-30" },
+    { "id": "75", "name": "user_permissions", "type": "string", "value": "write_access" },
+    { "id": "76", "name": "api_secret_key", "type": "string", "value": "secret987654" },
+    { "id": "77", "name": "response_timeout", "type": "integer", "value": "50" },
+    { "id": "78", "name": "authentication_endpoint", "type": "string", "value": "https://auth.service-example.com" },
+    { "id": "79", "name": "debug_logging", "type": "boolean", "value": "false" },
+    { "id": "80", "name": "output_format", "type": "string", "value": "csv" },
+    { "id": "82", "name": "admin_contact", "type": "string", "value": "admin_contact@example.org" },
+    { "id": "83", "name": "success_threshold_percent", "type": "float", "value": "0.85" },
+    { "id": "84", "name": "expiry_notification", "type": "localdate", "value": "2025-08-15" },
+    { "id": "85", "name": "user_role_preference", "type": "string", "value": "basic_user" },
+    { "id": "86", "name": "client_key", "type": "string", "value": "key567890" },
+    { "id": "87", "name": "release_6.0_datetime", "type": "localdatetime", "value": "2024-03-10T18:45" }
+]

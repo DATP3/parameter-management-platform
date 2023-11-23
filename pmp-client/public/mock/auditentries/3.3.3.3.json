@@ -21,9 +21,9 @@
                         "revertType": "type5",
                         "parameterChanges": [
                             {
-                                "name": "param13",
-                                "oldValue": "oldValue13",
-                                "newValue": "newValue13"
+                                "name": "retry_limit",
+                                "oldValue": "3",
+                                "newValue": "2"
                             }
                         ]
                     }

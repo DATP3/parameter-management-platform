@@ -92,9 +92,9 @@
                         "revertType": "type4",
                         "parameterChanges": [
                             {
-                                "name": "param10",
-                                "oldValue": "oldValue10",
-                                "newValue": "newValue10"
+                                "name": "client_api_key",
+                                "oldValue": "key654321",
+                                "newValue": "key123456"
                             },
                             {
                                 "name": "param11",
@@ -203,7 +203,7 @@
             "hash": "j1k2l3m4n5o6",
             "pushDate": "2023-11-11T07:30:45Z",
             "message": "Feature: New API endpoint",
-            "affectedServices": ["service2", "service3", "service5", "service7"],
+            "affectedServices": ["service2"],
             "changes": {
                 "parameterChanges": [
                     {

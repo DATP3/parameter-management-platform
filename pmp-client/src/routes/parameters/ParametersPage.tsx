@@ -8,16 +8,16 @@ import { Typography } from 'rmwc';
  * Page for displaying and editing parameters.
  */
 const ParametersPage = () => {
-	return (
-		<ParameterFilterProvider>
-			<div className='paramPage'>
-				<Typography use="headline4">Parameters</Typography>
-				<ParameterSearch/>
-				<ParameterFilter/>
-				<ServiceList />
-			</div>
-		</ParameterFilterProvider>
-	);
+    return (
+        <ParameterFilterProvider>
+            <div className='paramPage mb-20'>
+                <Typography use='headline4'>Parameters</Typography>
+                <ParameterSearch />
+                <ParameterFilter />
+                <ServiceList />
+            </div>
+        </ParameterFilterProvider>
+    );
 };
 
 export default ParametersPage;
