@@ -26,6 +26,11 @@ const Input = (props: InputProps) => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     onParamChange(e.target.value);
                 }}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter') {
+                        (e.target as HTMLInputElement).blur();
+                    }
+                }}
             />
         );
 
@@ -84,6 +89,11 @@ const Input = (props: InputProps) => {
             value={value as string}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 onParamChange(e.target.value);
+            }}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                    (e.target as HTMLInputElement).blur();
+                }
             }}
         />
     );
