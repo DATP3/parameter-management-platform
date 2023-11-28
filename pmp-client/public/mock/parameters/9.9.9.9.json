@@ -13,7 +13,12 @@
     { "id": "166", "name": "auth_service_url", "type": "string", "value": "https://auth-service-endpoint.com" },
     { "id": "167", "name": "debug_feature_disabled", "type": "boolean", "value": "false" },
     { "id": "168", "name": "output_data_format_type", "type": "string", "value": "protobuf" },
-    { "id": "170", "name": "admin_contact_email_address_v2", "type": "string", "value": "admin-contact@service-example.org" },
+    {
+        "id": "170",
+        "name": "admin_contact_email_address_v2",
+        "type": "string",
+        "value": "admin-contact@service-example.org"
+    },
     { "id": "171", "name": "success_rate_threshold_v2", "type": "float", "value": "0.92" },
     { "id": "33", "name": "expiry_notification_date", "type": "localdate", "value": "2024-12-15" },
     { "id": "173", "name": "user_category_preference", "type": "string", "value": "premium_category" },

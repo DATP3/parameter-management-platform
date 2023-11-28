@@ -10,7 +10,12 @@
     { "id": "117", "name": "user_access_rights", "type": "string", "value": "admin_access" },
     { "id": "118", "name": "api_authentication_key", "type": "string", "value": "authKey876543" },
     { "id": "119", "name": "response_timeout_seconds", "type": "integer", "value": "40" },
-    { "id": "120", "name": "authentication_service_endpoint", "type": "string", "value": "https://auth.example-service.com" },
+    {
+        "id": "120",
+        "name": "authentication_service_endpoint",
+        "type": "string",
+        "value": "https://auth.example-service.com"
+    },
     { "id": "121", "name": "enable_debug_mode", "type": "boolean", "value": "false" },
     { "id": "122", "name": "output_data_format", "type": "string", "value": "json" },
     { "id": "124", "name": "admin_contact_email", "type": "string", "value": "admin_contact@example-service.org" },

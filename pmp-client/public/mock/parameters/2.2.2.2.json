@@ -19,6 +19,5 @@
     { "id": "64", "name": "user_role_preference_v2", "type": "string", "value": "advanced_user" },
     { "id": "65", "name": "client_api_key", "type": "string", "value": "key123456" },
     { "id": "66", "name": "release_5.2_datetime", "type": "localdatetime", "value": "2023-12-15T15:30" },
-	{ "id": "47", "name": "param10", "type": "string", "value": "newValue10"}
-
+    { "id": "47", "name": "param10", "type": "string", "value": "newValue10" }
 ]

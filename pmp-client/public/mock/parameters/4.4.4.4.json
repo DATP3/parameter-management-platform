@@ -10,7 +10,12 @@
     { "id": "96", "name": "user_privilege_level", "type": "string", "value": "superuser" },
     { "id": "97", "name": "api_security_key", "type": "string", "value": "secure123456" },
     { "id": "98", "name": "response_timeout_seconds_v3", "type": "integer", "value": "60" },
-    { "id": "99", "name": "authentication_service_url", "type": "string", "value": "https://auth.endpoint-example.com" },
+    {
+        "id": "99",
+        "name": "authentication_service_url",
+        "type": "string",
+        "value": "https://auth.endpoint-example.com"
+    },
     { "id": "100", "name": "verbose_logging_enabled_v2", "type": "boolean", "value": "false" },
     { "id": "101", "name": "output_data_format_v3", "type": "string", "value": "protobuf" },
     { "id": "103", "name": "admin_contact_email_v2", "type": "string", "value": "admin_contact@example.org" },

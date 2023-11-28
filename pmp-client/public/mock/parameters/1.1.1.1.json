@@ -28,5 +28,5 @@
     { "id": "43", "name": "expiration_alert_date", "type": "localdate", "value": "2025-03-01" },
     { "id": "44", "name": "user_role_preference", "type": "string", "value": "standard_user" },
     { "id": "45", "name": "client_secret_key", "type": "string", "value": "s3cr3tK3y" },
-	{ "id": "46", "name": "relese_5.1_datatime", "type": "localdatetime", "value": "2023-11-29T12:00" }
+    { "id": "46", "name": "relese_5.1_datatime", "type": "localdatetime", "value": "2023-11-29T12:00" }
 ]
