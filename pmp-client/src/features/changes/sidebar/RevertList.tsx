@@ -87,16 +87,27 @@ const RevertList = () => {
                     <DataTable className='dataTable'>
                         <DataTableContent className='tableHead'>
                             <DataTableHead>
-                                <DataTableHeadCell style={{backgroundColor: "transparent"}}>Type</DataTableHeadCell>
-                                <DataTableHeadCell style={{backgroundColor: "transparent"}}>Details</DataTableHeadCell>
+                                <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Type</DataTableHeadCell>
+                                <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>
+                                    Details
+                                </DataTableHeadCell>
                             </DataTableHead>
                             <DataTableBody>
                                 {reverts.map((revert, i) => (
-                                    <DataTableRow className="tableRow" key={i}>
+                                    <DataTableRow className='tableRow' key={i}>
                                         {/** key i is not optimal */}
                                         <DataTableCell>{revert.revertType}</DataTableCell>
                                         <DataTableCell>
                                             <RevertDetails revert={revert} />
+                                        </DataTableCell>
+                                        <DataTableCell>
+                                            <IconButton
+                                                className='-mr-4'
+                                                icon='delete'
+                                                onClick={() => {
+                                                    removeChange(revert);
+                                                }}
+                                            ></IconButton>
                                         </DataTableCell>
                                     </DataTableRow>
                                 ))}
