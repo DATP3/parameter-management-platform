@@ -3,11 +3,13 @@ import { ReactNode, useCallback, useState } from 'react';
 import { Service } from './types';
 import { selectedServiceContext } from './selectedServiceContext';
 import useEnvironment from '../environment/useEnvironment';
+import useServices from './useServices';
 
 /**
  * Provider for the list of selected services.
  */
 export const SelectedServiceProvider = ({ children }: { children: ReactNode }) => {
+    const { data: services } = useServices();
     const [selctedServicesRecord, setSelectedServicesRecord] = useState<Record<string, Service[]>>({});
     const { environment } = useEnvironment();
 
@@ -21,7 +23,11 @@ export const SelectedServiceProvider = ({ children }: { children: ReactNode }) =
         [environment]
     );
 
-    const selectedServices = selctedServicesRecord[environment] ?? [];
+    let selectedServices = selctedServicesRecord[environment] ?? [];
+
+    if (services !== undefined) {
+        selectedServices = selctedServicesRecord[environment] ?? services;
+    }
 
     return (
         <selectedServiceContext.Provider value={[selectedServices, setSelectedServices]}>

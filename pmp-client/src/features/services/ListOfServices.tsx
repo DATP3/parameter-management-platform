@@ -1,5 +1,17 @@
-import { Card, CircularProgress, List, ListDivider, ListItem, Typography } from 'rmwc';
+import {
+    Checkbox,
+    CircularProgress,
+    DataTable,
+    DataTableBody,
+    DataTableCell,
+    DataTableContent,
+    DataTableHead,
+    DataTableHeadCell,
+    DataTableRow,
+    Typography
+} from 'rmwc';
 
+import { ChangeEvent } from 'react';
 import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
 
@@ -19,25 +31,48 @@ const ListofServices = () => {
     const sortedServices = services.sort((s1, s2) => s1.name.localeCompare(s2.name));
 
     return (
-        <>
-            <Card outlined>
-                <List>
-                    <ListItem disabled className='!opacity-100'>
-                        Services
-                    </ListItem>
-                    <ListDivider />
+        <DataTable>
+            <DataTableContent>
+                <DataTableHead>
+                    <DataTableRow>
+                        <DataTableHeadCell>Services</DataTableHeadCell>
+                        <DataTableHeadCell hasFormControl alignEnd>
+                            <Checkbox
+                                checked={selectedServices.length === services.length}
+                                onChange={(evt: ChangeEvent<HTMLInputElement>) => {
+                                    if (evt.currentTarget.checked) {
+                                        setSelectedServices(services);
+                                    } else {
+                                        setSelectedServices([]);
+                                    }
+                                }}
+                            />
+                        </DataTableHeadCell>
+                    </DataTableRow>
+                </DataTableHead>
+                <DataTableBody>
                     {sortedServices.map((s) => (
-                        <ListItem
-                            key={s.name}
-                            onClick={() => setSelectedServices([s])}
-                            selected={selectedServices.includes(s)}
-                        >
-                            {s.name}
-                        </ListItem>
+                        <DataTableRow key={s.name}>
+                            <DataTableCell>{s.name}</DataTableCell>
+                            <DataTableCell hasFormControl>
+                                <Checkbox
+                                    checked={!!selectedServices.find((service) => s.address === service.address)}
+                                    onChange={(evt: ChangeEvent<HTMLInputElement>) => {
+                                        if (evt.currentTarget.checked) {
+                                            setSelectedServices([...selectedServices, s]);
+                                        } else {
+                                            setSelectedServices(
+                                                selectedServices.filter((service) => s.address !== service.address)
+                                            );
+                                        }
+                                    }}
+                                />
+                            </DataTableCell>
+                        </DataTableRow>
                     ))}
-                </List>
-            </Card>
-        </>
+                </DataTableBody>
+            </DataTableContent>
+        </DataTable>
     );
 };
 
