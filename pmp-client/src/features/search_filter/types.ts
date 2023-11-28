@@ -1,4 +1,5 @@
 import { ParameterType } from '../parameters/types';
+import { Service } from '../services/types';
 
 export interface FilterData<T extends Namable = Namable> {
     name: string;
@@ -24,6 +25,7 @@ export interface AuditFilter {
     types?: string[];
     status?: string[];
     dateRange?: Date[];
+    services?: Service[];
 }
 
 export type AuditFilterContextValue = [AuditFilter, React.Dispatch<React.SetStateAction<AuditFilter>>];

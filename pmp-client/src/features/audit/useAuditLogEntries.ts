@@ -3,8 +3,8 @@ import axios from 'axios';
 import useEnvironment from '../environment/useEnvironment';
 import { useMsal } from '@azure/msal-react';
 import { useQueries } from '@tanstack/react-query';
-import useSelectedServices from '../services/useSelectedServices';
 import { z } from 'zod';
+import useServices from '../services/useServices';
 
 const paramerterChangeParser = z.object({
     name: z.string(),
@@ -53,12 +53,12 @@ export interface AuditLogEntry {
 }
 
 const useAuditLogEntries = (queryString: string) => {
-    const [selectedServices] = useSelectedServices();
+    const { data: services = [] } = useServices();
     const { environment } = useEnvironment();
     const { accounts } = useMsal();
 
     return useQueries({
-        queries: selectedServices.map((service) => ({
+        queries: services.map((service) => ({
             queryKey: ['auditLogEntries', service.address, queryString],
             queryFn: async () => {
                 // TODO: Use real data
@@ -74,8 +74,8 @@ const useAuditLogEntries = (queryString: string) => {
                 });
                 const parsed = await logParser.parseAsync(response.data);
 
-                // Add service to data, as selectedServices is not properly synched with the combine function
-                // Getting the service from selectedServices in combine would result in intermediary renders with undefined services
+                // Add service to data, as services is not properly synched with the combine function
+                // Getting the service from services in combine would result in intermediary renders with undefined services
                 // This fix is not ideal, but it works
                 return {
                     data: parsed,
