@@ -9,33 +9,32 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 class PMPFullTest extends H2StartDatabase {
 
-    private WeldContainer container;
-    private ServiceConcept serviceConcept;
+	private WeldContainer container;
+	private ServiceConcept serviceConcept;
 
-    @BeforeEach
-    private void before() {
-        Weld weld = new Weld();
-        container = weld.initialize();
-        serviceConcept = container.select(ServiceConcept.class).get();
-    }
+	@BeforeEach
+	private void before() {
+		Weld weld = new Weld();
+		container = weld.initialize();
+		serviceConcept = container.select(ServiceConcept.class).get();
+	}
 
-    @AfterEach
-    private void after() {
-        container.shutdown();
-    }
+	@AfterEach
+	private void after() {
+		container.shutdown();
+	}
 
-    @Test
-    @Disabled("Transaction not working")
-    void runMainTest() {
-        serviceConcept.run();
-    }
+	@Test
+	// @Disabled("Transaction not working")
+	void runMainTest() {
+		serviceConcept.run();
+	}
 
-    @Test
-    @Disabled("Transaction not working")
-    void runErrorTest() {
-        serviceConcept.runError();
-    }
+	@Test
+	@Disabled("Transaction not working")
+	void runErrorTest() {
+		serviceConcept.runError();
+	}
 }
