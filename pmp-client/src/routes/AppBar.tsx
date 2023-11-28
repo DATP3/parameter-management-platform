@@ -13,19 +13,21 @@ import {
 import EnvironmentSelect from '../features/environment/EnvironmentSelect';
 import { Link } from 'react-router-dom';
 import useEnvironment from '../features/environment/useEnvironment';
+import useIsEnvironmentValid from '../features/environment/useIsEnvironmentValid';
 import { useMsal } from '@azure/msal-react';
 import { useState } from 'react';
-import useIsEnvironmentValid from '../features/environment/useIsEnvironmentValid';
 
 const NavigationSection = () => {
     const { environment } = useEnvironment();
 
-    const pages = ['parameters', 'audit'];
+    const pages: { label: string, path: string}[] = [
+        { label: 'parameters', path: 'parameters'},
+        { label: 'commit history', path: 'audit'}];
 
     return (
         <TopAppBarSection alignStart>
             {pages.map((page) => (
-                <Button key={page} theme={'onPrimary'} tag={Link} to={`/${environment}/${page}`} label={page} />
+                <Button key={page.label} theme={'onPrimary'} tag={Link} to={`/${environment}/${page.path}`} label={page.label} />
             ))}
         </TopAppBarSection>
     );
