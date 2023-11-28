@@ -19,6 +19,7 @@ import {
 } from 'rmwc';
 
 import { Fragment } from 'react';
+import { formatDate } from '../../utils/date';
 import useSelectedServices from '../services/useSelectedServices';
 import useServices from '../services/useServices';
 
@@ -119,7 +120,7 @@ const AuditDetails = ({ entry }: AuditDetailsProps) => {
                 <div className='pb-1'>
                     <Typography use='subtitle1'>Date:</Typography>
                     <br />
-                    <Typography use='subtitle2'>{entry.pushDate.toLocaleString()}</Typography>
+                    <Typography use='subtitle2'>{formatDate(entry.pushDate)}</Typography>
                 </div>
                 <div className='pb-1'>
                     <Typography use='subtitle1'>User:</Typography>

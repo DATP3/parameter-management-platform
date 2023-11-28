@@ -3,6 +3,7 @@ import { DataTableCell, DataTableRow, IconButton, Tooltip } from 'rmwc';
 import AuditDetailsDialog from './AuditDetailsDialog';
 import { AuditLogEntry } from './useAuditLogEntries';
 import { CommitRevert } from '../changes/types';
+import { formatDate } from '../../utils/date';
 import useCommitStore from '../changes/useCommitStore';
 import { useState } from 'react';
 
@@ -54,7 +55,7 @@ const AuditTableRow = ({ entry }: AuditTableRowProps) => {
         <>
             <AuditDetailsDialog entry={entry} open={open} onClose={() => setOpen(false)} />
             <DataTableRow className='tableRow' onClick={() => setOpen(true)}>
-                <DataTableCell>{entry.pushDate.toLocaleString()}</DataTableCell>
+                <DataTableCell>{formatDate(entry.pushDate)}</DataTableCell>
                 <DataTableCell>{entry.email}</DataTableCell>
                 <DataTableCell>{entry.hash}</DataTableCell>
                 <DataTableCell>{entry.message}</DataTableCell>
