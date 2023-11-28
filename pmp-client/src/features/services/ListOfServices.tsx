@@ -11,7 +11,6 @@ import {
     Typography
 } from 'rmwc';
 
-import { ChangeEvent } from 'react';
 import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
 
@@ -34,38 +33,41 @@ const ListofServices = () => {
         <DataTable>
             <DataTableContent>
                 <DataTableHead>
-                    <DataTableRow>
-                        <DataTableHeadCell>Services</DataTableHeadCell>
+                    <DataTableRow
+                        className='cursor-pointer'
+                        onClick={() => {
+                            if (selectedServices.length === services.length) {
+                                setSelectedServices([]);
+                            } else {
+                                setSelectedServices(services);
+                            }
+                        }}
+                    >
+                        <DataTableHeadCell>All services</DataTableHeadCell>
                         <DataTableHeadCell hasFormControl alignEnd>
-                            <Checkbox
-                                checked={selectedServices.length === services.length}
-                                onChange={(evt: ChangeEvent<HTMLInputElement>) => {
-                                    if (evt.currentTarget.checked) {
-                                        setSelectedServices(services);
-                                    } else {
-                                        setSelectedServices([]);
-                                    }
-                                }}
-                            />
+                            <Checkbox checked={selectedServices.length === services.length} />
                         </DataTableHeadCell>
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
                     {sortedServices.map((s) => (
-                        <DataTableRow key={s.name}>
+                        <DataTableRow
+                            className='cursor-pointer'
+                            key={s.name}
+                            onClick={() => {
+                                if (selectedServices.find((service) => s.address === service.address)) {
+                                    setSelectedServices(
+                                        selectedServices.filter((service) => s.address !== service.address)
+                                    );
+                                } else {
+                                    setSelectedServices([...selectedServices, s]);
+                                }
+                            }}
+                        >
                             <DataTableCell>{s.name}</DataTableCell>
                             <DataTableCell hasFormControl>
                                 <Checkbox
                                     checked={!!selectedServices.find((service) => s.address === service.address)}
-                                    onChange={(evt: ChangeEvent<HTMLInputElement>) => {
-                                        if (evt.currentTarget.checked) {
-                                            setSelectedServices([...selectedServices, s]);
-                                        } else {
-                                            setSelectedServices(
-                                                selectedServices.filter((service) => s.address !== service.address)
-                                            );
-                                        }
-                                    }}
                                 />
                             </DataTableCell>
                         </DataTableRow>
