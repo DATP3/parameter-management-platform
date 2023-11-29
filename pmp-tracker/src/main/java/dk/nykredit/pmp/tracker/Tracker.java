@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class Tracker {
 
 	// The time in miliseconds within which the service must have been refreshed (1 min.).
-	private final static int staleTimeLimit = 60000;
+	private final static int staleTimeLimit = 3600000;
 	private static Timer timer;
 
 
