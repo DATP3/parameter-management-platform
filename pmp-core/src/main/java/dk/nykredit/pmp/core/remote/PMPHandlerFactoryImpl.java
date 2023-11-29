@@ -6,22 +6,26 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.jboss.weld.environment.servlet.EnhancedListener;
 
+import dk.nykredit.pmp.core.remote.servlet.CommitServlet;
+import dk.nykredit.pmp.core.remote.servlet.ParametersServlet;
+
 public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
-    @Override
-    public Handler getHandler() {
-        ServletContextHandler cx = new ServletContextHandler();
-        cx.setContextPath("/");
-        cx.addServlet(ParametersServlet.class, "/parameters");
+	@Override
+	public Handler getHandler() {
+		ServletContextHandler cx = new ServletContextHandler();
+		cx.setContextPath("/");
+		cx.addServlet(ParametersServlet.class, "/parameters");
+		cx.addServlet(CommitServlet.class, "/commit");
 
-        // Initialize CDI
-        cx.setInitParameter(
-                CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE,
-                CdiDecoratingListener.MODE);
-        cx.addBean(new ServletContextHandler.Initializer(cx,
-                new EnhancedListener()));
-        cx.addBean(new ServletContextHandler.Initializer(cx,
-                new CdiServletContainerInitializer()));
+		// Initialize CDI
+		cx.setInitParameter(
+				CdiServletContainerInitializer.CDI_INTEGRATION_ATTRIBUTE,
+				CdiDecoratingListener.MODE);
+		cx.addBean(new ServletContextHandler.Initializer(cx,
+				new EnhancedListener()));
+		cx.addBean(new ServletContextHandler.Initializer(cx,
+				new CdiServletContainerInitializer()));
 
-        return cx;
-    }
+		return cx;
+	}
 }

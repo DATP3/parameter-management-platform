@@ -2,9 +2,11 @@ package dk.nykredit.pmp.core.service;
 
 import dk.nykredit.pmp.core.persistence.ParameterEntity;
 import dk.nykredit.pmp.core.repository.ParameterRepository;
+import dk.nykredit.pmp.core.repository.exception.TypeCastingFailedException;
 import dk.nykredit.pmp.core.util.EntityParser;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 public class ParameterServiceImpl implements ParameterService {
 
@@ -40,5 +42,30 @@ public class ParameterServiceImpl implements ParameterService {
         entity.setType(value.getClass().getSimpleName());
 
         return repository.persistParameterEntity(entity);
+    }
+
+    @Override
+    public <P> void updateParameter(String name, P value) {
+        if (!repository.checkIfParameterExists(name)) {
+            persistParameter(name, value);
+            return;
+        }
+        ParameterEntity entity = repository.getValueByName(name);
+        if (!Objects.equals(entity.getType(), value.getClass().getSimpleName())) {
+            throw new TypeCastingFailedException("Expected type: " + entity.getType() + ". Got type: " + value.getClass().getSimpleName());
+        }
+        entity.setPValue(value);
+        repository.persistParameterEntity(entity);
+    }
+
+    @Override
+    public String getParameterTypeName(String parameterName) {
+        ParameterEntity entity = repository.getValueByName(parameterName);
+
+        if (entity == null) {
+            return null;
+        }
+
+        return entity.getType();
     }
 }

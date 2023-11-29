@@ -9,5 +9,9 @@ public interface ParameterService {
 
     <P> ParameterEntity persistParameter(String name, P value);
 
+    <P> void updateParameter(String name, P value);
+
     EntityParser getTypeParsers();
+
+    String getParameterTypeName(String parameterName);
 }

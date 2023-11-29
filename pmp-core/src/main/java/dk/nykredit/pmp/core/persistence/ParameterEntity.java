@@ -39,7 +39,9 @@ public class ParameterEntity implements JSON.Convertible {
 
     @PrePersist
     public void generatedId() {
-        this.id = UUID.randomUUID().toString();
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
     }
 
     @Override
