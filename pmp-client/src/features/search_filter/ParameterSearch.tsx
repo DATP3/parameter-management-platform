@@ -10,7 +10,7 @@ const ParameterSearch = () => {
 
     const value = filter.searchQuery ?? '';
 
-    return <Search value={value} setQuery={handleSearch} />;
+    return <Search value={value} setQuery={handleSearch} hintText='Search parameters' />;
 };
 
 export default ParameterSearch;

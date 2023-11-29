@@ -10,7 +10,7 @@ const AuditSearch = () => {
 
     const value = filter.searchQuery ?? '';
 
-    return <Search value={value} setQuery={handleSearch} />;
+    return <Search value={value} setQuery={handleSearch} hintText='Search commits' />;
 };
 
 export default AuditSearch;

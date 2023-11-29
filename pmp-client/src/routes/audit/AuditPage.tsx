@@ -10,9 +10,9 @@ const AuditPage = () => {
     return (
         <AuditFilterProvider>
             <div className='flex flex-col  h-full'>
-                <div className='flex-0 pb-5'>
+                <div className='flex-0 pb-5 pt-5'>
                     <div className='flex justify-between pb-3'>
-                        <Typography use='headline4'>Audit</Typography>
+                        <Typography use='headline4'>Commit History</Typography>
                         <PageNavigator />
                     </div>
                     <AuditSearch />
