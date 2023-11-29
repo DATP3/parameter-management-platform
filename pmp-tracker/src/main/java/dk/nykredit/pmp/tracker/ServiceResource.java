@@ -76,7 +76,7 @@ public class ServiceResource {
 		String environment = postHeaders.getRequestHeader("pmp-environment").get(0);
 
 		// Attempt to retrieve pre-existing service in environment.
-		Service existingService = tracker.getServiceFromAddress(service.getAddress(), environment);
+		Service existingService = tracker.getServiceFromAddress(service.getPmpRoot(), environment);
 		
 		// If service already exitsts, refresh its stale-timer.
 		if (existingService != null){
@@ -99,8 +99,8 @@ public class ServiceResource {
 	private boolean serviceIsValid(Service service) {
 
 		if (service == null ||
-			service.getAddress() == null ||
-			service.getAddress().isBlank() ||
+			service.getPmpRoot() == null ||
+			service.getPmpRoot().isBlank() ||
 			service.getName() == null ||
 			service.getName().isBlank()) {
 			return false;

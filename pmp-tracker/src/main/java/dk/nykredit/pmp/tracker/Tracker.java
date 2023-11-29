@@ -49,7 +49,7 @@ public class Tracker {
 
 
 		for (Service service : findEnvironment(environmentReq).getServices()) {
-			if (service.getAddress().equals(address)) {
+			if (service.getPmpRoot().equals(address)) {
 				return service;
 			}
 		}
