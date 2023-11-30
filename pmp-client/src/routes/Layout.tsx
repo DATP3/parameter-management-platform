@@ -3,6 +3,7 @@ import InvalidEnvironmentScreen from './InvalidEnvironmentScreen';
 import ListofServices from '../features/services/ListOfServices';
 import { Outlet } from 'react-router-dom';
 import PendingChanges from '../features/changes/sidebar/PendingChanges';
+import { Portal } from 'rmwc';
 import SideDrawer from '../features/components/SideDrawer';
 import useIsEnvironmentValid from '../features/environment/useIsEnvironmentValid';
 
@@ -45,6 +46,7 @@ const Layout = () => {
                     )}
                 </div>
             </div>
+            <Portal />
         </>
     );
 };

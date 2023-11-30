@@ -8,11 +8,12 @@ import {
     Typography
 } from 'rmwc';
 
+import { AuditDetailsEntryProvider } from './AuditDetailsEntryProvider';
 import AuditTableRow from './AuditTableRow';
-import useAuditLogEntries from './useAuditLogEntries';
 import ThemeMarkerWrapper from '../components/ThemeMarkerWrapper';
-import validateAuditFilterMatch from '../search_filter/validateAuditFilterMatch';
 import { useAuditFilter } from '../search_filter/useAuditFilter';
+import useAuditLogEntries from './useAuditLogEntries';
+import validateAuditFilterMatch from '../search_filter/validateAuditFilterMatch';
 
 const AuditList = () => {
     const { data: entries, isPending, isError, errors } = useAuditLogEntries('');
@@ -40,14 +41,13 @@ const AuditList = () => {
                                 <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>
                                     Message
                                 </DataTableHeadCell>
-                                <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>
-                                    Options
-                                </DataTableHeadCell>
                             </DataTableRow>
                         </DataTableHead>
                         <DataTableBody>
                             {filteredEntries!.map((e) => (
-                                <AuditTableRow key={e.hash} entry={e} />
+                                <AuditDetailsEntryProvider key={e.hash} entry={e}>
+                                    <AuditTableRow key={e.hash} />
+                                </AuditDetailsEntryProvider>
                             ))}
                         </DataTableBody>
                     </DataTableContent>

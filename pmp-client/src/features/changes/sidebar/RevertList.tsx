@@ -10,7 +10,10 @@ import {
     Grid,
     GridCell,
     IconButton,
+    Menu,
+    MenuSurfaceAnchor,
     SimpleListItem,
+    Tooltip,
     Typography
 } from 'rmwc';
 
@@ -18,6 +21,7 @@ import { Revert } from '../types';
 import { isRevert } from '../commitStoreHelpers';
 import useAuditLogEntries from '../../audit/useAuditLogEntries';
 import useCommitStore from '../useCommitStore';
+import { useState } from 'react';
 
 interface RevertDetailsProps {
     revert: Revert;
@@ -38,21 +42,79 @@ const RevertDetails = ({ revert }: RevertDetailsProps) => {
 
     switch (revert.revertType) {
         case 'commit':
+            return <>{message}</>;
+        case 'service':
             return (
                 <>
-                    Revert changes added in <Typography use='overline'>{revert.commitReference}</Typography>
+                    {revert.service.name}
                     {message}
                 </>
             );
         case 'parameter':
             return (
                 <>
-                    Revert change to parameter &quot;{revert.parameterName}&quot; added in commit{' '}
-                    <Typography use='overline'>{revert.commitReference}</Typography>
+                    {revert.parameterName}
                     {message}
                 </>
             );
     }
+};
+
+const RevertInfoMenu = ({ revert }: { revert: Revert }) => {
+    const [open, setOpen] = useState(false);
+    const { data: commits } = useAuditLogEntries(''); // TODO: Add query with commit hash, to only get the commit we are reverting
+
+    const getText = () => {
+        const commit = commits?.find((c) => c.hash === revert.commitReference);
+
+        const message = commit?.message && (
+            <>
+                <br />
+                <Typography use='caption' style={{ whiteSpace: 'pre-wrap' }}>
+                    Message: &quot;{commit.message}&quot;
+                </Typography>
+            </>
+        );
+
+        switch (revert.revertType) {
+            case 'commit':
+                return (
+                    <>
+                        Revert changes added in <Typography use='overline'>{revert.commitReference}</Typography>
+                        {message}
+                    </>
+                );
+            case 'service':
+                return (
+                    <>
+                        Revert change to parameter &quot;{revert.service.name}&quot; added in commit{' '}
+                        <Typography use='overline'>{revert.commitReference}</Typography>
+                        {message}
+                    </>
+                );
+            case 'parameter':
+                return (
+                    <>
+                        Revert change to parameter &quot;{revert.parameterName}&quot; on service &quot;
+                        {revert.service.name}&quot; added in commit{' '}
+                        <Typography use='overline'>{revert.commitReference}</Typography>
+                        {message}
+                    </>
+                );
+        }
+    };
+
+    return (
+        <MenuSurfaceAnchor>
+            <IconButton onClick={() => setOpen(true)} className='-mr-4' icon='info'></IconButton>
+            {/* <MenuSurface open={open} onClose={() => setOpen(false)} renderToPortal>
+                <div style={{ padding: '1rem', width: '8rem' }}>{getText()}</div>
+            </MenuSurface> */}
+            <Menu open={open} onClose={() => setOpen(false)} renderToPortal>
+                <div className='p-4 w-80'>{getText()}</div>
+            </Menu>
+        </MenuSurfaceAnchor>
+    );
 };
 
 const RevertList = () => {
@@ -84,7 +146,7 @@ const RevertList = () => {
                         </SimpleListItem>
                     }
                 >
-                    <DataTable className='dataTable'>
+                    <DataTable className='dataTable w-full'>
                         <DataTableContent className='tableHead'>
                             <DataTableHead>
                                 <DataTableHeadCell style={{ backgroundColor: 'transparent' }}>Type</DataTableHeadCell>
@@ -99,6 +161,11 @@ const RevertList = () => {
                                         <DataTableCell>{revert.revertType}</DataTableCell>
                                         <DataTableCell>
                                             <RevertDetails revert={revert} />
+                                        </DataTableCell>
+                                        <DataTableCell>
+                                            <Tooltip content='See more'>
+                                                <RevertInfoMenu revert={revert} />
+                                            </Tooltip>
                                         </DataTableCell>
                                         <DataTableCell>
                                             <IconButton

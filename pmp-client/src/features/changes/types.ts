@@ -27,6 +27,11 @@ export interface CommitRevert extends IRevert {
     revertType: 'commit';
 }
 
+export interface ServiceRevert extends IRevert {
+    revertType: 'service';
+    service: Service;
+}
+
 export interface ParameterRevert extends IRevert {
     revertType: 'parameter';
     parameterName: string; // TODO: Check if this can feasibly be a full parameter instead
@@ -36,7 +41,7 @@ export interface ParameterRevert extends IRevert {
 /**
  * A revert change.
  */
-export type Revert = CommitRevert | ParameterRevert;
+export type Revert = CommitRevert | ServiceRevert | ParameterRevert;
 
 export type Change = ParameterChange | Revert;
 
