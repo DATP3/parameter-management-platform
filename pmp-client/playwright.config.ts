@@ -2,52 +2,60 @@ import * as dotenv from 'dotenv';
 
 import { PlaywrightTestConfig, defineConfig, devices } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
+/***
+
+- Read environment variables from file.
+- https://github.com/motdotla/dotenv
+  */
 dotenv.config();
 
 const config: PlaywrightTestConfig<{}, {}> = {
     testDir: './tests',
-    /* Run tests in files in parallel */
+    /** Run tests in files in parallel */
     fullyParallel: true,
-    /* Fail the build on CI if you accidentally left test.only in the source code. */
+    /** Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
-    /* Retry on CI only */
+    /** Retry on CI only */
     retries: process.env.CI ? 2 : 0,
-    /* Opt out of parallel tests on CI. */
+    /** Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
-    /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+    /** Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: 'html',
-    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    /** Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
-        /* Base URL to use in actions like `await page.goto('/')`. */
+        /** Base URL to use in actions like `await page.goto('/')`. */
         baseURL: 'http://localhost:4173',
 
-        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: 'on-first-retry'
+        /** Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+        trace: 'on-first-retry',
+
+        /** Run without opening browser */
+        headless: !process.env.PLAYWRIGHT_NOT_HEADLESS
     },
 
-    /* Configure projects for major browsers */
+    /** Configure projects for major browsers */
     projects: [
+        { name: 'setup', testMatch: /.*\.setup\.ts/ },
         {
             name: 'chromium',
-            use: { ...devices['Desktop Chrome'] }
+            use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
+            dependencies: ['setup']
         },
 
         {
             name: 'firefox',
-            use: { ...devices['Desktop Firefox'] }
+            use: { ...devices['Desktop Firefox'], storageState: '.auth/user.json' },
+            dependencies: ['setup']
         },
 
         {
             name: 'webkit',
-            use: { ...devices['Desktop Safari'] }
+            use: { ...devices['Desktop Safari'], storageState: '.auth/user.json' },
+            dependencies: ['setup']
         }
     ],
 
-    /* Run your local dev server before starting the tests */
+    /** Run your local dev server before starting the tests */
     webServer: {
         command: 'npm run build && npm run preview',
         url: 'http://localhost:4173',
@@ -59,6 +67,6 @@ const config: PlaywrightTestConfig<{}, {}> = {
 config.projects = config.projects?.filter((project) => !process.env['PLAYWRIGHT_NO_' + project.name?.toUpperCase()]);
 
 /**
- * See https://playwright.dev/docs/test-configuration.
- */
+- See https://playwright.dev/docs/test-configuration.
+  */
 export default defineConfig(config);

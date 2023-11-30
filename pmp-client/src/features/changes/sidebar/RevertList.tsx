@@ -129,6 +129,8 @@ const RevertList = () => {
         });
     };
 
+    if (reverts.length === 0) return null;
+
     return (
         <Grid style={{ padding: '0px' }}>
             <GridCell span={12}>
