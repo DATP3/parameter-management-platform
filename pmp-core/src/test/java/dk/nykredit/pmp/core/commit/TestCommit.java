@@ -2,6 +2,9 @@ package dk.nykredit.pmp.core.commit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
+import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
 import dk.nykredit.pmp.core.remote.json.ObjectMapperFactoryImpl;
 import dk.nykredit.pmp.core.service.ParameterService;
@@ -69,9 +72,8 @@ public class TestCommit extends H2StartDatabase {
         changes.add(change);
 
         commit.setChanges(changes);
-        boolean success = commit.apply(parameterService);
+        assertDoesNotThrow(() -> commit.apply(parameterService));
 
-        assertTrue(success);
         assertEquals("data2", parameterService.findParameterByName("test1"));
     }
 
@@ -90,9 +92,8 @@ public class TestCommit extends H2StartDatabase {
         changes.add(change);
 
         commit.setChanges(changes);
-        boolean success = commit.apply(parameterService);
+        assertDoesNotThrow(() -> commit.apply(parameterService));
 
-        assertTrue(success);
         assertEquals((Integer) 6, parameterService.findParameterByName("test2"));
     }
 
@@ -111,8 +112,8 @@ public class TestCommit extends H2StartDatabase {
         changes.add(change);
 
         commit.setChanges(changes);
-        boolean success = commit.apply(parameterService);
-        assertFalse(success);
+        assertThrows(TypeInconsistentException.class, () -> commit.apply(parameterService));
+
         assertEquals((Integer) 5, parameterService.findParameterByName("test2"));
     }
 
@@ -131,9 +132,8 @@ public class TestCommit extends H2StartDatabase {
         changes.add(change);
 
         commit.setChanges(changes);
-        boolean success = commit.apply(parameterService);
+        assertThrows(OldValueInconsistentException.class, () -> commit.apply(parameterService));
 
-        assertFalse(success);
         assertEquals((Integer) 5, parameterService.findParameterByName("test2"));
     }
 
@@ -159,9 +159,8 @@ public class TestCommit extends H2StartDatabase {
         changes.add(change2);
 
         commit.setChanges(changes);
-        boolean success = commit.apply(parameterService);
+        assertThrows(OldValueInconsistentException.class, () -> commit.apply(parameterService));
 
-        assertFalse(success);
         assertEquals((Integer) 5, parameterService.findParameterByName("test2"));
         assertEquals("data1", parameterService.findParameterByName("test1"));
     }
@@ -169,7 +168,6 @@ public class TestCommit extends H2StartDatabase {
     @Test
     public void testParseCommit() throws JsonProcessingException {
         LocalDateTime pushDate = LocalDateTime.of(2023, 11, 28, 9, 15, 12, (int) 2.93e8);
-
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change = new ParameterChange();

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dk.nykredit.pmp.core.commit.Commit;
+import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
+import dk.nykredit.pmp.core.commit.exception.StoredValueNullException;
+import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.remote.json.ObjectMapperFactory;
 import dk.nykredit.pmp.core.service.ParameterService;
 
@@ -29,13 +32,19 @@ public class CommitServlet extends HttpServlet {
 
         System.out.println("Applying commit: " + commit.toString());
 
-        boolean result = commit.apply(parameterService);
-        if (result) {
+        try {
+            commit.apply(parameterService);
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("OK");
-        } else {
+        } catch (TypeInconsistentException e) {
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            res.getWriter().write("Could not apply commit");
+            res.getWriter().write("Could not apply commit, type is mismatched");
+        } catch (OldValueInconsistentException e) {
+            res.setStatus(HttpServletResponse.SC_CONFLICT);
+            res.getWriter().write("Could not apply commit, old value does not match stored value");
+        } catch (StoredValueNullException e) {
+            res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            res.getWriter().write("Could not apply commit, parameter not found.");
         }
     }
 

@@ -1,9 +1,10 @@
 package dk.nykredit.pmp.core.commit;
 
 import dk.nykredit.pmp.core.service.ParameterService;
+import dk.nykredit.pmp.core.commit.exception.CommitException;
 
 public interface Change {
-	boolean apply(ParameterService parameterService);
+    void apply(ParameterService parameterService) throws CommitException;
 
-	void undo(ParameterService parameterService);
+    void undo(ParameterService parameterService);
 }
