@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrackerServiceImpl implements TrackerService {
 
     private static final URL TRACKER_URL;
     private static final OkHttpClient http = new OkHttpClient();
+    private static final int HEARTBEAT_INTERVAL = 1000 * 60 * 15; // 15 minutes
 
     static {
         try {
@@ -45,5 +48,24 @@ public class TrackerServiceImpl implements TrackerService {
         try (Response res = http.newCall(req).execute()) {
             return res.isSuccessful();
         }
+    }
+
+    @Override
+    public Timer startHeartbeat(String pmpRoot, String serviceName, String environment) throws IOException {
+
+        Timer timer = new Timer(true);
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    announce(pmpRoot, serviceName, environment);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, HEARTBEAT_INTERVAL, HEARTBEAT_INTERVAL);
+
+        return null;
     }
 }
