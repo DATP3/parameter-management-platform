@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class Tracker {
 
 	// The time in miliseconds within which the service must have been refreshed (1 min.).
-	private final static int staleTimeLimit = 60000;
+	private final static int staleTimeLimit = 3600000;
 	private static Timer timer;
 
 
@@ -49,7 +49,7 @@ public class Tracker {
 
 
 		for (Service service : findEnvironment(environmentReq).getServices()) {
-			if (service.getAddress().equals(address)) {
+			if (service.getPmpRoot().equals(address)) {
 				return service;
 			}
 		}

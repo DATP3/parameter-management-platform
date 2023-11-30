@@ -12,26 +12,9 @@ import {
 
 import EnvironmentSelect from '../features/environment/EnvironmentSelect';
 import { Link } from 'react-router-dom';
-import useEnvironment from '../features/environment/useEnvironment';
 import useIsEnvironmentValid from '../features/environment/useIsEnvironmentValid';
 import { useMsal } from '@azure/msal-react';
 import { useState } from 'react';
-
-const NavigationSection = () => {
-    const { environment } = useEnvironment();
-
-    const pages: { label: string, path: string}[] = [
-        { label: 'parameters', path: 'parameters'},
-        { label: 'commit history', path: 'audit'}];
-
-    return (
-        <TopAppBarSection alignStart>
-            {pages.map((page) => (
-                <Button key={page.label} theme={'onPrimary'} tag={Link} to={`/${environment}/${page.path}`} label={page.label} />
-            ))}
-        </TopAppBarSection>
-    );
-};
 
 const AccountSection = () => {
     const [open, setOpen] = useState(false);
@@ -76,7 +59,6 @@ const AppBar = () => {
                     <TopAppBarSection alignStart>
                         {isValid ? <EnvironmentSelect /> : <TopAppBarTitle>No Environment</TopAppBarTitle>}
                     </TopAppBarSection>
-                    {isValid && <NavigationSection />}
                     <AccountSection />
                 </TopAppBarRow>
             </TopAppBar>

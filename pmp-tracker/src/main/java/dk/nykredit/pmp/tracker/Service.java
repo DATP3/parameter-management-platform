@@ -6,7 +6,8 @@ public class Service {
 
     // A millisecond instant, used to identify when the service last pinged the tracker.
     private long lastRefresh;
-    private String address;
+    // Url address for the service.
+    private String pmpRoot;
     private String name;
 
     public Service() {
@@ -17,11 +18,11 @@ public class Service {
     /** All field that need to be serialized to/from JSON must
      *  have getters and setters for the serialization to work.
     */
-    public String getAddress() {
-        return address;
+    public String getPmpRoot() {
+        return pmpRoot;
     }
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPmpRoot(String address) {
+        this.pmpRoot = address;
     }
 
     public void refresh() {
@@ -56,7 +57,7 @@ public class Service {
     @Override
     public String toString() {
         
-        return "Service: " + address + " lastRefresh: " + lastRefresh;
+        return "Service: " + pmpRoot + " lastRefresh: " + lastRefresh;
     }
 
     /**
@@ -77,18 +78,18 @@ public class Service {
 
         Service service = (Service) object;
 
-        return (service.getAddress().equals(this.getAddress()));
+        return (service.getPmpRoot().equals(this.getPmpRoot()));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(address);
+        return Objects.hash(pmpRoot);
     }
 
     @Override
     public Service clone() {
         Service service = new Service();
-        service.setAddress(this.getAddress());
+        service.setPmpRoot(this.getPmpRoot());
         return service;
     }
 } 

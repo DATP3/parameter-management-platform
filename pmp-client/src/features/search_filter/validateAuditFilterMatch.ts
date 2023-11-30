@@ -25,6 +25,18 @@ const validateAuditFilterMatch = (filter: AuditFilter, entry: AuditLogEntry) => 
     if (filter.searchQuery) {
         isMatching = isMatching && compareString.includes(filter.searchQuery);
     }
+
+    let serviceMatch = false;
+    const selectedServices = filter.services ?? [];
+
+    for (const selectedService of selectedServices) {
+        for (const { service } of entry.changes) {
+            serviceMatch = serviceMatch || service.address === selectedService.address;
+        }
+    }
+
+    isMatching = isMatching && serviceMatch;
+
     return isMatching;
 };
 

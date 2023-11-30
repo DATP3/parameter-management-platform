@@ -7,3 +7,21 @@ run image:
 url:
     http://localhost:8080/pmp-tracker
 
+example requests:
+endpoints:
+/pmp-tracker/rest/services
+/pmp-tracker/rest/environments
+
+GET servises
+curl --location 'http://localhost:8080/pmp-tracker/rest/services' \
+--header 'Authorization: a' \
+--header 'pmp-environment: prod'
+
+POST services
+curl --location 'http://localhost:8080/pmp-tracker/rest/services' \
+--header 'pmp-environment: prod' \
+--header 'Content-Type: application/json' \
+--data '{
+    "pmpRoot": "1.2.1.212-testavsdf",
+    "name": "test-service-2"
+}'
