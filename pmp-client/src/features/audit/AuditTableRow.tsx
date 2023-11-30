@@ -1,4 +1,4 @@
-import { DataTableCell, DataTableRow } from 'rmwc';
+import { DataTableCell, DataTableRow, Typography } from 'rmwc';
 
 import AuditDetailsDialog from './AuditDetailsDialog';
 import { formatDate } from '../../utils/date';
@@ -16,7 +16,9 @@ const AuditTableRow = (_: AuditTableRowProps) => {
             <DataTableRow className='tableRow' onClick={() => setOpen(true)}>
                 <DataTableCell>{formatDate(entry.pushDate)}</DataTableCell>
                 <DataTableCell>{entry.email}</DataTableCell>
-                <DataTableCell>{entry.hash}</DataTableCell>
+                <DataTableCell>
+                    <Typography use='overline'>{entry.hash}</Typography>
+                </DataTableCell>
                 <DataTableCell>{entry.message}</DataTableCell>
             </DataTableRow>
         </>

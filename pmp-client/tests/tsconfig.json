@@ -20,5 +20,5 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": ["**/*.test.ts", "**/*.test.tsx"]
+    "include": ["**/*.test.ts", "**/*.test.tsx", "auth.setup.ts", "helpers.ts"]
 }

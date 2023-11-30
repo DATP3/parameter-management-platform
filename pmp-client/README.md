@@ -60,3 +60,25 @@ To install playwright dependencies, run `npx playwright install --withdeps`.
 The `--with-deps` flag does not work onlinux distros other than Ubuntu. To install playwright dependencies, run `npx playwright install`, and then manually install any missing dependencies listed when running `npm run test:e2e`.
 
 Not all dependencies are needed to run the tests, as most dependencies are only needed for specific browsers. GitHub Actions is set up to run the tests on all three browsers, so any browsers missing in local test runs will still be tested in CI.
+
+#### Test auth
+
+got to /
+
+wait to be on https://login.microsoftonline.com/common/oauth2/v2.0/authorize* (som more stuff)
+
+find input label="Enter your email, phone, or Skype." - placeholder="Email, phone, or Skype."
+
+enter email
+
+find button (input submit) with text "Next"
+
+find input placeholder="Password" name="passwd"
+
+enter password
+
+press next or sign in
+
+press no to stay signed in
+
+then you should be in

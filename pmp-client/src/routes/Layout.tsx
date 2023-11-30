@@ -27,17 +27,17 @@ const Layout = () => {
                     {isValid && (
                         <>
                             {/** Left */}
-                            <div className='flex-none h-full overflow-auto max-w-xs'>
+                            <div data-testid='service-segment' className='flex-none h-full overflow-auto max-w-xs'>
                                 <SideDrawer>
                                     <ListofServices />
                                 </SideDrawer>
                             </div>
                             {/** Middle */}
-                            <div className='flex-1 p-4 h-full overflow-auto'>
+                            <div data-testid='main-segment' className='flex-1 p-4 h-full overflow-auto'>
                                 <Outlet />
                             </div>
                             {/** Right */}
-                            <div className='flex-none h-full overflow-auto max-w-lg'>
+                            <div data-testid='changes-segment' className='flex-none h-full overflow-auto max-w-lg'>
                                 <SideDrawer rtl>
                                     <PendingChanges />
                                 </SideDrawer>
