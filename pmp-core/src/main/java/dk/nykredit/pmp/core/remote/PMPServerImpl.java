@@ -26,14 +26,10 @@ public class PMPServerImpl implements PMPServer {
         try {
             server.start();
             // TODO: Get the right data about the service
-            // System.out.println("Announcing to tracker");
-            // boolean success = trackerService.announce("http://localhost:" + port + "/",
-            // "Test Service", "Test1");
-            // if (success) {
-            // System.out.println("Registered to tracker successfully");
-            // } else {
-            // throw new RuntimeException("Could not register PMP to tracker");
-            // }
+            if (!trackerService.announce("http://localhost:" + port + "/","Test Service", "Test1")){
+                // TODO: deal with network failure.
+            }
+            
         } catch (Exception e) {
             throw new Error(e);
         }

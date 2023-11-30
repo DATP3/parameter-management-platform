@@ -12,14 +12,18 @@ import java.util.TimerTask;
 
 public class TrackerServiceImpl implements TrackerService {
 
+    private static final int HEARTBEAT_INTERVAL = 1000 * 60 * 15; // 15 minutes.
     private static final URL TRACKER_URL;
+    private static final String TRACKER_PATH = "/pmp-tracker/rest/services";
+
     private static final OkHttpClient http = new OkHttpClient();
-    private static final int HEARTBEAT_INTERVAL = 1000 * 60 * 15; // 15 minutes
+    private static final Timer heartbeatTimer = new Timer(true);
+    private static boolean heatbeatStarted = false;
 
     static {
         try {
             // TODO: Add the real URL here
-            String urlStr = System.getProperty("dk.nykredit.pmp.core.trackerurl", "http://localhost:45754");
+            String urlStr = System.getProperty("dk.nykredit.pmp.core.trackerurl", "http://localhost:8080");
             TRACKER_URL = new URL(urlStr);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -30,32 +34,33 @@ public class TrackerServiceImpl implements TrackerService {
     public boolean announce(String pmpRoot, String serviceName, String environment) throws IOException {
         RequestBody body = RequestBody.create(JSON.toString(Map.of(
                 "pmpRoot", pmpRoot,
-                "name", serviceName,
-                "permissions", new String[0]
+                "name", serviceName
         )), MediaType.get("application/json"));
         URL url;
         try {
-            url = new URL(TRACKER_URL, "/register");
+            url = new URL(TRACKER_URL, TRACKER_PATH);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
         Request req = new Request.Builder()
                 .url(url)
                 .post(body)
-                .addHeader("pmp-enviroment", environment)
+                .addHeader("pmp-environment", environment)
                 .build();
 
         try (Response res = http.newCall(req).execute()) {
+
+            if (res.isSuccessful() && !heatbeatStarted) {
+                startHeartbeat(pmpRoot, serviceName, environment);
+            }
             return res.isSuccessful();
         }
     }
 
-    @Override
-    public Timer startHeartbeat(String pmpRoot, String serviceName, String environment) throws IOException {
+    private void startHeartbeat(String pmpRoot, String serviceName, String environment) throws IOException {
+        heatbeatStarted = true;
 
-        Timer timer = new Timer(true);
-
-        timer.scheduleAtFixedRate(new TimerTask() {
+        heartbeatTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 try {
@@ -65,7 +70,5 @@ public class TrackerServiceImpl implements TrackerService {
                 }
             }
         }, HEARTBEAT_INTERVAL, HEARTBEAT_INTERVAL);
-
-        return null;
     }
 }
