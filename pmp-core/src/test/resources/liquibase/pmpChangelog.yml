@@ -22,3 +22,51 @@ databaseChangeLog:
               - column:
                   name: PVALUE
                   type: VARCHAR2(4000)
+        - createTable:
+            tableName: PMP_PARAM_CHANGES
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: COMMIT_ID
+                  type: BIGINT
+              - column:
+                  name: PARAMETER_NAME
+                  type: VARCHAR2(4000)
+              - column:
+                  name: PARAMETER_TYPE
+                  type: VARCHAR2(255)
+              - column:
+                  name: NEW_VALUE
+                  type: VARCHAR2(4000)
+              - column: 
+                  name: OLD_VALUE
+                  type: VARCHAR2(4000)
+              - column:
+                  name: COMMIT_REVERT_REF
+                  type: BIGINT
+              - column:
+                  name: CHANGE_TYPE
+                  type: INT
+        - createTable:
+            tableName: PMP_AUDIT_LOG
+            columns:
+              - column:
+                  name: COMMIT_ID
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    unique: true
+              - column:
+                  name: PUSH_DATE
+                  type: DATETIME
+              - column:
+                  name: MESSAGE
+                  type: VARCHAR2(4000)
+              - column:
+                  name: AUTHOR
+                  type: VARCHAR2(4000)

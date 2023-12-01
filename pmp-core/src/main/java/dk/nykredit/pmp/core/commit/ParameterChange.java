@@ -16,6 +16,15 @@ public class ParameterChange implements Change {
     private String oldValue;
     private String newValue;
 
+    public ParameterChange() {}
+
+    public ParameterChange(String name, String type, String oldValue, String newValue) {
+        this.name = name;
+        this.type = type;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
+    }
+
     @Override
     public void apply(ParameterService parameterService) throws CommitException {
         Object storedValue = parameterService.findParameterByName(name);

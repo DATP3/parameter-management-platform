@@ -12,6 +12,8 @@
   >
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>dk.nykredit.pmp.core.persistence.ParameterEntity</class>
+		<class>dk.nykredit.pmp.core.audit_log.AuditLogEntry</class>
+		<class>dk.nykredit.pmp.core.audit_log.ChangeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property
