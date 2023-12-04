@@ -2,6 +2,7 @@ package dk.nykredit.pmp.core.audit_log;
 
 import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.ParameterChange;
+import dk.nykredit.pmp.core.commit.ParameterRevert;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,14 +46,16 @@ public class ChangeEntity {
 			case PARAMETER_CHANGE:
 				return new ParameterChange(parameterName, parameterType, oldValue, newValue);
 
+			case COMMIT_REVERT:
+				return new ParameterRevert(parameterName, parameterType, oldValue, newValue, commitRevertRef,
+						changeType);
+
+			case PARAMETER_REVERT:
+				return new ParameterRevert(parameterName, parameterType, oldValue, newValue, commitRevertRef,
+						changeType);
 			default:
-				// TODO: implement RevertChange
 				return null;
 		}
-	}
-
-	public enum ChangeType {
-		PARAMETER_CHANGE, COMMIT_REVERT, PARAMETER_REVERT, SERVICE_COMMIT_REVERT
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package dk.nykredit.pmp.core.commit;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dk.nykredit.pmp.core.audit_log.ChangeEntity;
+import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.StoredValueNullException;
@@ -10,11 +15,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ParameterChange implements Change {
-    private String name;
-    private String type;
-    private String oldValue;
-    private String newValue;
+public class ParameterChange implements PersistableChange {
+	private String name;
+	private String type;
+	private String oldValue;
+	private String newValue;
 
     public ParameterChange() {
     }
@@ -26,9 +31,9 @@ public class ParameterChange implements Change {
         this.newValue = newValue;
     }
 
-    @Override
-    public void apply(CommitDirector commitDirector) throws CommitException {
-        ParameterService parameterService = commitDirector.getParameterService();
+	@Override
+	public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
+		ParameterService parameterService = commitDirector.getParameterService();
 
         Object storedValue = parameterService.findParameterByName(name);
         // TODO: How specific should the error message be in the responses to the
@@ -50,12 +55,21 @@ public class ParameterChange implements Change {
                     "Old value inconsistent with stored value. Stored value has changed since the commit was created.");
         }
 
-        parameterService.updateParameter(name, newValueTyped);
-    }
+		parameterService.updateParameter(name, newValueTyped);
 
-    @Override
-    public void undo(CommitDirector commitDirector) {
-        ParameterService parameterService = commitDirector.getParameterService();
+		List<PersistableChange> appliedChanges = new ArrayList<>();
+		appliedChanges.add(this);
+		return appliedChanges;
+	}
+
+	@Override
+	public ChangeEntity toChangeEntity(ChangeEntityFactory changeEntityFactory) {
+		return changeEntityFactory.createChangeEntity(this);
+	}
+
+	@Override
+	public void undo(CommitDirector commitDirector) {
+		ParameterService parameterService = commitDirector.getParameterService();
 
         Object oldValueTyped = parameterService.getTypeParsers().parse(oldValue, type);
         parameterService.updateParameter(name, oldValueTyped);
