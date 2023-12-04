@@ -21,7 +21,7 @@ export const authConfig: Configuration = {
  * Currently only reading user info. We just need AAD to authenticate the user.
  * TODO - Add scopes for API access when we have an API.
  */
-const scopes: string[] = ['User.Read'];
+export const scopes: string[] = ['User.Read'];
 
 /**
  * Request config for getting user scopes

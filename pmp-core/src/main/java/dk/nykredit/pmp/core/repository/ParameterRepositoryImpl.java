@@ -1,6 +1,6 @@
 package dk.nykredit.pmp.core.repository;
 
-import java.util.List;
+import dk.nykredit.pmp.core.persistence.ParameterEntity;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -8,8 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import dk.nykredit.pmp.core.persistence.ParameterEntity;
+import java.util.List;
 
 @ApplicationScoped
 @Transactional
@@ -34,9 +33,17 @@ public class ParameterRepositoryImpl implements ParameterRepository {
 
     @Override
     public ParameterEntity persistParameterEntity(ParameterEntity entity) {
-        em.getTransaction().begin();
+        boolean inTransaction = em.getTransaction().isActive();
+        // Don't start a new transaction if we are already in one
+        if (!inTransaction) {
+            em.getTransaction().begin();
+        }
+
         em.persist(entity);
-        em.getTransaction().commit();
+
+        if (!inTransaction) {
+            em.getTransaction().commit();
+        }
         return entity;
     }
 
@@ -51,5 +58,15 @@ public class ParameterRepositoryImpl implements ParameterRepository {
     public List<ParameterEntity> getParameters() {
         TypedQuery<ParameterEntity> query = em.createQuery("SELECT e from ParameterEntity e", ParameterEntity.class);
         return query.getResultList();
+    }
+
+    @Override
+    public void startTransaction() {
+        em.getTransaction().begin();
+    }
+
+    @Override
+    public void endTransaction() {
+        em.getTransaction().commit();
     }
 }

@@ -16,7 +16,8 @@ public class ParameterChange implements Change {
     private String oldValue;
     private String newValue;
 
-    public ParameterChange() {}
+    public ParameterChange() {
+    }
 
     public ParameterChange(String name, String type, String oldValue, String newValue) {
         this.name = name;
@@ -26,9 +27,12 @@ public class ParameterChange implements Change {
     }
 
     @Override
-    public void apply(ParameterService parameterService) throws CommitException {
+    public void apply(CommitDirector commitDirector) throws CommitException {
+        ParameterService parameterService = commitDirector.getParameterService();
+
         Object storedValue = parameterService.findParameterByName(name);
-        // TODO: How specific should the error message be in the responses to the client?
+        // TODO: How specific should the error message be in the responses to the
+        // client?
         if (storedValue == null) {
             throw new StoredValueNullException("Parameter with name " + name + " does not exist.");
         }
@@ -50,7 +54,9 @@ public class ParameterChange implements Change {
     }
 
     @Override
-    public void undo(ParameterService parameterService) {
+    public void undo(CommitDirector commitDirector) {
+        ParameterService parameterService = commitDirector.getParameterService();
+
         Object oldValueTyped = parameterService.getTypeParsers().parse(oldValue, type);
         parameterService.updateParameter(name, oldValueTyped);
     }

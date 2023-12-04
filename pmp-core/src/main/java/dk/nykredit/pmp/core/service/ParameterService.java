@@ -1,6 +1,7 @@
 package dk.nykredit.pmp.core.service;
 
 import dk.nykredit.pmp.core.persistence.ParameterEntity;
+import dk.nykredit.pmp.core.repository.ParameterRepository;
 import dk.nykredit.pmp.core.util.EntityParser;
 
 public interface ParameterService {
@@ -13,4 +14,6 @@ public interface ParameterService {
 	EntityParser getTypeParsers();
 
 	String getParameterTypeName(String parameterName);
+
+	ParameterRepository getRepository();
 }

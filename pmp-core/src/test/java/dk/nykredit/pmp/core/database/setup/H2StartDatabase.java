@@ -1,10 +1,5 @@
 package dk.nykredit.pmp.core.database.setup;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
 import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -13,14 +8,21 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.h2.jdbcx.JdbcDataSource;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 
 public class H2StartDatabase {
 
+    private static H2StartupListenerSetup startupListener;
+
     @BeforeAll
     static void setupDatabase() throws LiquibaseException, SQLException {
-        H2StartupListenerSetup startupListener = new H2StartupListenerSetup();
+        startupListener = new H2StartupListenerSetup();
 
         System.setProperty("dk.nykredit.pmp.h2.startservers", "true");
         System.setProperty("dk.nykredit.pmp.h2.tcpport", "7050");
@@ -44,5 +46,10 @@ public class H2StartDatabase {
         ds.setUser("sa");
         ds.setPassword("sa");
         return ds;
+    }
+
+    @AfterAll
+    static void closeDatabase() {
+        startupListener.contextDestroyed();
     }
 }

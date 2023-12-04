@@ -31,8 +31,13 @@ public class AuditLogImpl implements AuditLog {
 	}
 
 	@Override
+	public AuditLogEntry getAuditLogEntry(long commitHash) {
+		return entityManager.find(AuditLogEntry.class, commitHash);
+	}
+
+	@Override
 	public Commit getCommit(long commitHash) {
-		AuditLogEntry entry = entityManager.find(AuditLogEntry.class, commitHash);
+		AuditLogEntry entry = getAuditLogEntry(commitHash);
 
 		return entry.toCommit();
 	}
@@ -42,6 +47,17 @@ public class AuditLogImpl implements AuditLog {
 		List<AuditLogEntry> entries = entityManager.createQuery("SELECT e FROM PMP_AUDIT_LOG e", AuditLogEntry.class)
 				.getResultList();
 		return entries.stream().map(AuditLogEntry::toCommit).collect(Collectors.toList());
+	}
+
+	@Override
+	public AuditLogEntry getLatestCommitToParameter(String name) {
+		List<AuditLogEntry> auditLogEntries = entityManager.createQuery(
+				"SELECT e FROM AuditLogEntry e, ChangeEntity p WHERE p.parameterName = :name AND p.commit.commitId = e.commitId ORDER BY e.pushDate DESC",
+				AuditLogEntry.class)
+				.setParameter("name", name)
+				.getResultList();
+
+		return auditLogEntries.get(0);
 	}
 
 }

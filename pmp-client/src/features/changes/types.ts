@@ -51,3 +51,10 @@ export interface ServiceChanges {
     parameterChanges: ParameterChange[];
     reverts: Revert[];
 }
+
+export interface CommitBody {
+    pushDate: Date;
+    user: string;
+    message: string;
+    changes: Change[];
+}
