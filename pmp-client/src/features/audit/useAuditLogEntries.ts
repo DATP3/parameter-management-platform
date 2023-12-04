@@ -3,8 +3,8 @@ import axios from 'axios';
 import useEnvironment from '../environment/useEnvironment';
 import { useMsal } from '@azure/msal-react';
 import { useQueries } from '@tanstack/react-query';
-import { z } from 'zod';
 import useServices from '../services/useServices';
+import { z } from 'zod';
 
 const paramerterChangeParser = z.object({
     name: z.string(),
@@ -61,11 +61,11 @@ const useAuditLogEntries = (queryString: string) => {
         queries: services.map((service) => ({
             queryKey: ['auditLogEntries', service.address, queryString],
             queryFn: async () => {
-                // TODO: Use real data
-                // const data = axios.get(`${service.address}/pmp/log?query=${queryString}`);
                 const token = accounts[0].idToken;
                 if (!token) throw new Error('No token');
 
+                // TODO: Use real data. Test is set up to intercept
+                // const response = await axios.get(`${service.address}/pmp/log?query=${queryString}`, {
                 const response = await axios.get(`/mock/auditentries/${service.address}.json`, {
                     headers: {
                         'pmp-environment': environment,

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import useEnvironment from '../environment/useEnvironment';
+import { useMsal } from '@azure/msal-react';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
-import { useMsal } from '@azure/msal-react';
 
 const servicesParser = z.array(
     z.object({
@@ -27,7 +27,8 @@ const useServices = () => {
         queryFn: async () => {
             const token = accounts[0].idToken;
             if (!token) throw new Error('No token');
-
+            // TODO: Use real data. Test is set up to intercept
+            // const result = await axios.get(`${TRACKER_URL}/services`, {
             const result = await axios.get('/mock/services.json', {
                 headers: {
                     'pmp-environment': environment,

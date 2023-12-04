@@ -14,6 +14,8 @@ const environmentParser = z.array(
  * TODO: Remove mock data.
  */
 const useEnvironmentQuery = () => {
+    // TODO: Use real data. Test is set up to intercept
+    // return useSimpleQuery(['environments'], `${TRACKER_URL}/environment`, environmentParser);
     return useSimpleQuery(['environments'], '/mock/environments.json', environmentParser);
 };
 
