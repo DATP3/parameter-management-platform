@@ -1,8 +1,5 @@
 package dk.nykredit.pmp.core.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-
 import dk.nykredit.pmp.core.persistence.ParameterEntity;
 import dk.nykredit.pmp.core.repository.ParameterRepository;
 import dk.nykredit.pmp.core.util.EntityParser;
@@ -13,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 
 /**
  * Integration test of the functionality of PMP

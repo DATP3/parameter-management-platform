@@ -14,4 +14,7 @@ public interface ParameterRepository {
     List<ParameterEntity> getParameters();
 
     boolean checkIfParameterExists(String name);
+
+    void startTransaction();
+    void endTransaction();
 }

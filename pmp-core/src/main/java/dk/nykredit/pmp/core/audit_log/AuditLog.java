@@ -10,4 +10,8 @@ public interface AuditLog {
 	Commit getCommit(long commitHash);
 
 	List<Commit> getCommits();
+
+	AuditLogEntry getLatestCommitToParameter(String name);
+
+	AuditLogEntry getAuditLogEntry(long commitHash);
 }

@@ -69,4 +69,9 @@ public class ParameterServiceImpl implements ParameterService {
 
 		return entity.getType();
 	}
+
+	@Override
+	public ParameterRepository getRepository() {
+		return repository;
+	}
 }

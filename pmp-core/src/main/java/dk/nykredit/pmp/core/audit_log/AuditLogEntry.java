@@ -48,4 +48,15 @@ public class AuditLogEntry {
 
 		return commit;
 	}
+
+	@Override
+	public String toString() {
+		return "AuditLogEntry{" +
+				"commitId=" + commitId +
+				", changes=" + changes +
+				", pushDate=" + pushDate +
+				", user='" + user + '\'' +
+				", message='" + message + '\'' +
+				'}';
+	}
 }
