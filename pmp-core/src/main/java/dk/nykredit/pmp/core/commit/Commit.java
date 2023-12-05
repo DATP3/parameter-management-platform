@@ -6,13 +6,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import dk.nykredit.pmp.core.commit.exception.CommitException;
+import dk.nykredit.pmp.core.util.ServiceInfo;
+import dk.nykredit.pmp.core.util.ServiceInfoProvider;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Commit {
+
+    @Inject
+    private ServiceInfoProvider serviceInfoProvider;
+
     private LocalDateTime pushDate;
     private String user;
     private String message;
@@ -24,6 +32,11 @@ public class Commit {
         List<Change> appliedChanges = new ArrayList<>(changes.size());
 
         for (Change change : changes) {
+
+            if (!validateChange(change)) {
+                continue;
+            }
+
             try {
                 change.apply(commitDirector);
                 appliedChanges.add(change);
@@ -42,6 +55,23 @@ public class Commit {
 
     public void undoChanges(CommitDirector commitDirector) {
         undoChanges(changes, commitDirector);
+    }
+
+    private boolean validateChange(Change change) {
+
+        ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
+        
+        // Check that change is to this service.
+        if (!change.getPmpRoot().equals(serviceInfo.getPmpRoot())) {
+            return false;
+        }
+
+        // TODO: check if change is a revert, if so, check that commit was previously applied to this service.
+        // if (change.getType().equals("revert") && change to revert isn't in log.) {
+        //     return false;
+        // }
+
+        return true;
     }
 
     @Override

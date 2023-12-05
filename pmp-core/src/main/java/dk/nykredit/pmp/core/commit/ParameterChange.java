@@ -15,15 +15,29 @@ public class ParameterChange implements Change {
     private String type;
     private String oldValue;
     private String newValue;
+    // This is used to identify the service that the change should be applied to.
+    // The client sends this as the service field on the the change object.
+    private String pmpRoot;
 
     public ParameterChange() {
     }
 
-    public ParameterChange(String name, String type, String oldValue, String newValue) {
+    public ParameterChange(String name, String type, String oldValue, String newValue, String pmpRoot) {
         this.name = name;
         this.type = type;
         this.oldValue = oldValue;
         this.newValue = newValue;
+        this.pmpRoot = pmpRoot;
+    }
+
+    @Override
+    public String getPmpRoot() {
+        return pmpRoot;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     @Override
