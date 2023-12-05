@@ -25,7 +25,7 @@ export const mockEnvironmentRoute = async (page: Page) => {
 };
 
 export const mockServicesRoute = async (page: Page) => {
-    await routeToPublicMock(page, '*/**/services', '/services.json');
+    await routeToPublicMock(page, '*/**/services', '/services/prod.json');
 };
 
 export const mockParametersRoute = async (page: Page) => {

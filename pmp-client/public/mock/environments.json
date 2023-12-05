@@ -1,13 +1,1 @@
-[
-    { "environment": "test1" },
-    { "environment": "test2" },
-    { "environment": "test3" },
-    { "environment": "test4" },
-    { "environment": "test5" },
-    { "environment": "test6" },
-    { "environment": "test7" },
-    { "environment": "test8" },
-    { "environment": "dev" },
-    { "environment": "preprod" },
-    { "environment": "prod" }
-]
+["test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "dev", "preprod", "prod"]
