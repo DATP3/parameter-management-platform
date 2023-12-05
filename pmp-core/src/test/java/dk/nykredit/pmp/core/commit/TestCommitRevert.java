@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestCommitRevert extends H2StartDatabase {
     private WeldContainer container;
@@ -182,6 +183,8 @@ public class TestCommitRevert extends H2StartDatabase {
 
         commitDirector.apply(commit2);
 
+        assertNotEquals(expectedValueAfterTest, parameterService.findParameterByName("test1"));
+
         Commit commit3 = new Commit();
         CommitRevert commitRevert2 = new CommitRevert();
         commitRevert2.setCommitHash(commit2.getCommitHash());
@@ -195,9 +198,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commitDirector.apply(commit3);
 
         assertEquals(commit3.getAppliedChanges(), commit1.getChanges());
-
-        String param1 = parameterService.findParameterByName("test1");
-        assertEquals(expectedValueAfterTest, param1);
+        assertEquals(expectedValueAfterTest, parameterService.findParameterByName("test1"));
 
         parameterService.getRepository().endTransaction();
     }
