@@ -52,7 +52,7 @@ export const compareParameterChanges = (
     if (comparedNames !== 0 || options?.ignoreValue) return comparedNames;
 
     // TODO: Implement a better value comparison
-    return a.parameter.value.toString().localeCompare(b.parameter.value.toString());
+    return a.newValue.toString().localeCompare(b.newValue.toString());
 };
 
 export const compareReverts = (a: Revert, b: Revert): number => {
