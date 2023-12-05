@@ -31,7 +31,7 @@ public class TrackerServiceImpl implements TrackerService {
     }
 
     @Override
-    public boolean announce(String pmpRoot, String serviceName, String environment) {
+    public boolean announce(String pmpRoot, String serviceName, String environment) throws IOException {
         RequestBody body = RequestBody.create(JSON.toString(Map.of(
                 "pmpRoot", pmpRoot,
                 "name", serviceName
@@ -67,7 +67,12 @@ public class TrackerServiceImpl implements TrackerService {
         heartbeatTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                announce(pmpRoot, serviceName, environment);
+                try {
+                    announce(pmpRoot, serviceName, environment);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                
             }
         }, HEARTBEAT_INTERVAL, HEARTBEAT_INTERVAL);
     }

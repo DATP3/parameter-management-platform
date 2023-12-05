@@ -26,8 +26,10 @@ public class PMPServerImpl implements PMPServer {
         try {
             server.start();
             // TODO: Get the right data about the service
-            if (!trackerService.announce("http://localhost:" + port + "/","Test Service", "Test1")){
-                // TODO: deal with network failure.
+            try {
+                trackerService.announce("http://localhost:" + port + "/","Test Service", "Test1");
+            } catch (Exception e) {
+                // TODO: handle exception
             }
             
         } catch (Exception e) {
