@@ -12,21 +12,19 @@ public class ChangeEntityFactory {
     }
 
     public ChangeEntity createChangeEntity(PersistableChange change) {
-        ChangeEntity changeEntity = new ChangeEntity();
-        if (change instanceof ParameterChange || change instanceof ParameterRevert) {
-            ParameterChange paramChange = (ParameterChange) change;
-            changeEntity.setCommit(auditLogEntry);
-            changeEntity.setParameterName(paramChange.getName());
-            changeEntity.setParameterType(paramChange.getType());
-            changeEntity.setOldValue(paramChange.getOldValue());
-            changeEntity.setNewValue(paramChange.getNewValue());
-        } else {
+
+        if (!(change instanceof ParameterChange)) {
             return null;
         }
 
-        if (change instanceof ParameterChange) {
-            changeEntity.setChangeType(ChangeType.PARAMETER_CHANGE);
-        }
+        ChangeEntity changeEntity = new ChangeEntity();
+        ParameterChange paramChange = (ParameterChange) change;
+        changeEntity.setCommit(auditLogEntry);
+        changeEntity.setParameterName(paramChange.getName());
+        changeEntity.setParameterType(paramChange.getType());
+        changeEntity.setOldValue(paramChange.getOldValue());
+        changeEntity.setNewValue(paramChange.getNewValue());
+        changeEntity.setChangeType(ChangeType.PARAMETER_CHANGE);
 
         if (change instanceof ParameterRevert) {
             ParameterRevert paramRevert = (ParameterRevert) change;
