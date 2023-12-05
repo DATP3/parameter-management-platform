@@ -7,28 +7,28 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ParameterRevert extends ParameterChange {
-	private long commitHash;
-	private ChangeType revertType;
+    private long commitHash;
+    private ChangeType revertType;
 
-	ParameterRevert() {
-	}
+    ParameterRevert() {
+    }
 
-	public ParameterRevert(String name, String type, String oldValue, String newValue, long commitHash,
-			ChangeType revertType) {
-		super(name, type, oldValue, newValue);
-		this.commitHash = commitHash;
-		this.revertType = revertType;
-	}
+    public ParameterRevert(String name, String type, String oldValue, String newValue, long commitHash,
+            ChangeType revertType) {
+        super(name, type, oldValue, newValue);
+        this.commitHash = commitHash;
+        this.revertType = revertType;
+    }
 
-	@Override
-	public String toString() {
-		return "ParameterRevert{" +
-				"name='" + name + '\'' +
-				", type='" + type + '\'' +
-				", oldValue='" + oldValue + '\'' +
-				", newValue='" + newValue + '\'' +
-				", commitHash=" + commitHash +
-				", revertType=" + revertType +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "ParameterRevert{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", oldValue='" + oldValue + '\'' +
+                ", newValue='" + newValue + '\'' +
+                ", commitHash=" + commitHash +
+                ", revertType=" + revertType +
+                '}';
+    }
 }

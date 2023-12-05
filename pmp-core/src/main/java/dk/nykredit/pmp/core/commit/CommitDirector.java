@@ -10,20 +10,20 @@ import lombok.Getter;
 
 @Getter
 public class CommitDirector {
-	@Inject
-	private ParameterService parameterService;
+    @Inject
+    private ParameterService parameterService;
 
-	@Inject
-	private AuditLog auditLog;
+    @Inject
+    private AuditLog auditLog;
 
-	@Inject
-	private EntityManager entityManager;
+    @Inject
+    private EntityManager entityManager;
 
-	public void apply(Commit commit) throws CommitException {
-		// If applying the commit fails, a `CommitException` will be thrown,
-		// and `logCommit` will not be called
-		commit.apply(this);
-		auditLog.logCommit(commit);
+    public void apply(Commit commit) throws CommitException {
+        // If applying the commit fails, a `CommitException` will be thrown,
+        // and `logCommit` will not be called
+        commit.apply(this);
+        auditLog.logCommit(commit);
 
-	}
+    }
 }

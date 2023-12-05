@@ -8,22 +8,22 @@ import java.util.List;
 
 public class AuditLogEntryFactory {
 
-	public AuditLogEntry createAuditLogEntry(Commit commit) {
-		AuditLogEntry entry = new AuditLogEntry();
+    public AuditLogEntry createAuditLogEntry(Commit commit) {
+        AuditLogEntry entry = new AuditLogEntry();
 
-		entry.setCommitId(commit.getCommitHash());
-		entry.setPushDate(commit.getPushDate());
-		entry.setUser(commit.getUser());
-		entry.setMessage(commit.getMessage());
+        entry.setCommitId(commit.getCommitHash());
+        entry.setPushDate(commit.getPushDate());
+        entry.setUser(commit.getUser());
+        entry.setMessage(commit.getMessage());
 
-		List<ChangeEntity> changes = new ArrayList<>();
-		for (PersistableChange change : commit.getAppliedChanges()) {
-			changes.add(change.toChangeEntity(new ChangeEntityFactory(entry)));
-		}
+        List<ChangeEntity> changes = new ArrayList<>();
+        for (PersistableChange change : commit.getAppliedChanges()) {
+            changes.add(change.toChangeEntity(new ChangeEntityFactory(entry)));
+        }
 
-		entry.setChanges(changes);
+        entry.setChanges(changes);
 
-		return entry;
-	}
+        return entry;
+    }
 
 }

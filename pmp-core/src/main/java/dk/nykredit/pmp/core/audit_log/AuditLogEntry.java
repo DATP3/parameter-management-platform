@@ -15,48 +15,48 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class AuditLogEntry {
-	@Id
-	@Column(name = "COMMIT_ID")
-	private long commitId;
+    @Id
+    @Column(name = "COMMIT_ID")
+    private long commitId;
 
-	@OneToMany(mappedBy = "commit")
-	private List<ChangeEntity> changes;
+    @OneToMany(mappedBy = "commit")
+    private List<ChangeEntity> changes;
 
-	@Column(name = "PUSH_DATE")
-	private LocalDateTime pushDate;
+    @Column(name = "PUSH_DATE")
+    private LocalDateTime pushDate;
 
-	@Column(name = "AUTHOR")
-	private String user;
+    @Column(name = "AUTHOR")
+    private String user;
 
-	@Column(name = "MESSAGE")
-	private String message;
+    @Column(name = "MESSAGE")
+    private String message;
 
-	public List<Change> getChanges() {
-		return changes.stream().map(ChangeEntity::toChange).collect(Collectors.toList());
-	}
+    public List<Change> getChanges() {
+        return changes.stream().map(ChangeEntity::toChange).collect(Collectors.toList());
+    }
 
-	public List<ChangeEntity> getChangeEntities() {
-		return changes;
-	}
+    public List<ChangeEntity> getChangeEntities() {
+        return changes;
+    }
 
-	public Commit toCommit() {
-		Commit commit = new Commit();
-		commit.setPushDate(pushDate);
-		commit.setUser(user);
-		commit.setMessage(message);
-		commit.setChanges(getChanges());
+    public Commit toCommit() {
+        Commit commit = new Commit();
+        commit.setPushDate(pushDate);
+        commit.setUser(user);
+        commit.setMessage(message);
+        commit.setChanges(getChanges());
 
-		return commit;
-	}
+        return commit;
+    }
 
-	@Override
-	public String toString() {
-		return "AuditLogEntry{" +
-				"commitId=" + commitId +
-				", changes=" + changes +
-				", pushDate=" + pushDate +
-				", user='" + user + '\'' +
-				", message='" + message + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "AuditLogEntry{" +
+                "commitId=" + commitId +
+                ", changes=" + changes +
+                ", pushDate=" + pushDate +
+                ", user='" + user + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

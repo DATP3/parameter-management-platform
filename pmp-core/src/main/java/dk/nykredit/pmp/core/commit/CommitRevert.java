@@ -14,56 +14,56 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CommitRevert implements Change {
-	private long commitHash;
+    private long commitHash;
 
-	public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
-		AuditLog auditLog = commitDirector.getAuditLog();
-		AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
-		List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
-		List<PersistableChange> appliedChanges = new ArrayList<>();
+    public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
+        AuditLog auditLog = commitDirector.getAuditLog();
+        AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
+        List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
+        List<PersistableChange> appliedChanges = new ArrayList<>();
 
-		for (ChangeEntity changeEntity : changeEntities) {
-			AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
-			if (latestChange == null || latestChange.getCommitId() != commitHash) {
-				continue;
-			}
+        for (ChangeEntity changeEntity : changeEntities) {
+            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
+            if (latestChange == null || latestChange.getCommitId() != commitHash) {
+                continue;
+            }
 
-			PersistableChange resultingParameterRevert = RevertFactory.createChange(changeEntity,
-					ChangeType.COMMIT_REVERT);
-			resultingParameterRevert.apply(commitDirector);
-			appliedChanges.add(resultingParameterRevert);
-		}
+            PersistableChange resultingParameterRevert = RevertFactory.createChange(changeEntity,
+                    ChangeType.COMMIT_REVERT);
+            resultingParameterRevert.apply(commitDirector);
+            appliedChanges.add(resultingParameterRevert);
+        }
 
-		return appliedChanges;
-	}
+        return appliedChanges;
+    }
 
-	public void undo(CommitDirector commitDirector) {
-		AuditLog auditLog = commitDirector.getAuditLog();
-		AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
-		List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
+    public void undo(CommitDirector commitDirector) {
+        AuditLog auditLog = commitDirector.getAuditLog();
+        AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
+        List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
 
-		for (ChangeEntity change : changeEntities) {
-			AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(change.getParameterName());
-			if (latestChange == null || latestChange.getCommitId() != commitHash) {
-				continue;
-			}
+        for (ChangeEntity change : changeEntities) {
+            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(change.getParameterName());
+            if (latestChange == null || latestChange.getCommitId() != commitHash) {
+                continue;
+            }
 
-			change.toChange().apply(commitDirector);
-		}
-	}
+            change.toChange().apply(commitDirector);
+        }
+    }
 
-	@Override
-	public int hashCode() {
-		return Long.hashCode(commitHash) * 2;
-	}
+    @Override
+    public int hashCode() {
+        return Long.hashCode(commitHash) * 2;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof CommitRevert)) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof CommitRevert)) {
+            return false;
+        }
 
-		CommitRevert other = (CommitRevert) obj;
-		return commitHash == other.getCommitHash();
-	}
+        CommitRevert other = (CommitRevert) obj;
+        return commitHash == other.getCommitHash();
+    }
 }
