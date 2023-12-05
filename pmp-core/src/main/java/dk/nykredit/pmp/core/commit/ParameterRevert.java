@@ -19,4 +19,16 @@ public class ParameterRevert extends ParameterChange {
 		this.commitHash = commitHash;
 		this.revertType = revertType;
 	}
+
+	@Override
+	public String toString() {
+		return "ParameterRevert{" +
+				"name='" + name + '\'' +
+				", type='" + type + '\'' +
+				", oldValue='" + oldValue + '\'' +
+				", newValue='" + newValue + '\'' +
+				", commitHash=" + commitHash +
+				", revertType=" + revertType +
+				'}';
+	}
 }

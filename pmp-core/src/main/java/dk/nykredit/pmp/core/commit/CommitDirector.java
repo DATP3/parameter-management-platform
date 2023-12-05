@@ -1,7 +1,5 @@
 package dk.nykredit.pmp.core.commit;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
@@ -9,9 +7,6 @@ import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.service.ParameterService;
 import lombok.Getter;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 @Getter
 public class CommitDirector {

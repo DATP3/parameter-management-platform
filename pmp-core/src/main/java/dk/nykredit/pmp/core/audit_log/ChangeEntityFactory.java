@@ -24,6 +24,10 @@ public class ChangeEntityFactory {
 			return null;
 		}
 
+		if (change instanceof ParameterChange) {
+			changeEntity.setChangeType(ChangeType.PARAMETER_CHANGE);
+		}
+
 		if (change instanceof ParameterRevert) {
 			ParameterRevert paramRevert = (ParameterRevert) change;
 			changeEntity.setChangeType(paramRevert.getRevertType());
