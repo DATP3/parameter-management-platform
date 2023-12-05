@@ -154,8 +154,13 @@ public class TestCommitRevert extends H2StartDatabase {
 
     @Test
     void testRevertCommitRevert() {
+
+        ParameterService parameterService = commitDirector.getParameterService();
+        parameterService.getRepository().startTransaction();
+
         Commit commit1 = new Commit();
-        Change change1 = new ParameterChange("test1", "String", "data1", "data2");
+        String expectedValueAfterTest = "data2";
+        Change change1 = new ParameterChange("test1", "String", "data1", expectedValueAfterTest);
         List<Change> changes1 = new ArrayList<>();
         changes1.add(change1);
         commit1.setChanges(changes1);
@@ -190,5 +195,10 @@ public class TestCommitRevert extends H2StartDatabase {
         commitDirector.apply(commit3);
 
         assertEquals(commit3.getAppliedChanges(), commit1.getChanges());
+
+        String param1 = parameterService.findParameterByName("test1");
+        assertEquals(expectedValueAfterTest, param1);
+
+        parameterService.getRepository().endTransaction();
     }
 }
