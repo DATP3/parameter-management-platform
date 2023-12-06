@@ -1,7 +1,10 @@
 package dk.nykredit.pmp.core.audit_log;
 
-import dk.nykredit.pmp.core.commit.PersistableChange;
+import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.Commit;
+import dk.nykredit.pmp.core.commit.CommitRevert;
+import dk.nykredit.pmp.core.commit.ParameterChange;
+import dk.nykredit.pmp.core.commit.ParameterRevert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +19,19 @@ public class AuditLogEntryFactory {
         entry.setUser(commit.getUser());
         entry.setMessage(commit.getMessage());
 
-        List<ChangeEntity> changes = new ArrayList<>();
-        for (PersistableChange change : commit.getAppliedChanges()) {
-            changes.add(change.toChangeEntity(new ChangeEntityFactory(entry)));
+        List<ChangeEntity> changesEntities = new ArrayList<>();
+        for (Change change : commit.getAppliedChanges()) {
+            if (change instanceof ParameterChange)
+                changesEntities.add(new ParameterChangeEntityFactory(entry).createChangeEntity(change));
+
+            if (change instanceof ParameterRevert)
+                changesEntities.add(new ParameterRevertEntityFactory(entry).createChangeEntity(change));
+
+            if (change instanceof CommitRevert)
+                changesEntities.add(new CommitRevertChangeEntityFactory(entry).createChangeEntity(change));
         }
 
-        entry.setChanges(changes);
+        entry.setChanges(changesEntities);
 
         return entry;
     }

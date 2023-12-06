@@ -2,6 +2,7 @@ package dk.nykredit.pmp.core.audit_log;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dk.nykredit.pmp.core.commit.Change;
+import dk.nykredit.pmp.core.commit.CommitRevert;
 import dk.nykredit.pmp.core.commit.ParameterChange;
 import dk.nykredit.pmp.core.commit.ParameterRevert;
 import dk.nykredit.pmp.core.remote.json.ChangeEntitySerializer;
@@ -49,13 +50,13 @@ public class ChangeEntity {
             case PARAMETER_CHANGE:
                 return new ParameterChange(parameterName, parameterType, oldValue, newValue);
 
-            case COMMIT_REVERT:
-                return new ParameterRevert(parameterName, parameterType, oldValue, newValue, commitRevertRef,
-                        changeType);
-
             case PARAMETER_REVERT:
-                return new ParameterRevert(parameterName, parameterType, oldValue, newValue, commitRevertRef,
-                        changeType);
+                return new ParameterRevert(parameterName, commitRevertRef);
+
+            case COMMIT_REVERT:
+            case SERVICE_COMMIT_REVERT:
+                return new CommitRevert(commitRevertRef, changeType);
+
             default:
                 return null;
         }

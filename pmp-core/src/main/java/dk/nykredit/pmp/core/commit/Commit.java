@@ -22,7 +22,7 @@ public class Commit {
     private List<Change> changes;
 
     @JsonIgnore
-    private List<PersistableChange> appliedChanges;
+    private List<Change> appliedChanges;
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
@@ -39,7 +39,7 @@ public class Commit {
         }
     }
 
-    private void undoChanges(List<PersistableChange> changes, CommitDirector commitDirector) {
+    private void undoChanges(List<Change> changes, CommitDirector commitDirector) {
         for (Change change : changes) {
             change.undo(commitDirector);
         }

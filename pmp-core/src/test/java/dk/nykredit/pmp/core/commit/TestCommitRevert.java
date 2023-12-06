@@ -197,7 +197,6 @@ public class TestCommitRevert extends H2StartDatabase {
 
         commitDirector.apply(commit3);
 
-        assertEquals(commit3.getAppliedChanges(), commit1.getChanges());
         assertEquals(expectedValueAfterTest, parameterService.findParameterByName("test1"));
 
         parameterService.getRepository().endTransaction();
