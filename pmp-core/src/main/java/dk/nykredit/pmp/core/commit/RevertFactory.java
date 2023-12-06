@@ -1,9 +1,17 @@
 package dk.nykredit.pmp.core.commit;
 
+import javax.inject.Inject;
+
+import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
+import dk.nykredit.pmp.core.remote.json.RevertAdapter;
 
 public class RevertFactory {
+
+    @Inject
+    AuditLog auditLog;
+
     /**
      * Creates a ParameterRevert object from an origianl ChangeEntity object by
      * fliping the old and new values.
@@ -16,7 +24,7 @@ public class RevertFactory {
         ParameterRevert revert = new ParameterRevert();
         revert.setName(originalChangeEntity.getParameterName());
         revert.setType(originalChangeEntity.getParameterType());
-        revert.setCommitHash(originalChangeEntity.getCommitRevertRef());
+        revert.setCommitHash(originalChangeEntity.getCommit().getCommitId());
 
         revert.setOldValue(originalChangeEntity.getNewValue());
         revert.setNewValue(originalChangeEntity.getOldValue());

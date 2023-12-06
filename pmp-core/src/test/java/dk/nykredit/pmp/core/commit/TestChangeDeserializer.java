@@ -10,11 +10,10 @@ import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
 
 import dk.nykredit.pmp.core.audit_log.ChangeType;
-import dk.nykredit.pmp.core.remote.json.ObjectMapperFactoryImpl;
+import dk.nykredit.pmp.core.remote.json.ObjectMapperFactory;
 import dk.nykredit.pmp.core.remote.json.RevertAdapter;
 import dk.nykredit.pmp.core.service.ParameterService;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -30,7 +29,7 @@ public class TestChangeDeserializer {
     private WeldContainer container;
     private CommitDirector commitDirector;
 
-    @BeforeAll
+    @BeforeEach
     public void setupMapper() {
         Weld weld = new Weld();
         container = weld.initialize();
@@ -39,7 +38,7 @@ public class TestChangeDeserializer {
         parameterService.persistParameter("test1", "data1");
         parameterService.persistParameter("test2", 5);
 
-        mapper = new ObjectMapperFactoryImpl().getObjectMapper();
+        mapper = container.select(ObjectMapperFactory.class).get().getObjectMapper();
     }
 
     @AfterEach
@@ -48,7 +47,7 @@ public class TestChangeDeserializer {
     }
 
     @Test
-    public void canDeserializeParameterChange() throws JsonProcessingException {
+    public void testDeserializeParameterChange() throws JsonProcessingException {
         ParameterChange expectedChange = new ParameterChange();
         expectedChange.setName("test");
         expectedChange.setNewValue("0");
@@ -61,7 +60,7 @@ public class TestChangeDeserializer {
     }
 
     @Test
-    public void canDeserializeParameterRevert() throws JsonProcessingException {
+    public void testDeserializeParameterRevert() throws JsonProcessingException {
 
         ParameterChange paramChange = new ParameterChange("test1", "String", "data1", "data2");
         Commit commit = new Commit();
@@ -79,11 +78,37 @@ public class TestChangeDeserializer {
         revertAdapter.setRevertType("parameter");
 
         String json = mapper.writeValueAsString(revertAdapter);
-        System.out.println(json);
         Change revert = mapper.readValue(json, Change.class);
 
         Change expectedRevert = RevertFactory.createChange(paramChange, commit.getCommitHash(),
                 ChangeType.PARAMETER_REVERT);
+
+        assertEquals(expectedRevert, revert);
+    }
+
+    @Test
+    public void testDeserializeCommitRevert() throws JsonProcessingException {
+        ParameterChange paramChange = new ParameterChange("test1", "String", "data1", "data2");
+        Commit commit = new Commit();
+        commit.setPushDate(LocalDateTime.now());
+        commit.setUser("author");
+        commit.setMessage("test");
+        commit.setChanges(List.of(paramChange));
+
+        commitDirector.apply(commit);
+
+        RevertAdapter revertAdapter = new RevertAdapter();
+
+        revertAdapter.setParameterName("test1");
+        revertAdapter.setCommitReference(Long.toHexString(commit.getCommitHash()));
+        revertAdapter.setRevertType("commit");
+
+        String json = mapper.writeValueAsString(revertAdapter);
+        Change revert = mapper.readValue(json, Change.class);
+
+        CommitRevert expectedRevert = new CommitRevert();
+        expectedRevert.setCommitHash(commit.getCommitHash());
+        expectedRevert.setRevertType(ChangeType.COMMIT_REVERT);
 
         assertEquals(expectedRevert, revert);
     }

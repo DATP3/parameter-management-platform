@@ -16,11 +16,15 @@ import dk.nykredit.pmp.core.commit.ParameterChange;
 
 public class ChangeDeserializer extends StdDeserializer<Change> {
 
-    @Inject
     AuditLog auditLog;
 
     public ChangeDeserializer() {
-        this(null);
+        this((Class<?>) null);
+    }
+
+    public ChangeDeserializer(AuditLog auditLog) {
+        this();
+        this.auditLog = auditLog;
     }
 
     public ChangeDeserializer(Class<?> vc) {
@@ -36,6 +40,6 @@ public class ChangeDeserializer extends StdDeserializer<Change> {
         }
 
         RevertAdapter revertAdapter = codec.treeToValue(node, RevertAdapter.class);
-        return revertAdapter.toRevert();
+        return revertAdapter.toRevert(auditLog);
     }
 }
