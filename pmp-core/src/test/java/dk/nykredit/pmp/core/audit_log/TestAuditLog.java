@@ -70,6 +70,8 @@ public class TestAuditLog extends H2StartDatabase {
 
     @Test
     void testLogCommitRevert() {
+        ParameterService parameterService = commitDirector.getParameterService();
+        parameterService.getRepository().startTransaction();
 
         Commit commit = new Commit();
         commit.setUser("author");
@@ -84,13 +86,11 @@ public class TestAuditLog extends H2StartDatabase {
         changes.add(c1);
         changes.add(c2);
         commit.setChanges(changes);
-        long commitHash = commit.getCommitHash();
 
         commitDirector.apply(commit);
 
         CommitRevert commitRevert = new CommitRevert();
-        commitRevert.setCommitHash(commitHash);
-        commitRevert.setRevertType(ChangeType.COMMIT_REVERT);
+        commitRevert.setCommitHash(commit.getCommitHash());
 
         List<Change> changes2 = new ArrayList<>();
         changes2.add(commitRevert);
@@ -107,5 +107,7 @@ public class TestAuditLog extends H2StartDatabase {
         Commit commit3 = auditLog.getCommit(commit2.getCommitHash());
 
         assertEquals(commit2.getAppliedChanges(), commit3.getChanges());
+
+        parameterService.getRepository().endTransaction();
     }
 }
