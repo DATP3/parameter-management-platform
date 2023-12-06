@@ -4,7 +4,7 @@ import java.util.List;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 
 public interface Change {
-    List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException;
+    List<Change> apply(CommitDirector commitDirector) throws CommitException;
 
     void undo(CommitDirector commitDirector);
 }

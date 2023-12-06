@@ -22,7 +22,12 @@ public class CommitRevert implements Change {
         revertType = ChangeType.COMMIT_REVERT;
     }
 
-    public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
+    public CommitRevert(long commitHash, ChangeType revertType) {
+        this.commitHash = commitHash;
+        this.revertType = revertType;
+    }
+
+    public List<Change> apply(CommitDirector commitDirector) throws CommitException {
         if (commitHash == 0) {
             throw new IllegalArgumentException("rommitHash cannot be 0 when applying revert");
         }
@@ -34,18 +39,19 @@ public class CommitRevert implements Change {
         AuditLog auditLog = commitDirector.getAuditLog();
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
-        List<PersistableChange> appliedChanges = new ArrayList<>();
+        List<Change> appliedChanges = new ArrayList<>();
 
         for (ChangeEntity changeEntity : changeEntities) {
-            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
-            if (latestChange == null || latestChange.getCommitId() != commitHash) {
-                continue;
+            if (changeEntity.getParameterName() != null) {
+                AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
+                if (latestChange == null || latestChange.getCommitId() != commitHash) {
+                    continue;
+                }
             }
 
-            PersistableChange resultingParameterRevert = RevertFactory.createChange(changeEntity,
-                    revertType);
-            resultingParameterRevert.apply(commitDirector);
-            appliedChanges.add(resultingParameterRevert);
+            Change refencedChange = changeEntity.toChange();
+            refencedChange.undo(commitDirector);
+            appliedChanges.add(this);
         }
 
         return appliedChanges;
@@ -78,7 +84,7 @@ public class CommitRevert implements Change {
         }
 
         CommitRevert other = (CommitRevert) obj;
-        return commitHash == other.getCommitHash();
+        return commitHash == other.getCommitHash() && revertType == other.getRevertType();
     }
 
     @Override

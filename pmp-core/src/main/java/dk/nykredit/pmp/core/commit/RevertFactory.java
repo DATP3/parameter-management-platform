@@ -1,48 +1,22 @@
 package dk.nykredit.pmp.core.commit;
 
-import javax.inject.Inject;
-
-import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
-import dk.nykredit.pmp.core.remote.json.RevertAdapter;
 
 public class RevertFactory {
-
-    @Inject
-    AuditLog auditLog;
-
-    /**
-     * Creates a ParameterRevert object from an origianl ChangeEntity object by
-     * fliping the old and new values.
-     * 
-     * @param change
-     * @param commitHash
-     * @return
-     */
-    public static PersistableChange createChange(ChangeEntity originalChangeEntity, ChangeType reverType) {
+    public static Change createChange(ChangeEntity originalChangeEntity, ChangeType reverType) {
         ParameterRevert revert = new ParameterRevert();
-        revert.setName(originalChangeEntity.getParameterName());
-        revert.setType(originalChangeEntity.getParameterType());
-        revert.setCommitHash(originalChangeEntity.getCommit().getCommitId());
-
-        revert.setOldValue(originalChangeEntity.getNewValue());
-        revert.setNewValue(originalChangeEntity.getOldValue());
-        revert.setRevertType(reverType);
+        revert.setCommitHash(originalChangeEntity.getCommitRevertRef());
+        revert.setParameterName(originalChangeEntity.getParameterName());
 
         return revert;
     }
 
-    public static PersistableChange createChange(ParameterChange originalChange, long commitHash,
+    public static Change createChange(ParameterChange originalChange, long commitHash,
             ChangeType revertType) {
         ParameterRevert revert = new ParameterRevert();
-        revert.setName(originalChange.getName());
-        revert.setType(originalChange.getType());
         revert.setCommitHash(commitHash);
-
-        revert.setOldValue(originalChange.getNewValue());
-        revert.setNewValue(originalChange.getOldValue());
-        revert.setRevertType(revertType);
+        revert.setParameterName(originalChange.getName());
 
         return revert;
     }

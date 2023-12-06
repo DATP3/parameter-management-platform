@@ -16,9 +16,9 @@ import java.util.List;
 
 @Getter
 @Setter
-// TODO: Delete this when we put services on this object
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ParameterChange implements PersistableChange {
+// TODO: Delete this when we put services on this object
+public class ParameterChange implements Change {
     protected String name;
     protected String type;
 
@@ -37,18 +37,7 @@ public class ParameterChange implements PersistableChange {
     }
 
     @Override
-    public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
-        if (this instanceof ParameterRevert) {
-            ParameterRevert parameterRevert = (ParameterRevert) this;
-            if (parameterRevert.getCommitHash() == 0) {
-                throw new IllegalArgumentException("commitHash cannot be 0 when applying revert");
-            }
-
-            if (parameterRevert.getRevertType() == null) {
-                throw new IllegalArgumentException("revertType cannot be null when applying revert");
-            }
-        }
-
+    public List<Change> apply(CommitDirector commitDirector) throws CommitException {
         ParameterService parameterService = commitDirector.getParameterService();
 
         Object storedValue = parameterService.findParameterByName(name);
@@ -74,14 +63,9 @@ public class ParameterChange implements PersistableChange {
 
         parameterService.updateParameter(name, newValueTyped);
 
-        List<PersistableChange> appliedChanges = new ArrayList<>();
+        List<Change> appliedChanges = new ArrayList<>();
         appliedChanges.add(this);
         return appliedChanges;
-    }
-
-    @Override
-    public ChangeEntity toChangeEntity(ChangeEntityFactory changeEntityFactory) {
-        return changeEntityFactory.createChangeEntity(this);
     }
 
     @Override
