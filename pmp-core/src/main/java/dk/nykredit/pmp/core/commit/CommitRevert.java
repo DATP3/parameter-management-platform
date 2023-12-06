@@ -15,8 +15,22 @@ import lombok.Setter;
 @Getter
 public class CommitRevert implements Change {
     private long commitHash;
+    private ChangeType revertType;
+
+    public CommitRevert() {
+        // Default revert type. Can also be SERVICE_COMMIT_REVERT
+        revertType = ChangeType.COMMIT_REVERT;
+    }
 
     public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
+        if (commitHash == 0) {
+            throw new IllegalArgumentException("rommitHash cannot be 0 when applying revert");
+        }
+
+        if (revertType == null) {
+            throw new IllegalArgumentException("revertType cannot be null when applying revert");
+        }
+
         AuditLog auditLog = commitDirector.getAuditLog();
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
@@ -29,7 +43,7 @@ public class CommitRevert implements Change {
             }
 
             PersistableChange resultingParameterRevert = RevertFactory.createChange(changeEntity,
-                    ChangeType.COMMIT_REVERT);
+                    revertType);
             resultingParameterRevert.apply(commitDirector);
             appliedChanges.add(resultingParameterRevert);
         }

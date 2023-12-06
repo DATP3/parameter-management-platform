@@ -24,4 +24,18 @@ public class RevertFactory {
 
         return revert;
     }
+
+    public static PersistableChange createChange(ParameterChange originalChange, long commitHash,
+            ChangeType revertType) {
+        ParameterRevert revert = new ParameterRevert();
+        revert.setName(originalChange.getName());
+        revert.setType(originalChange.getType());
+        revert.setCommitHash(commitHash);
+
+        revert.setOldValue(originalChange.getNewValue());
+        revert.setNewValue(originalChange.getOldValue());
+        revert.setRevertType(revertType);
+
+        return revert;
+    }
 }

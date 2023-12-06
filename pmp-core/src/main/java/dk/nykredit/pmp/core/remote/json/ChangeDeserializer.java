@@ -2,16 +2,23 @@ package dk.nykredit.pmp.core.remote.json;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JacksonException;
+import javax.inject.Inject;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.ParameterChange;
 
 public class ChangeDeserializer extends StdDeserializer<Change> {
+
+    @Inject
+    AuditLog auditLog;
+
     public ChangeDeserializer() {
         this(null);
     }
@@ -28,10 +35,7 @@ public class ChangeDeserializer extends StdDeserializer<Change> {
             return codec.treeToValue(node, ParameterChange.class);
         }
 
-        // TODO: Implement deserialization for SerivceRevet, CommitRevert and
-        // ParameterRevert
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'deserialize other change types than ParameterChange'");
+        RevertAdapter revertAdapter = codec.treeToValue(node, RevertAdapter.class);
+        return revertAdapter.toRevert(auditLog);
     }
-
 }
