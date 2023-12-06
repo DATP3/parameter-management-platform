@@ -90,6 +90,7 @@ public class TestAuditLog extends H2StartDatabase {
 
         CommitRevert commitRevert = new CommitRevert();
         commitRevert.setCommitHash(commitHash);
+        commitRevert.setRevertType(ChangeType.COMMIT_REVERT);
 
         List<Change> changes2 = new ArrayList<>();
         changes2.add(commitRevert);

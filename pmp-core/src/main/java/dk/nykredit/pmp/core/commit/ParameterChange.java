@@ -38,6 +38,17 @@ public class ParameterChange implements PersistableChange {
 
     @Override
     public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
+        if (this instanceof ParameterRevert) {
+            ParameterRevert parameterRevert = (ParameterRevert) this;
+            if (parameterRevert.getCommitHash() == 0) {
+                throw new IllegalArgumentException("commitHash cannot be 0 when applying revert");
+            }
+
+            if (parameterRevert.getRevertType() == null) {
+                throw new IllegalArgumentException("revertType cannot be null when applying revert");
+            }
+        }
+
         ParameterService parameterService = commitDirector.getParameterService();
 
         Object storedValue = parameterService.findParameterByName(name);
