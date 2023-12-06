@@ -5,6 +5,7 @@ import java.util.List;
 
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
+import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
@@ -19,31 +20,44 @@ public class ParameterChange implements PersistableChange {
     protected String type;
     protected String oldValue;
     protected String newValue;
+    protected Service service;
 
     public ParameterChange() {
     }
 
-    public ParameterChange(String name, String type, String oldValue, String newValue, String pmpRoot) {
+    public ParameterChange(String name, String type, String oldValue, String newValue, Service service) {
         this.name = name;
         this.type = type;
         this.oldValue = oldValue;
         this.newValue = newValue;
-        this.pmpRoot = pmpRoot;
+        this.service = service;
     }
 
-    @Override
+    public ParameterChange(String name, String type, String oldValue, String newValue) {
+        this.name = name;
+        this.type = type;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
+    }
+
     public String getPmpRoot() {
-        return pmpRoot;
+        return service.getPmpRoot();
     }
 
     @Override
-    public String getType() {
-        return type;
+    public ChangeType getChangeType() {
+        return ChangeType.PARAMETER_CHANGE;
     }
 
     @Override
     public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
+
+        if (!commitDirector.getChangeValidator().validateChange(this)) {
+            return new ArrayList<>();
+        }
+
         ParameterService parameterService = commitDirector.getParameterService();
+
 
         Object storedValue = parameterService.findParameterByName(name);
         // TODO: How specific should the error message be in the responses to the

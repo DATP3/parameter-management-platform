@@ -1,6 +1,8 @@
 package dk.nykredit.pmp.core.commit;
 
 import java.util.List;
+
+import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 
 public interface Change {
@@ -8,6 +10,5 @@ public interface Change {
 
     void undo(CommitDirector commitDirector);
 
-    String getPmpRoot(); 
-    String getType();
+    ChangeType getChangeType();
 }

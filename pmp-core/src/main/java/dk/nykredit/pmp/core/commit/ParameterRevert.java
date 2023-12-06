@@ -14,6 +14,13 @@ public class ParameterRevert extends ParameterChange {
     }
 
     public ParameterRevert(String name, String type, String oldValue, String newValue, long commitHash,
+            ChangeType revertType, Service service) {
+        super(name, type, oldValue, newValue, service);
+        this.commitHash = commitHash;
+        this.revertType = revertType;
+    }
+
+        public ParameterRevert(String name, String type, String oldValue, String newValue, long commitHash,
             ChangeType revertType) {
         super(name, type, oldValue, newValue);
         this.commitHash = commitHash;

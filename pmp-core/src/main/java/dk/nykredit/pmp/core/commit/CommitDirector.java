@@ -19,11 +19,18 @@ public class CommitDirector {
     @Inject
     private EntityManager entityManager;
 
+    @Inject
+    private ChangeValidator changeValidator;
+
     public void apply(Commit commit) throws CommitException {
         // If applying the commit fails, a `CommitException` will be thrown,
         // and `logCommit` will not be called
         commit.apply(this);
         auditLog.logCommit(commit);
 
+    }
+
+    public ChangeValidator getValidator() {
+        return changeValidator;
     }
 }

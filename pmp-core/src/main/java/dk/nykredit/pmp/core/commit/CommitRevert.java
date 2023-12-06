@@ -22,6 +22,10 @@ public class CommitRevert implements Change {
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
         List<PersistableChange> appliedChanges = new ArrayList<>();
 
+        if (!commitDirector.getChangeValidator().validateChange(this)) {
+            return appliedChanges;
+        }
+
         for (ChangeEntity changeEntity : changeEntities) {
             AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
             if (latestChange == null || latestChange.getCommitId() != commitHash) {
@@ -50,6 +54,11 @@ public class CommitRevert implements Change {
 
             change.toChange().apply(commitDirector);
         }
+    }
+
+    @Override
+    public ChangeType getChangeType() {
+        return ChangeType.COMMIT_REVERT;
     }
 
     @Override

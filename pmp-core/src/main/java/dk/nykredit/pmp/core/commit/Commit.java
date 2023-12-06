@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.inject.Inject;
 
 import dk.nykredit.pmp.core.commit.exception.CommitException;
-import dk.nykredit.pmp.core.util.ServiceInfo;
 import dk.nykredit.pmp.core.util.ServiceInfoProvider;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,10 +37,6 @@ public class Commit {
 
         for (Change change : changes) {
 
-            if (!validateChange(change)) {
-                continue;
-            }
-
             try {
                 appliedChanges.addAll(change.apply(commitDirector));
             } catch (CommitException e) {
@@ -60,41 +55,6 @@ public class Commit {
 
     public void undoChanges(CommitDirector commitDirector) {
         undoChanges(appliedChanges, commitDirector);
-    }
-
-    
-    private boolean validateChange(Change change) {
-
-        ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
-        
-        // Check that change is to this service.
-        if (!change.getPmpRoot().equals(serviceInfo.getPmpRoot())) {
-            return false;
-        }
-
-        // TODO: check if change is a revert, if so, check that commit was previously applied to this service.
-        // if (change.getType().equals("revert") && change to revert isn't in log.) {
-        //     return false;
-        // }
-
-        return true;
-    }
-
-    private boolean validateChange(Change change) {
-
-        ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
-        
-        // Check that change is to this service.
-        if (!change.getPmpRoot().equals(serviceInfo.getPmpRoot())) {
-            return false;
-        }
-
-        // TODO: check if change is a revert, if so, check that commit was previously applied to this service.
-        // if (change.getType().equals("revert") && change to revert isn't in log.) {
-        //     return false;
-        // }
-
-        return true;
     }
 
     @Override
