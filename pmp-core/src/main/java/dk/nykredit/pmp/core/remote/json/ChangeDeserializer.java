@@ -36,6 +36,6 @@ public class ChangeDeserializer extends StdDeserializer<Change> {
         }
 
         RevertAdapter revertAdapter = codec.treeToValue(node, RevertAdapter.class);
-        return revertAdapter.toRevert(auditLog);
+        return revertAdapter.toRevert();
     }
 }
