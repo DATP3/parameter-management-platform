@@ -23,11 +23,7 @@ public class RevertAdapter {
     private String revertType;
     private String commitReference;
 
-    @JsonIgnore
-    @Inject
-    AuditLog auditLog;
-
-    public Change toRevert() throws IOException {
+    public Change toRevert(AuditLog auditLog) throws IOException {
         long commitHash = Long.parseUnsignedLong(commitReference, 16);
 
         if (revertType.equals("parameter")) {
