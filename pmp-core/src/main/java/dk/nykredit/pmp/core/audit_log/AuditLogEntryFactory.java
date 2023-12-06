@@ -15,6 +15,7 @@ public class AuditLogEntryFactory {
         entry.setPushDate(commit.getPushDate());
         entry.setUser(commit.getUser());
         entry.setMessage(commit.getMessage());
+        entry.setAffectedServices(String.join(",", commit.getAffectedServices()));
 
         List<ChangeEntity> changes = new ArrayList<>();
         for (PersistableChange change : commit.getAppliedChanges()) {

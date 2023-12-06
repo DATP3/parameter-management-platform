@@ -62,6 +62,7 @@ public class TestAuditLogSerializer {
 		entry.setMessage("test commit");
 		entry.setPushDate(pushDate);
 		entry.setCommitId(123);
+		entry.setAffectedServices("service1");
 
 		ChangeEntity entity = new ChangeEntityFactory(entry).createChangeEntity(change);
 		entry.setChanges(List.of(entity));
@@ -81,6 +82,9 @@ public class TestAuditLogSerializer {
 			assertEquals("test commit", node.get("message").asText());
 			assertEquals("2023-11-28T09:15:12.293", node.get("pushDate").asText());
 			assertEquals(Long.toHexString(123), node.get("hash").asText());
+
+			assertTrue(node.has("affectedServices"));
+			assertEquals("service1", node.get("affectedServices").elements().next().asText());
 
 			assertTrue(node.has("changes"));
 			JsonNode changes = node.get("changes");
@@ -116,6 +120,7 @@ public class TestAuditLogSerializer {
 		entry.setMessage("test commit");
 		entry.setPushDate(pushDate);
 		entry.setCommitId(123);
+		entry.setAffectedServices("service1");
 
 		ChangeEntity entity = new ChangeEntityFactory(entry).createChangeEntity(change);
 		entry.setChanges(List.of(entity));
@@ -125,6 +130,7 @@ public class TestAuditLogSerializer {
 		entry2.setMessage("revert test commit");
 		entry2.setPushDate(pushDate.plusHours(2));
 		entry2.setCommitId(456);
+		entry2.setAffectedServices("service1");
 
 
 		ParameterRevert revert = new ParameterRevert();
@@ -153,6 +159,9 @@ public class TestAuditLogSerializer {
 			assertEquals("revert test commit", node.get("message").asText());
 			assertEquals("2023-11-28T11:15:12.293", node.get("pushDate").asText());
 			assertEquals(Long.toHexString(456), node.get("hash").asText());
+
+			assertTrue(node.has("affectedServices"));
+			assertEquals("service1", node.get("affectedServices").elements().next().asText());
 
 			assertTrue(node.has("changes"));
 			JsonNode changes = node.get("changes");

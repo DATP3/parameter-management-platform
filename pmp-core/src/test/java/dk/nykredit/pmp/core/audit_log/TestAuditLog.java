@@ -51,6 +51,7 @@ public class TestAuditLog extends H2StartDatabase {
         commit.setUser("author");
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         Change c1 = new ParameterChange("test1", "String", "data1", "data2");
         Change c2 = new ParameterChange("test2", "Integer", "5", "10");
@@ -74,6 +75,7 @@ public class TestAuditLog extends H2StartDatabase {
         commit.setUser("author");
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         Change c1 = new ParameterChange("test1", "String", "data1", "data2");
         Change c2 = new ParameterChange("test2", "Integer", "5", "10");
@@ -97,6 +99,7 @@ public class TestAuditLog extends H2StartDatabase {
         commit2.setPushDate(LocalDateTime.now());
         commit2.setUser("user 1");
         commit2.setMessage("revert commit 1");
+        commit2.setAffectedServices(List.of("service1"));
 
         commitDirector.apply(commit2);
 

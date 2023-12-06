@@ -28,7 +28,11 @@ public class AuditLogEntrySerializer extends StdSerializer<AuditLogEntry> {
 		gen.writeObjectField("pushDate", entry.getPushDate());
 		gen.writeStringField("hash", Long.toHexString(entry.getCommitId()));
 		gen.writeStringField("message", entry.getMessage());
-		// TODO: Write affected services
+		gen.writeArrayFieldStart("affectedServices");
+		for (String service : entry.getAffectedServices().split(",")) {
+			gen.writeString(service);
+		}
+		gen.writeEndArray();
 
 		// TODO: Maybe this should have a better type?
 		List<ChangeEntity> parameterChanges = new ArrayList<>();

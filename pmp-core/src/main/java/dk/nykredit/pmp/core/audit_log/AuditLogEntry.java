@@ -34,6 +34,9 @@ public class AuditLogEntry {
     @Column(name = "MESSAGE")
     private String message;
 
+    @Column(name = "AFFECTED_SERVICES")
+    private String affectedServices;
+
     public List<Change> getChanges() {
         return changes.stream().map(ChangeEntity::toChange).collect(Collectors.toList());
     }
@@ -48,6 +51,7 @@ public class AuditLogEntry {
         commit.setUser(user);
         commit.setMessage(message);
         commit.setChanges(getChanges());
+        commit.setAffectedServices(List.of(affectedServices.split(",")));
 
         return commit;
     }
