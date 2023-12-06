@@ -162,7 +162,7 @@ const AuditDetails = (_: AuditDetailsProps) => {
                 <div className='pb-1'>
                     <Typography use='subtitle1'>User:</Typography>
                     <br />
-                    <Typography use='subtitle2'>{entry.email}</Typography>
+                    <Typography use='subtitle2'>{entry.user}</Typography>
                 </div>
                 <div>
                     <Typography use='subtitle1'>Hash:</Typography>

@@ -2,7 +2,7 @@
     "name": "service9",
     "commits": [
         {
-            "email": "sam@example.com",
+            "user": "sam@example.com",
             "hash": "a1b2c3d4e5f6",
             "pushDate": "2023-11-20T10:00:00Z",
             "message": "Initial commit",
@@ -24,7 +24,7 @@
             }
         },
         {
-            "email": "alex@example.com",
+            "user": "alex@example.com",
             "hash": "b1c2d3e4f5g6",
             "pushDate": "2023-11-19T15:30:00Z",
             "message": "Feature: Login functionality",
@@ -46,7 +46,7 @@
             }
         },
         {
-            "email": "sara@example.com",
+            "user": "sara@example.com",
             "hash": "h1i2j3k4l5m6",
             "pushDate": "2023-11-18T12:45:00Z",
             "message": "Bugfix: Security patch",
@@ -63,7 +63,7 @@
             }
         },
         {
-            "email": "tom@example.com",
+            "user": "tom@example.com",
             "hash": "m1n2o3p4q5r6",
             "pushDate": "2023-11-17T08:20:00Z",
             "message": "Refactoring codebase",
@@ -85,7 +85,7 @@
             }
         },
         {
-            "email": "emma@example.com",
+            "user": "emma@example.com",
             "hash": "s1t2u3v4w5x6",
             "pushDate": "2023-11-16T05:55:00Z",
             "message": "Feature: User profile update",

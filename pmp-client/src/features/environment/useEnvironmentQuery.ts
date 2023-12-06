@@ -1,11 +1,12 @@
 import useSimpleQuery from '../../features/network/useSimpleQuery';
 import { z } from 'zod';
 
-const environmentParser = z.array(
-    z.object({
-        environment: z.string()
-    })
-);
+// Client expects an array of objects with an environment property, but tracker provides an array of strings.
+// Parser transforms to adapt data to client expectations.
+const rawEnvironmentParser = z
+    .string()
+    .array()
+    .transform((e) => e.map((e) => ({ environment: e })));
 
 /**
  * Get a list of environments.
@@ -14,7 +15,9 @@ const environmentParser = z.array(
  * TODO: Remove mock data.
  */
 const useEnvironmentQuery = () => {
-    return useSimpleQuery(['environments'], '/mock/environments.json', environmentParser);
+    // TODO: Use real data. Test is set up to intercept
+    // return useSimpleQuery(['environments'], `${TRACKER_URL}/environment`, rawEnvironmentParser);
+    return useSimpleQuery(['environments'], '/mock/environments.json', rawEnvironmentParser);
 };
 
 export default useEnvironmentQuery;

@@ -1,6 +1,8 @@
 import { clearChanges, getInputByvalue, getSegment } from './helpers';
 import { expect, test } from '@playwright/test';
 
+import { mockAllRoutes } from './mockroutes';
+
 const environment = 'prod';
 const service = 'service2';
 
@@ -8,6 +10,10 @@ const initialParameterValue = 'admin@newexample.org';
 const newParameterValue = 'test@playright.dev';
 
 test.describe('Parameter page', () => {
+    test.beforeEach(async ({ page }) => {
+        await mockAllRoutes(page);
+    });
+
     test('Add and view parameter change', async ({ page }) => {
         // Setup page with env and service
         await page.goto(`/${environment}/parameters`);

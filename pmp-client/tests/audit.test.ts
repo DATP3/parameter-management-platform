@@ -1,12 +1,18 @@
 import { clearChanges, getSegment } from './helpers';
 import { expect, test } from '@playwright/test';
 
+import { mockAllRoutes } from './mockroutes';
+
 const environment = 'prod';
 const service = 'service2';
 
 const hash = /1a2b3c4d5e6f/;
 
 test.describe('Audit page', () => {
+    test.beforeEach(async ({ page }) => {
+        await mockAllRoutes(page);
+    });
+
     test('Add and view commit revert', async ({ page }) => {
         // Setup page with env and service
         await page.goto(`/${environment}/audit`);

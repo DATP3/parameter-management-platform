@@ -25,6 +25,7 @@ interface IRevert {
 
 export interface CommitRevert extends IRevert {
     revertType: 'commit';
+    affectedServices: string[];
 }
 
 export interface ServiceRevert extends IRevert {
@@ -57,4 +58,5 @@ export interface CommitBody {
     user: string;
     message: string;
     changes: Change[];
+    affectedServices: string[];
 }

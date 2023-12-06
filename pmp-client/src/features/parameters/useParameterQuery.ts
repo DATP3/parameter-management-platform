@@ -1,7 +1,7 @@
+import { ParameterType } from './types';
 import { Service } from '../services/types';
 import useSimpleQuery from '../../features/network/useSimpleQuery';
 import { z } from 'zod';
-import { ParameterType } from './types';
 
 const parameterParser = z.array(
     z.object({
@@ -19,6 +19,8 @@ const parameterParser = z.array(
  * TODO: Remove mock data.
  */
 const useParameterQuery = (service: Service) => {
+    // TODO: Use real data. Test is set up to intercept
+    // return useSimpleQuery(['parameters', service.name], `http://${service.address}/pmp/parameters`, parameterParser);
     return useSimpleQuery(['parameters', service.name], `/mock/parameters/${service.address}.json`, parameterParser);
 };
 

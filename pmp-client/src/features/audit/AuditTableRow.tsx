@@ -15,7 +15,7 @@ const AuditTableRow = (_: AuditTableRowProps) => {
             <AuditDetailsDialog open={open} onClose={() => setOpen(false)} />
             <DataTableRow className='tableRow' onClick={() => setOpen(true)}>
                 <DataTableCell>{formatDate(entry.pushDate)}</DataTableCell>
-                <DataTableCell>{entry.email}</DataTableCell>
+                <DataTableCell>{entry.user}</DataTableCell>
                 <DataTableCell>
                     <Typography use='overline'>{entry.hash}</Typography>
                 </DataTableCell>

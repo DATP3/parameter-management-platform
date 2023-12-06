@@ -12,24 +12,26 @@ import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.ParameterChange;
 
 public class ChangeDeserializer extends StdDeserializer<Change> {
-	public ChangeDeserializer() {
-		this(null);
-	}
+    public ChangeDeserializer() {
+        this(null);
+    }
 
-	public ChangeDeserializer(Class<?> vc) {
-		super(vc);
-	}
+    public ChangeDeserializer(Class<?> vc) {
+        super(vc);
+    }
 
-	@Override
-	public Change deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-		ObjectCodec codec = p.getCodec();
-		JsonNode node = codec.readTree(p);
-		if (!node.has("revertType")) {
-			return codec.treeToValue(node, ParameterChange.class);
-		}
+    @Override
+    public Change deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+        ObjectCodec codec = p.getCodec();
+        JsonNode node = codec.readTree(p);
+        if (!node.has("revertType")) {
+            return codec.treeToValue(node, ParameterChange.class);
+        }
 
-		throw new UnsupportedOperationException(
-				"Unimplemented method 'deserialize other change types than ParameterChange'");
-	}
+        // TODO: Implement deserialization for SerivceRevet, CommitRevert and
+        // ParameterRevert
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'deserialize other change types than ParameterChange'");
+    }
 
 }

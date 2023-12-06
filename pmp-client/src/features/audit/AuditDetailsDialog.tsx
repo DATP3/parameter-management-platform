@@ -17,7 +17,13 @@ const AuditDetailsDialog = ({ open, onClose }: AuditDetailsDialogProps) => {
                 <DialogTitle>
                     {entry.message}
                     <div className='w-fit inline-block float-right pt-3'>
-                        <RevertButton revert={{ revertType: 'commit', commitReference: entry.hash }} />
+                        <RevertButton
+                            revert={{
+                                revertType: 'commit',
+                                commitReference: entry.hash,
+                                affectedServices: entry.affectedServices
+                            }}
+                        />
                     </div>
                 </DialogTitle>
                 <DialogContent>

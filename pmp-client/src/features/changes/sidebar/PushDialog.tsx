@@ -1,6 +1,7 @@
+import { Change, CommitBody } from '../types';
 import { Dialog, DialogActions, DialogButton, DialogContent, DialogTitle, TextField, Typography } from 'rmwc';
+import { isCommitRevert, isRevert } from '../commitStoreHelpers';
 
-import { CommitBody } from '../types';
 import PushStatus from './PushStatus';
 import useCommitStore from '../useCommitStore';
 import { useMsal } from '@azure/msal-react';
@@ -13,6 +14,26 @@ interface PushDialogProps {
     environment: string;
 }
 
+const getAffectedServices = (changes: Change[]) => {
+    return changes.reduce<string[]>((acc, change) => {
+        let affectedServices: string[];
+
+        if (isRevert(change) && isCommitRevert(change)) {
+            affectedServices = change.affectedServices;
+        } else {
+            affectedServices = [change.service.name];
+        }
+
+        affectedServices.forEach((s) => {
+            if (!acc.includes(s)) {
+                acc.push(s);
+            }
+        });
+
+        return acc;
+    }, []);
+};
+
 const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps) => {
     const [input, setInput] = useState('');
     const [commitMessage, setCommitMessage] = useState('');
@@ -24,9 +45,10 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
 
     const commit: CommitBody = {
         changes,
-        user: accounts[0].name || 'Invalid User',
+        user: accounts[0].username,
         message: commitMessage,
-        pushDate: new Date()
+        pushDate: new Date(),
+        affectedServices: getAffectedServices(changes)
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

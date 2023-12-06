@@ -66,9 +66,16 @@ export const createCommitStore = (storageKey: string) => {
                 },
                 addChange: (change) => {
                     const s = get();
-                    // Ignore value when comparing, to remove existing parameter change, if one exists
-                    if (s.changes.some((c) => compareChanges(c, change, { ignoreValue: true }) === 0)) {
-                        s.removeChange(change);
+
+                    const existingChange = s.changes.find(
+                        (c) => compareChanges(c, change, { ignoreValue: true }) === 0
+                    );
+                    if (existingChange) {
+                        s.removeChange(existingChange);
+                    }
+
+                    if (isParameterChange(change) && change.newValue === change.parameter.value) {
+                        return;
                     }
 
                     set((s) => {

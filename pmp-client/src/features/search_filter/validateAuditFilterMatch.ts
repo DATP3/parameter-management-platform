@@ -1,8 +1,8 @@
-import { AuditLogEntry } from '../audit/useAuditLogEntries';
 import { AuditFilter } from './types';
+import { AuditLogEntry } from '../audit/useAuditLogEntries';
 
 const validateAuditFilterMatch = (filter: AuditFilter, entry: AuditLogEntry) => {
-    let compareString = `${entry.hash}¤${entry.pushDate.toLocaleString()}¤${entry.email}¤${entry.message}`;
+    let compareString = `${entry.hash}¤${entry.pushDate.toLocaleString()}¤${entry.user}¤${entry.message}`;
 
     for (const affectedService of entry.affectedServices) {
         compareString += `¤${affectedService}`;

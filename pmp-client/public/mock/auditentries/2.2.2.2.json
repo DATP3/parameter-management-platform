@@ -2,7 +2,7 @@
     "name": "service2",
     "commits": [
         {
-            "email": "john.doe@example.com",
+            "user": "john.doe@example.com",
             "hash": "a1b2c3d4e5f6",
             "pushDate": "2023-11-16T12:34:56Z",
             "message": "Initial commit",
@@ -57,7 +57,7 @@
             }
         },
         {
-            "email": "jane.smith@example.com",
+            "user": "jane.smith@example.com",
             "hash": "g6f5e4d3c2b1",
             "pushDate": "2023-11-15T09:45:30Z",
             "message": "Feature implementation",
@@ -107,7 +107,7 @@
             }
         },
         {
-            "email": "alice@example.com",
+            "user": "alice@example.com",
             "hash": "1a2b3c4d5e6f",
             "pushDate": "2023-11-14T08:12:45Z",
             "message": "Bugfix: Issue #123",
@@ -136,7 +136,7 @@
             }
         },
         {
-            "email": "bob@example.com",
+            "user": "bob@example.com",
             "hash": "f6e5d4c3b2a1",
             "pushDate": "2023-11-13T15:20:10Z",
             "message": "Refactoring codebase",
@@ -170,7 +170,7 @@
             }
         },
         {
-            "email": "charlie@example.com",
+            "user": "charlie@example.com",
             "hash": "d1e2f3g4h5i6",
             "pushDate": "2023-11-12T18:55:22Z",
             "message": "Documentation update",
@@ -199,7 +199,7 @@
             }
         },
         {
-            "email": "david@example.com",
+            "user": "david@example.com",
             "hash": "j1k2l3m4n5o6",
             "pushDate": "2023-11-11T07:30:45Z",
             "message": "Feature: New API endpoint",
@@ -228,7 +228,7 @@
             }
         },
         {
-            "email": "eva@example.com",
+            "user": "eva@example.com",
             "hash": "q1r2s3t4u5v6",
             "pushDate": "2023-11-10T14:25:30Z",
             "message": "Performance optimization",
@@ -262,7 +262,7 @@
             }
         },
         {
-            "email": "frank@example.com",
+            "user": "frank@example.com",
             "hash": "w1x2y3z4a5b6",
             "pushDate": "2023-11-09T11:40:15Z",
             "message": "Bugfix: Security vulnerability",
@@ -291,7 +291,7 @@
             }
         },
         {
-            "email": "grace@example.com",
+            "user": "grace@example.com",
             "hash": "c1d2e3f4g5h6",
             "pushDate": "2023-11-08T09:15:20Z",
             "message": "Feature: User authentication",
@@ -325,7 +325,7 @@
             }
         },
         {
-            "email": "henry@example.com",
+            "user": "henry@example.com",
             "hash": "i1j2k3l4m5n6",
             "pushDate": "2023-11-07T16:05:30Z",
             "message": "Code cleanup",

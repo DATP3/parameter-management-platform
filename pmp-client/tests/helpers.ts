@@ -18,3 +18,7 @@ export const getSegment = (page: Page, segment: 'service' | 'changes' | 'main') 
 export const getInputByvalue = (locator: Page | Locator, value: string) => {
     return locator.locator(`input[value="${value}"]`);
 };
+
+export const getBaseUrl = (page: Page) => {
+    return page.url().split('/').slice(0, 3).join('/');
+};

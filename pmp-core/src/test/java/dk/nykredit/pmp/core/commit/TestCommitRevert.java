@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestCommitRevert extends H2StartDatabase {
     private WeldContainer container;
@@ -36,7 +37,8 @@ public class TestCommitRevert extends H2StartDatabase {
 
     @Test
     void testCommitRevertOnLatestCommit() {
-        // This throws a bunch of exceptions to the console but the test seems to be working fine
+        // This throws a bunch of exceptions to the console but the test seems to be
+        // working fine
         ParameterService parameterService = commitDirector.getParameterService();
 
         parameterService.getRepository().startTransaction();
@@ -80,7 +82,8 @@ public class TestCommitRevert extends H2StartDatabase {
 
     @Test
     void testDontRevertParametersWithNewerChanges() {
-        // This throws a bunch of exceptions to the console but the test seems to be working fine
+        // This throws a bunch of exceptions to the console but the test seems to be
+        // working fine
         ParameterService parameterService = commitDirector.getParameterService();
 
         parameterService.getRepository().startTransaction();
@@ -110,7 +113,6 @@ public class TestCommitRevert extends H2StartDatabase {
         }
 
         commitDirector.apply(commit);
-
 
         Commit commit2 = new Commit();
         commit2.setUser("author");
@@ -149,5 +151,55 @@ public class TestCommitRevert extends H2StartDatabase {
 
         assertEquals("data3", parameterService.findParameterByName("test1"));
         assertEquals(5, parameterService.<Integer>findParameterByName("test2"));
+    }
+
+    @Test
+    void testRevertCommitRevert() {
+
+        ParameterService parameterService = commitDirector.getParameterService();
+        parameterService.getRepository().startTransaction();
+
+        Commit commit1 = new Commit();
+        String expectedValueAfterTest = "data2";
+        Change change1 = new ParameterChange("test1", "String", "data1", expectedValueAfterTest);
+        List<Change> changes1 = new ArrayList<>();
+        changes1.add(change1);
+        commit1.setChanges(changes1);
+        commit1.setPushDate(LocalDateTime.now());
+        commit1.setUser("user 1");
+        commit1.setMessage("commit 1");
+
+        commitDirector.apply(commit1);
+
+        Commit commit2 = new Commit();
+        CommitRevert CommitRevert1 = new CommitRevert();
+        CommitRevert1.setCommitHash(commit1.getCommitHash());
+        List<Change> changesRevert1 = new ArrayList<>();
+        changesRevert1.add(CommitRevert1);
+        commit2.setChanges(changesRevert1);
+        commit2.setPushDate(LocalDateTime.now());
+        commit2.setUser("user 1");
+        commit2.setMessage("revert commit 1");
+
+        commitDirector.apply(commit2);
+
+        assertNotEquals(expectedValueAfterTest, parameterService.findParameterByName("test1"));
+
+        Commit commit3 = new Commit();
+        CommitRevert commitRevert2 = new CommitRevert();
+        commitRevert2.setCommitHash(commit2.getCommitHash());
+        List<Change> changesRevert2 = new ArrayList<>();
+        changesRevert2.add(commitRevert2);
+        commit3.setChanges(changesRevert2);
+        commit3.setPushDate(LocalDateTime.now());
+        commit3.setUser("user 1");
+        commit3.setMessage("revert commit 2");
+
+        commitDirector.apply(commit3);
+
+        assertEquals(commit3.getAppliedChanges(), commit1.getChanges());
+        assertEquals(expectedValueAfterTest, parameterService.findParameterByName("test1"));
+
+        parameterService.getRepository().endTransaction();
     }
 }

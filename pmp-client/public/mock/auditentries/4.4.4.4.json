@@ -2,7 +2,7 @@
     "name": "service4",
     "commits": [
         {
-            "email": "david@example.com",
+            "user": "david@example.com",
             "hash": "j1k2l3m4n5o6",
             "pushDate": "2023-11-11T07:30:45Z",
             "message": "Feature: New API endpoint",
@@ -31,7 +31,7 @@
             }
         },
         {
-            "email": "eva@example.com",
+            "user": "eva@example.com",
             "hash": "q1r2s3t4u5v6",
             "pushDate": "2023-11-10T14:25:30Z",
             "message": "Performance optimization",
@@ -65,7 +65,7 @@
             }
         },
         {
-            "email": "frank@example.com",
+            "user": "frank@example.com",
             "hash": "w1x2y3z4a5b6",
             "pushDate": "2023-11-09T11:40:15Z",
             "message": "Bugfix: Security vulnerability",
@@ -94,7 +94,7 @@
             }
         },
         {
-            "email": "grace@example.com",
+            "user": "grace@example.com",
             "hash": "c1d2e3f4g5h6",
             "pushDate": "2023-11-08T09:15:20Z",
             "message": "Feature: User authentication",
@@ -128,7 +128,7 @@
             }
         },
         {
-            "email": "henry@example.com",
+            "user": "henry@example.com",
             "hash": "i1j2k3l4m5n6",
             "pushDate": "2023-11-07T16:05:30Z",
             "message": "Code cleanup",

@@ -1,8 +1,18 @@
 import axios from 'axios';
 import useEnvironment from '../environment/useEnvironment';
+import { useMsal } from '@azure/msal-react';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
-import { useMsal } from '@azure/msal-react';
+
+const rawServicesParser = z.object({
+    environment: z.string(),
+    services: z.array(
+        z.object({
+            name: z.string(),
+            pmpRoot: z.string()
+        })
+    )
+});
 
 const servicesParser = z.array(
     z.object({
@@ -11,6 +21,18 @@ const servicesParser = z.array(
         environment: z.object({ environment: z.string() })
     })
 );
+
+type RawServiceData = z.infer<typeof rawServicesParser>;
+type ServiceData = z.infer<typeof servicesParser>;
+
+const adaptServiceData = (data: RawServiceData): ServiceData => {
+    const { environment, services } = data;
+    return services.map((s) => ({
+        name: s.name,
+        address: s.pmpRoot,
+        environment: { environment }
+    }));
+};
 
 /**
  * Get a list of services for the current environment.
@@ -22,20 +44,22 @@ const useServices = () => {
     const { environment } = useEnvironment();
     const { accounts } = useMsal();
 
-    return useQuery({
+    return useQuery<ServiceData>({
         queryKey: ['services', environment],
         queryFn: async () => {
             const token = accounts[0].idToken;
             if (!token) throw new Error('No token');
-
-            const result = await axios.get('/mock/services.json', {
+            // TODO: Use real data. Test is set up to intercept
+            // const result = await axios.get(`${TRACKER_URL}/services`, {
+            const result = await axios.get(`/mock/services/${environment}.json`, {
                 headers: {
                     'pmp-environment': environment,
                     Authorization: `Bearer ${token}`
                 }
             });
-            const data = servicesParser.parse(result.data);
-            return data;
+            const data = rawServicesParser.parse(result.data);
+            const adaptedData = adaptServiceData(data);
+            return adaptedData;
         },
         select: (data) => {
             return data.filter((s) => s.environment.environment === environment);

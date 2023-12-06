@@ -87,7 +87,7 @@ const RevertInfoMenu = ({ revert }: { revert: Revert }) => {
             case 'service':
                 return (
                     <>
-                        Revert change to parameter &quot;{revert.service.name}&quot; added in commit{' '}
+                        Revert change to service &quot;{revert.service.name}&quot; added in commit{' '}
                         <Typography use='overline'>{revert.commitReference}</Typography>
                         {message}
                     </>
