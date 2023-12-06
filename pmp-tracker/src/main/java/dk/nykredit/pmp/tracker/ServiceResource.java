@@ -18,7 +18,7 @@ public class ServiceResource {
 	private Tracker tracker;
 
 	public ServiceResource() {
-		tracker = new Tracker();
+		tracker = Tracker.getTracker();
 	}
 
 	@Context HttpHeaders getHeaders;

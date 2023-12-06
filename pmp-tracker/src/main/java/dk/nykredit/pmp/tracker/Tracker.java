@@ -5,8 +5,9 @@ import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Tracker {
+public final class Tracker {
 
+	private static Tracker tracker;
 	// The time in miliseconds within which the service must have been refreshed (1 min.).
 	private final static int staleTimeLimit = 3600000;
 	private static Timer timer;
@@ -14,7 +15,7 @@ public class Tracker {
 
 	private static ArrayList<Environment> environments;
 
-	public Tracker(){
+	private Tracker(){
 		if (environments == null) {
 			environments = new ArrayList<>();
 		}
@@ -27,6 +28,14 @@ public class Tracker {
 				}
 			 }, 30000, staleTimeLimit);
 		}
+	}
+
+	public static synchronized Tracker getTracker() {
+		if (tracker == null) {
+			tracker = new Tracker();
+		}
+
+		return tracker;
 	}
 
 	public ArrayList<Service> getServices(String environmentReq){
@@ -46,7 +55,6 @@ public class Tracker {
 		Environment environment = findEnvironment(environmentReq);
 
 		if (environment == null) return null;
-
 
 		for (Service service : findEnvironment(environmentReq).getServices()) {
 			if (service.getPmpRoot().equals(address)) {
