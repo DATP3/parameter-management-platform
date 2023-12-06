@@ -165,7 +165,7 @@ public class TestChangeDeserializer {
         try {
             mapper.readValue(json, Change.class);
         } catch (IllegalArgumentException e) {
-            assertEquals("No commit with hash: " + fakeCommitHash, e.getMessage());
+            assertEquals("No commit with hash " + fakeCommitHash, e.getMessage());
         }
     }
 }
