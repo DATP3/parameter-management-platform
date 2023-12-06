@@ -11,8 +11,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
+import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.commit.Change;
+import dk.nykredit.pmp.core.commit.CommitRevert;
 import dk.nykredit.pmp.core.commit.ParameterChange;
+import dk.nykredit.pmp.core.commit.ParameterRevert;
 
 public class ChangeDeserializer extends StdDeserializer<Change> {
 
@@ -39,7 +42,21 @@ public class ChangeDeserializer extends StdDeserializer<Change> {
             return codec.treeToValue(node, ParameterChange.class);
         }
 
-        RevertAdapter revertAdapter = codec.treeToValue(node, RevertAdapter.class);
-        return revertAdapter.toRevert(auditLog);
+        RevertAdapter adapter = codec.treeToValue(node, RevertAdapter.class);
+
+        if (adapter.getRevertType().equals("parameter")) {
+            return new ParameterRevert(adapter.getParameterName(),
+                    Long.parseUnsignedLong(adapter.getCommitReference(), 16));
+        }
+
+        if (adapter.getRevertType().equals("commit")) {
+            return new CommitRevert(Long.parseUnsignedLong(adapter.getCommitReference(), 16), ChangeType.COMMIT_REVERT);
+        }
+
+        if (adapter.getRevertType().equals("service")) {
+            return new CommitRevert(Long.parseUnsignedLong(adapter.getCommitReference(), 16), ChangeType.SERVICE_COMMIT_REVERT);
+        }
+
+        throw new IllegalArgumentException("Invalid revert type: " + node.get("revertType").asText());
     }
 }
