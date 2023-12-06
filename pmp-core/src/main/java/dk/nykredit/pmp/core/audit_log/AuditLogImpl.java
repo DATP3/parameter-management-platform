@@ -13,59 +13,63 @@ import java.util.stream.Collectors;
 @Transactional
 public class AuditLogImpl implements AuditLog {
 
-	@Inject
-	private EntityManager entityManager;
+    @Inject
+    private EntityManager entityManager;
 
-	@Inject
-	private AuditLogEntryFactory auditLogEntryFactory;
+    @Inject
+    private AuditLogEntryFactory auditLogEntryFactory;
 
-	@Override
-	public void logCommit(Commit commit) {
-		AuditLogEntry entry = auditLogEntryFactory.createAuditLogEntry(commit);
-		entityManager.getTransaction().begin();
-		try {
-			entityManager.persist(entry);
-			for (ChangeEntity change : entry.getChangeEntities()) {
-				entityManager.persist(change);
-			}
-		} finally {
-			entityManager.getTransaction().commit();
-		}
-	}
+    @Override
+    public void logCommit(Commit commit) {
+        AuditLogEntry entry = auditLogEntryFactory.createAuditLogEntry(commit);
+        entityManager.getTransaction().begin();
+        try {
+            entityManager.persist(entry);
+            for (ChangeEntity change : entry.getChangeEntities()) {
+                entityManager.persist(change);
+            }
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+    }
 
-	@Override
-	public AuditLogEntry getAuditLogEntry(long commitHash) {
-		return entityManager.find(AuditLogEntry.class, commitHash);
-	}
+    @Override
+    public AuditLogEntry getAuditLogEntry(long commitHash) {
+        return entityManager.find(AuditLogEntry.class, commitHash);
+    }
 
-	@Override
-	public Commit getCommit(long commitHash) {
-		AuditLogEntry entry = getAuditLogEntry(commitHash);
+    @Override
+    public Commit getCommit(long commitHash) throws IllegalArgumentException {
+        AuditLogEntry entry = getAuditLogEntry(commitHash);
 
-		return entry.toCommit();
-	}
+        if (entry == null) {
+            throw new IllegalArgumentException("No commit with hash " + commitHash);
+        }
 
-	@Override
-	public List<Commit> getCommits() {
-		List<AuditLogEntry> entries = getEntries();
-		return entries.stream().map(AuditLogEntry::toCommit).collect(Collectors.toList());
-	}
+        return entry.toCommit();
+    }
 
-	@Override
-	public List<AuditLogEntry> getEntries() {
-		return entityManager.createQuery("SELECT e FROM AuditLogEntry e", AuditLogEntry.class)
-				.getResultList();
-	}
+    @Override
+    public List<Commit> getCommits() {
+        List<AuditLogEntry> entries = getEntries();
+        return entries.stream().map(AuditLogEntry::toCommit).collect(Collectors.toList());
+    }
 
-	@Override
-	public AuditLogEntry getLatestCommitToParameter(String name) {
-		List<AuditLogEntry> auditLogEntries = entityManager.createQuery(
-				"SELECT e FROM AuditLogEntry e, ChangeEntity p WHERE p.parameterName = :name AND p.commit.commitId = e.commitId ORDER BY e.pushDate DESC",
-				AuditLogEntry.class)
-				.setParameter("name", name)
-				.getResultList();
+    @Override
+    public List<AuditLogEntry> getEntries() {
+        return entityManager.createQuery("SELECT e FROM AuditLogEntry e", AuditLogEntry.class)
+                .getResultList();
+    }
 
-		return auditLogEntries.get(0);
-	}
+    @Override
+    public AuditLogEntry getLatestCommitToParameter(String name) {
+        List<AuditLogEntry> auditLogEntries = entityManager.createQuery(
+                "SELECT e FROM AuditLogEntry e, ChangeEntity p WHERE p.parameterName = :name AND p.commit.commitId = e.commitId ORDER BY e.pushDate DESC",
+                AuditLogEntry.class)
+                .setParameter("name", name)
+                .getResultList();
+
+        return auditLogEntries.get(0);
+    }
 
 }
