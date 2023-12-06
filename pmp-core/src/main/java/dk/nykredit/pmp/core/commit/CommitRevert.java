@@ -80,4 +80,9 @@ public class CommitRevert implements Change {
         CommitRevert other = (CommitRevert) obj;
         return commitHash == other.getCommitHash();
     }
+
+    @Override
+    public String toString() {
+        return "CommitRevert {\n    commitHash=" + commitHash + ", \n    revertType=" + revertType + "\n}";
+    }
 }

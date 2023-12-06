@@ -37,6 +37,8 @@ public class RevertAdapter {
                     }
                 }
             }
+
+            throw new IllegalArgumentException("No parameter change found for parameter: " + parameterName);
         }
 
         if (revertType.equals("commit") || revertType.equals("service")) {
