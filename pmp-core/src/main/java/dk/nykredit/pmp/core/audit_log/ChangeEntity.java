@@ -1,8 +1,10 @@
 package dk.nykredit.pmp.core.audit_log;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.ParameterChange;
 import dk.nykredit.pmp.core.commit.ParameterRevert;
+import dk.nykredit.pmp.core.remote.json.ChangeEntitySerializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,7 @@ import javax.persistence.*;
 @Table(name = "PMP_PARAM_CHANGES")
 @Getter
 @Setter
+@JsonSerialize(using = ChangeEntitySerializer.class)
 public class ChangeEntity {
     @Id
     @Column(name = "ID")

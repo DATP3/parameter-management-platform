@@ -29,7 +29,7 @@ public class ChangeEntityFactory {
         if (change instanceof ParameterRevert) {
             ParameterRevert paramRevert = (ParameterRevert) change;
             changeEntity.setChangeType(paramRevert.getRevertType());
-            changeEntity.setCommitRevertRef(auditLogEntry.getCommitId());
+            changeEntity.setCommitRevertRef(paramRevert.getCommitHash());
         }
 
         return changeEntity;

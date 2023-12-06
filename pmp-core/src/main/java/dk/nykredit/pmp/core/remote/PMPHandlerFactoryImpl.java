@@ -1,5 +1,6 @@
 package dk.nykredit.pmp.core.remote;
 
+import dk.nykredit.pmp.core.remote.servlet.LogServlet;
 import org.eclipse.jetty.cdi.CdiDecoratingListener;
 import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
 import org.eclipse.jetty.server.Handler;
@@ -16,6 +17,7 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
 		cx.setContextPath("/");
 		cx.addServlet(ParametersServlet.class, "/parameters");
 		cx.addServlet(CommitServlet.class, "/commit");
+		cx.addServlet(LogServlet.class, "/log");
 
 		// Initialize CDI
 		cx.setInitParameter(

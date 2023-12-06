@@ -10,7 +10,7 @@ public class ParameterRevert extends ParameterChange {
     private long commitHash;
     private ChangeType revertType;
 
-    ParameterRevert() {
+    public ParameterRevert() {
     }
 
     public ParameterRevert(String name, String type, String oldValue, String newValue, long commitHash,

@@ -1,7 +1,9 @@
 package dk.nykredit.pmp.core.audit_log;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.Commit;
+import dk.nykredit.pmp.core.remote.json.AuditLogEntrySerializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @Table(name = "PMP_AUDIT_LOG")
 @Getter
 @Setter
+@JsonSerialize(using = AuditLogEntrySerializer.class)
 public class AuditLogEntry {
     @Id
     @Column(name = "COMMIT_ID")
