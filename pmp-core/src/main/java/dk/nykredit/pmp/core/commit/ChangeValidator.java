@@ -1,6 +1,5 @@
 package dk.nykredit.pmp.core.commit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +21,6 @@ public class ChangeValidator implements ChangeVisitor {
     private List<Change> validatedChanges;
     
     public ChangeValidator() {
-        validatedChanges = new ArrayList<Change>();
     }
 
     public List<Change> getValidatedChanges() {
@@ -32,15 +30,21 @@ public class ChangeValidator implements ChangeVisitor {
     @Override
     public void visit(ParameterChange change) {
         
-        throw new RuntimeException("change.getPmpRoot(): " + change.getPmpRoot() + ", getServiceInfo().getPmpRoot(): " + serviceInfoProvider.getServiceInfo().getPmpRoot());
+        if (change.getPmpRoot() == null) {
+            throw new IllegalArgumentException("PmpRoot cannot be null");
+        }
 
-        //if (!change.getPmpRoot().equals(serviceInfoProvider.getServiceInfo().getPmpRoot())) {
-        //    return;
-        //}
-        //
-        //validatedChanges.add(change);
+        if (serviceInfoProvider.getServiceInfo().getPmpRoot() == null) {
+            throw new IllegalArgumentException("ServicePmpRoot cannot be null");
+        }
 
-        //return;
+
+        if (!change.getPmpRoot().equals(serviceInfoProvider.getServiceInfo().getPmpRoot())) {
+            return;
+        }
+        
+        validatedChanges.add(change);
+        return;
     }
 
     @Override

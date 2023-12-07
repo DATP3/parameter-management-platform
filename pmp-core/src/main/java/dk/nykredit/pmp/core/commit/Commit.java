@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.inject.Inject;
 
 import dk.nykredit.pmp.core.commit.exception.CommitException;
+import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import dk.nykredit.pmp.core.util.ServiceInfoProvider;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,12 +20,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Commit {
-
-    @Inject
-    private ServiceInfoProvider serviceInfoProvider;
-
-    @Inject 
-    ChangeValidator changeValidator;
 
     private LocalDateTime pushDate;
     private String user;
@@ -39,9 +35,11 @@ public class Commit {
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
-        appliedChanges = new ArrayList<>(changes.size());
+        if (!(validatedChanges.size() > 0)) {
+            throw new OldValueInconsistentException("No changes to apply");
+        }
 
-        validateChanges(changes);
+        appliedChanges = new ArrayList<>(changes.size());
 
         for (Change change : validatedChanges) {
 
@@ -55,15 +53,15 @@ public class Commit {
         }
     }
 
-    private void validateChanges(List<Change> changes) {
+    public void validateChanges(ChangeVisitor changeValidator) {
 
-        ChangeValidator changeValidator = new ChangeValidator();
+        validatedChanges = new ArrayList<>(changes.size());
 
         for (Change change : changes) {
             change.acceptVisitor(changeValidator);
         }
 
-        validatedChanges = changeValidator.getValidatedChanges();
+        validatedChanges.addAll(changeValidator.getValidatedChanges());
     }
 
     private void undoChanges(List<PersistableChange> changes, CommitDirector commitDirector) {

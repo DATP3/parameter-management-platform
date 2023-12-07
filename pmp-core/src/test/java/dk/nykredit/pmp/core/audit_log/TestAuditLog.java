@@ -65,6 +65,7 @@ public class TestAuditLog extends H2StartDatabase {
         changes.add(c1);
         changes.add(c2);
         commit.setChanges(changes);
+        commit.startValidation();
 
         commitDirector.apply(commit);
 

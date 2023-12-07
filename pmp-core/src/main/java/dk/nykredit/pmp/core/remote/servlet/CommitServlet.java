@@ -29,10 +29,10 @@ public class CommitServlet extends HttpServlet {
         ObjectMapper mapper = objectMapperFactory.getObjectMapper();
 
         Commit commit = mapper.readValue(req.getInputStream(), Commit.class);
-
         System.out.println("Applying commit: " + commit.toString());
 
         try {
+            commit.startValidation();
             commitDirector.apply(commit);
             res.setStatus(HttpServletResponse.SC_OK);
             res.getWriter().write("OK");
