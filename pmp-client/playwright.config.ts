@@ -31,7 +31,7 @@ const config: PlaywrightTestConfig<{}, {}> = {
 
         /** Run without opening browser */
         // headless: !process.env.PLAYWRIGHT_NOT_HEADLESS
-        headless: false
+        headless: true
     },
 
     /** Configure projects for major browsers */
