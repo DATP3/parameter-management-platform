@@ -26,7 +26,8 @@ const AuditList = () => {
         return <div>Error</div>;
     }
 
-    const filteredEntries = entries?.filter((e) => validateAuditFilterMatch(filter, e));
+    let filteredEntries = entries?.filter((e) => validateAuditFilterMatch(filter, e));
+    filteredEntries = filteredEntries?.sort((a, b) => b.pushDate.getTime() - a.pushDate.getTime());
 
     return (
         <>
