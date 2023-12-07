@@ -9,7 +9,6 @@ import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
 
-import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.remote.json.ObjectMapperFactory;
 import dk.nykredit.pmp.core.remote.json.RevertAdapter;
 import dk.nykredit.pmp.core.service.ParameterService;
