@@ -1,5 +1,7 @@
 package dk.nykredit.pmp.core.commit;
 
+import dk.nykredit.pmp.core.audit_log.AuditLog;
+import dk.nykredit.pmp.core.audit_log.AuditLogEntry;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
 import dk.nykredit.pmp.core.service.ParameterService;
 import org.jboss.weld.environment.se.Weld;
@@ -206,6 +208,87 @@ public class TestCommitRevert extends H2StartDatabase {
         commitDirector.apply(commit3);
 
         assertEquals(expectedValueAfterTest, parameterService.findParameterByName("test1"));
+
+        parameterService.getRepository().endTransaction();
+    }
+
+    @Test
+    public void testDontRevertParametersWithNewerReverts() {
+        // This throws a bunch of exceptions to the console but the test seems to be
+        // working fine
+        ParameterService parameterService = commitDirector.getParameterService();
+
+        parameterService.getRepository().startTransaction();
+
+        Commit commit1 = new Commit();
+        commit1.setUser("author");
+        commit1.setMessage("change both parameters");
+        commit1.setPushDate(LocalDateTime.now());
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterChange change = new ParameterChange();
+            change.setName("test1");
+            change.setNewValue("data2");
+            change.setOldValue("data1");
+            change.setType("String");
+            changes.add(change);
+
+            ParameterChange change2 = new ParameterChange();
+            change2.setName("test2");
+            change2.setNewValue("10");
+            change2.setOldValue("5");
+            change2.setType("Integer");
+            changes.add(change2);
+
+            commit1.setChanges(changes);
+        }
+
+        commitDirector.apply(commit1);
+
+        Commit commit2 = new Commit();
+        commit2.setUser("author");
+        commit2.setMessage("revert test2");
+        commit2.setPushDate(LocalDateTime.now());
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterRevert change = new ParameterRevert();
+            change.setParameterName("test2");
+            change.setCommitHash(commit1.getCommitHash());
+            changes.add(change);
+
+            commit2.setChanges(changes);
+        }
+
+        commitDirector.apply(commit2);
+
+        Commit commit3 = new Commit();
+        commit3.setUser("author");
+        commit3.setMessage("revert commit1");
+        commit3.setPushDate(LocalDateTime.now());
+
+        {
+            List<Change> changes = new ArrayList<>();
+            CommitRevert change = new CommitRevert();
+            change.setCommitHash(commit1.getCommitHash());
+            changes.add(change);
+
+            commit3.setChanges(changes);
+        }
+
+        commitDirector.apply(commit3);
+
+        String test1 = parameterService.findParameterByName("test1");
+        Integer test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data1", test1);
+        assertEquals(5, test2);
+
+        AuditLogEntry entry3 = commitDirector.getAuditLog().getAuditLogEntry(commit3.getCommitHash());
+
+        assertEquals(entry3.getChanges().size(), 1);
+        assertEquals(entry3.getChanges().get(0).getParameterName(), "test1");
 
         parameterService.getRepository().endTransaction();
     }

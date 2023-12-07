@@ -1,10 +1,6 @@
 package dk.nykredit.pmp.core.audit_log;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import dk.nykredit.pmp.core.commit.Change;
-import dk.nykredit.pmp.core.commit.CommitRevert;
-import dk.nykredit.pmp.core.commit.ParameterChange;
-import dk.nykredit.pmp.core.commit.ParameterRevert;
 import dk.nykredit.pmp.core.remote.json.ChangeEntitySerializer;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,23 +41,6 @@ public class ChangeEntity {
     @Column(name = "COMMIT_REVERT_REF")
     private long commitRevertRef;
 
-    public Change toChange() {
-        switch (changeType) {
-            case PARAMETER_CHANGE:
-                return new ParameterChange(parameterName, parameterType, oldValue, newValue);
-
-            case PARAMETER_REVERT:
-                return new ParameterRevert(parameterName, commitRevertRef);
-
-            case COMMIT_REVERT:
-            case SERVICE_COMMIT_REVERT:
-                return new CommitRevert(commitRevertRef, changeType);
-
-            default:
-                return null;
-        }
-    }
-
     @Override
     public String toString() {
         return "ChangeEntity{" +
@@ -74,5 +53,28 @@ public class ChangeEntity {
                 ", changeType=" + changeType +
                 ", commitRevertRef=" + commitRevertRef +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id) + Long.hashCode(commit.getCommitId()) + Long.hashCode(commitRevertRef)
+                + parameterName.hashCode() + parameterType.hashCode() + oldValue.hashCode() + newValue.hashCode()
+                + changeType.hashCode() + Long.hashCode(commitRevertRef);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ChangeEntity)) {
+            return false;
+        }
+
+        ChangeEntity other = (ChangeEntity) obj;
+        return (Long.hashCode(id) == Long.hashCode(other.id) && Long.hashCode(commit.getCommitId()) == Long
+                .hashCode(other.commit.getCommitId()) && Long.hashCode(commitRevertRef) == Long
+                        .hashCode(other.commitRevertRef)
+                && parameterName.equals(other.parameterName)
+                && parameterType.equals(other.parameterType) && oldValue.equals(other.oldValue)
+                && newValue.equals(other.newValue) && changeType.equals(other.changeType)
+                && Long.hashCode(commitRevertRef) == Long.hashCode(other.commitRevertRef));
     }
 }

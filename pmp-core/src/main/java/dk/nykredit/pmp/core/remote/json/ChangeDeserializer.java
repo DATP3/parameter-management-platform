@@ -2,8 +2,6 @@ package dk.nykredit.pmp.core.remote.json;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -11,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
-import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.CommitRevert;
 import dk.nykredit.pmp.core.commit.ParameterChange;
@@ -50,11 +47,11 @@ public class ChangeDeserializer extends StdDeserializer<Change> {
         }
 
         if (adapter.getRevertType().equals("commit")) {
-            return new CommitRevert(Long.parseUnsignedLong(adapter.getCommitReference(), 16), ChangeType.COMMIT_REVERT);
+            return new CommitRevert(Long.parseUnsignedLong(adapter.getCommitReference(), 16));
         }
 
         if (adapter.getRevertType().equals("service")) {
-            return new CommitRevert(Long.parseUnsignedLong(adapter.getCommitReference(), 16), ChangeType.SERVICE_COMMIT_REVERT);
+            return new CommitRevert(Long.parseUnsignedLong(adapter.getCommitReference(), 16));
         }
 
         throw new IllegalArgumentException("Invalid revert type: " + node.get("revertType").asText());

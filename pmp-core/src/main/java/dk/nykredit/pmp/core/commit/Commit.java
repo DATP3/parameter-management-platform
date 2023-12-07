@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class Commit {
     private List<Change> changes;
 
     @JsonIgnore
-    private List<Change> appliedChanges;
+    private List<ChangeEntity> appliedChanges;
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
@@ -40,9 +41,9 @@ public class Commit {
         }
     }
 
-    private void undoChanges(List<Change> changes, CommitDirector commitDirector) {
-        for (Change change : changes) {
-            change.undo(commitDirector);
+    private void undoChanges(List<ChangeEntity> changes, CommitDirector commitDirector) {
+        for (ChangeEntity change : changes) {
+            commitDirector.getParameterService().updateParameter(change.getParameterName(), change.getOldValue());
         }
     }
 

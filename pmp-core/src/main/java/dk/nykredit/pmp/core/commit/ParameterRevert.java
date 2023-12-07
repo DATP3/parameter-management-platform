@@ -1,13 +1,12 @@
 package dk.nykredit.pmp.core.commit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.audit_log.AuditLogEntry;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
-import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
+import dk.nykredit.pmp.core.audit_log.RevertPartChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,38 +26,49 @@ public class ParameterRevert implements Change {
     }
 
     @Override
-    public List<Change> apply(CommitDirector commitDirector) throws CommitException {
+    public List<ChangeEntity> apply(CommitDirector commitDirector) throws CommitException {
         if (commitHash == 0) {
             throw new IllegalArgumentException("rommitHash cannot be 0 when applying revert");
         }
 
-        Change parameterChange = getRefrencedChange(commitDirector.getAuditLog());
-        parameterChange.undo(commitDirector);
-        return List.of(this);
-    }
-
-    public Change getRefrencedChange(AuditLog auditLog) {
+        AuditLog auditLog = commitDirector.getAuditLog();
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
 
         for (ChangeEntity changeEntity : changeEntities) {
-            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
-            if (latestChange == null || latestChange.getCommitId() != commitHash) {
-                continue;
-            }
-
             if (parameterName == changeEntity.getParameterName()) {
-                return changeEntity.toChange();
+                Object oldValueTyped = commitDirector.getParameterService().getTypeParsers()
+                        .parse(changeEntity.getOldValue(), changeEntity.getParameterType());
+
+                commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(),
+                        oldValueTyped);
+
+                ChangeEntity resultingChangeEntity = new RevertPartChangeEntityFactory()
+                        .createChangeEntity(changeEntity, ChangeType.PARAMETER_REVERT, commitHash);
+
+                return List.of(resultingChangeEntity);
             }
         }
 
-        throw new IllegalArgumentException("No parameter change found with parameter name: " + parameterName);
+        throw new IllegalArgumentException(
+                "No parameter change found with parameter name: " + parameterName + " in commit: " + commitHash + ".");
     }
 
     @Override
     public void undo(CommitDirector commitDirector) {
-        Change parameterChange = getRefrencedChange(commitDirector.getAuditLog());
-        parameterChange.apply(commitDirector);
+        AuditLog auditLog = commitDirector.getAuditLog();
+        AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
+        List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
+
+        for (ChangeEntity changeEntity : changeEntities) {
+            if (parameterName == changeEntity.getParameterName()) {
+                Object newValueTyped = commitDirector.getParameterService().getTypeParsers()
+                        .parse(changeEntity.getNewValue(), changeEntity.getParameterType());
+
+                commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(),
+                        newValueTyped);
+            }
+        }
     }
 
     @Override
