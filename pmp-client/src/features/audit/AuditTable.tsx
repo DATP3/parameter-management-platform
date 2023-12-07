@@ -26,8 +26,8 @@ const AuditList = () => {
         return <div>Error</div>;
     }
 
-    let filteredEntries = entries?.filter((e) => validateAuditFilterMatch(filter, e));
-    filteredEntries = filteredEntries?.sort((a, b) => b.pushDate.getTime() - a.pushDate.getTime());
+    const filteredEntries = entries?.filter((e) => validateAuditFilterMatch(filter, e));
+    const sortedEntries = filteredEntries?.sort((a, b) => b.pushDate.getTime() - a.pushDate.getTime());
 
     return (
         <>
@@ -45,7 +45,7 @@ const AuditList = () => {
                             </DataTableRow>
                         </DataTableHead>
                         <DataTableBody>
-                            {filteredEntries!.map((e) => (
+                            {sortedEntries!.map((e) => (
                                 <AuditDetailsEntryProvider key={e.hash} entry={e}>
                                     <AuditTableRow key={e.hash} />
                                 </AuditDetailsEntryProvider>
@@ -55,7 +55,7 @@ const AuditList = () => {
                 </DataTable>
             </ThemeMarkerWrapper>
 
-            {filteredEntries!.length === 0 && (
+            {sortedEntries!.length === 0 && (
                 <div className='mt-2'>
                     <Typography use='subtitle1'>Choose a service from the list in the left drawer</Typography>
                 </div>

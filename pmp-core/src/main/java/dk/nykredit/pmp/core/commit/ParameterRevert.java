@@ -28,7 +28,7 @@ public class ParameterRevert implements Change {
     @Override
     public List<ChangeEntity> apply(CommitDirector commitDirector) throws CommitException {
         if (commitHash == 0) {
-            throw new IllegalArgumentException("rommitHash cannot be 0 when applying revert");
+            throw new IllegalArgumentException("commitHash cannot be 0 when applying revert");
         }
 
         AuditLog auditLog = commitDirector.getAuditLog();
@@ -86,7 +86,7 @@ public class ParameterRevert implements Change {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof ParameterRevert)) {
+        if (!(obj instanceof ParameterRevert)) {
             return false;
         }
 

@@ -3,7 +3,6 @@ import { CollapsibleList, SimpleListItem, Typography } from 'rmwc';
 import ParameterList from './ParameterList';
 import { Service } from '../../features/services/types';
 import useParameterQuery from '../../features/parameters/useParameterQuery';
-import { useEffect } from 'react';
 
 interface ServiceListElementProps {
     service: Service;

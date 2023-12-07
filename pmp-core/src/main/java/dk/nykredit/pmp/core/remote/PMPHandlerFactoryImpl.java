@@ -66,6 +66,7 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
                 HttpServletResponse httpRes = ((HttpServletResponse) response);
                 HttpServletRequest httpReq = ((HttpServletRequest) request);
 
+                // Allow any origin for now
                 httpRes.setHeader("Access-Control-Allow-Origin", httpReq.getHeader("Origin"));
                 httpRes.setHeader("Access-Control-Allow-Credentials", "true");
                 httpRes.setHeader("Access-Control-Allow-Methods", "GET, POST");

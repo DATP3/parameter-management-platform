@@ -7,8 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
 // TODO: Delete this when we put services on this object
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RevertAdapter {
     private String parameterName;
     private String revertType;

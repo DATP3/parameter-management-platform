@@ -1,6 +1,5 @@
 package dk.nykredit.pmp.core.commit;
 
-import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.audit_log.AuditLogEntry;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
 import dk.nykredit.pmp.core.service.ParameterService;

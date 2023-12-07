@@ -1,7 +1,6 @@
 package dk.nykredit.pmp.core.commit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.List;
