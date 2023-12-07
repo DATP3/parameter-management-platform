@@ -56,12 +56,12 @@ public class TestAuditLogSerializer {
 
         LocalDateTime pushDate = LocalDateTime.of(2023, 11, 28, 9, 15, 12, (int) 2.93e8);
 
-		AuditLogEntry entry = new AuditLogEntry();
-		entry.setUser("test user");
-		entry.setMessage("test commit");
-		entry.setPushDate(pushDate);
-		entry.setCommitId(123);
-		entry.setAffectedServices("service1");
+        AuditLogEntry entry = new AuditLogEntry();
+        entry.setUser("test user");
+        entry.setMessage("test commit");
+        entry.setPushDate(pushDate);
+        entry.setCommitId(123);
+        entry.setAffectedServices("service1");
 
         ChangeEntity entity = new ParameterChangeEntityFactory().createChangeEntity(change);
         entry.setChanges(List.of(entity));
@@ -82,13 +82,13 @@ public class TestAuditLogSerializer {
             assertEquals("2023-11-28T09:15:12.293", node.get("pushDate").asText());
             assertEquals(Long.toHexString(123), node.get("hash").asText());
 
-			assertTrue(node.has("affectedServices"));
-			assertEquals("service1", node.get("affectedServices").elements().next().asText());
+            assertTrue(node.has("affectedServices"));
+            assertEquals("service1", node.get("affectedServices").elements().next().asText());
 
-			assertTrue(node.has("changes"));
-			JsonNode changes = node.get("changes");
-			assertTrue(changes.has("parameterChanges"));
-			assertTrue(changes.has("reverts"));
+            assertTrue(node.has("changes"));
+            JsonNode changes = node.get("changes");
+            assertTrue(changes.has("parameterChanges"));
+            assertTrue(changes.has("reverts"));
 
             assertFalse(changes.get("reverts").elements().hasNext());
 
@@ -114,22 +114,22 @@ public class TestAuditLogSerializer {
 
         LocalDateTime pushDate = LocalDateTime.of(2023, 11, 28, 9, 15, 12, (int) 2.93e8);
 
-		AuditLogEntry entry = new AuditLogEntry();
-		entry.setUser("test user");
-		entry.setMessage("test commit");
-		entry.setPushDate(pushDate);
-		entry.setCommitId(123);
-		entry.setAffectedServices("service1");
+        AuditLogEntry entry = new AuditLogEntry();
+        entry.setUser("test user");
+        entry.setMessage("test commit");
+        entry.setPushDate(pushDate);
+        entry.setCommitId(123);
+        entry.setAffectedServices("service1");
 
         ChangeEntity changeEntity = new ParameterChangeEntityFactory().createChangeEntity(change);
         entry.setChanges(List.of(changeEntity));
 
-		AuditLogEntry entry2 = new AuditLogEntry();
-		entry2.setUser("test user2");
-		entry2.setMessage("revert test commit");
-		entry2.setPushDate(pushDate.plusHours(2));
-		entry2.setCommitId(456);
-		entry2.setAffectedServices("service1");
+        AuditLogEntry entry2 = new AuditLogEntry();
+        entry2.setUser("test user2");
+        entry2.setMessage("revert test commit");
+        entry2.setPushDate(pushDate.plusHours(2));
+        entry2.setCommitId(456);
+        entry2.setAffectedServices("service1");
 
         ParameterRevert parameterRevert = new ParameterRevert();
         parameterRevert.setCommitHash(123);
@@ -160,14 +160,9 @@ public class TestAuditLogSerializer {
             assertTrue(changes.has("parameterChanges"));
             assertTrue(changes.has("reverts"));
 
-			assertTrue(node.has("affectedServices"));
-			assertEquals("service1", node.get("affectedServices").elements().next().asText());
-
-			assertTrue(node.has("changes"));
-			JsonNode changes = node.get("changes");
-			assertTrue(changes.has("parameterChanges"));
-			assertTrue(changes.has("reverts"));
             assertFalse(changes.get("parameterChanges").elements().hasNext());
+            assertTrue(node.has("affectedServices"));
+            assertEquals("service1", node.get("affectedServices").elements().next().asText());
 
             JsonNode reverts = changes.get("reverts");
 
