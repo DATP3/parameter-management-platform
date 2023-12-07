@@ -28,14 +28,13 @@ public class TestAuditLogSerializer {
 
     @Test
     public void testSerializeParameterChangeEntity() {
-        ParameterChange change = new ParameterChange();
-        change.setName("test1");
-        change.setOldValue("first");
-        change.setNewValue("second");
+        ChangeEntity entity = new ChangeEntity();
+        entity.setChangeType(ChangeType.PARAMETER_CHANGE);
+        entity.setParameterName("test1");
+        entity.setParameterType("String");
+        entity.setOldValue("first");
+        entity.setNewValue("second");
 
-        AuditLogEntry entry = new AuditLogEntry();
-
-        ChangeEntity entity = new ParameterChangeEntityFactory(entry).createChangeEntity(change);
         try (JsonParser parser = mapper.createParser(mapper.writeValueAsString(entity))) {
             ObjectCodec codec = parser.getCodec();
             JsonNode node = codec.readTree(parser);
@@ -64,7 +63,7 @@ public class TestAuditLogSerializer {
 		entry.setCommitId(123);
 		entry.setAffectedServices("service1");
 
-        ChangeEntity entity = new ParameterChangeEntityFactory(entry).createChangeEntity(change);
+        ChangeEntity entity = new ParameterChangeEntityFactory().createChangeEntity(change);
         entry.setChanges(List.of(entity));
 
         String json;
@@ -122,8 +121,8 @@ public class TestAuditLogSerializer {
 		entry.setCommitId(123);
 		entry.setAffectedServices("service1");
 
-        ChangeEntity entity = new ParameterChangeEntityFactory(entry).createChangeEntity(change);
-        entry.setChanges(List.of(entity));
+        ChangeEntity changeEntity = new ParameterChangeEntityFactory().createChangeEntity(change);
+        entry.setChanges(List.of(changeEntity));
 
 		AuditLogEntry entry2 = new AuditLogEntry();
 		entry2.setUser("test user2");
@@ -135,7 +134,9 @@ public class TestAuditLogSerializer {
         ParameterRevert parameterRevert = new ParameterRevert();
         parameterRevert.setCommitHash(123);
 
-        ChangeEntity entity2 = new ParameterRevertEntityFactory(entry2).createChangeEntity(revert);
+        ChangeEntity entity2 = new RevertPartChangeEntityFactory().createChangeEntity(changeEntity,
+                ChangeType.COMMIT_REVERT, 123);
+
         entry2.setChanges(List.of(entity2));
 
         String json;

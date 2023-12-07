@@ -3,7 +3,7 @@ package dk.nykredit.pmp.core.commit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
-import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
+import dk.nykredit.pmp.core.audit_log.ParameterChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
@@ -37,7 +37,7 @@ public class ParameterChange implements Change {
     }
 
     @Override
-    public List<Change> apply(CommitDirector commitDirector) throws CommitException {
+    public List<ChangeEntity> apply(CommitDirector commitDirector) throws CommitException {
         ParameterService parameterService = commitDirector.getParameterService();
 
         Object storedValue = parameterService.findParameterByName(name);
@@ -63,9 +63,9 @@ public class ParameterChange implements Change {
 
         parameterService.updateParameter(name, newValueTyped);
 
-        List<Change> appliedChanges = new ArrayList<>();
-        appliedChanges.add(this);
-        return appliedChanges;
+        ChangeEntity resultingChangeEntity = new ParameterChangeEntityFactory().createChangeEntity(this);
+
+        return List.of(resultingChangeEntity);
     }
 
     @Override

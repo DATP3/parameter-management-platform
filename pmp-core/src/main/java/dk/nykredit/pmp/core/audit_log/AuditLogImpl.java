@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Transactional
@@ -36,23 +35,6 @@ public class AuditLogImpl implements AuditLog {
     @Override
     public AuditLogEntry getAuditLogEntry(long commitHash) {
         return entityManager.find(AuditLogEntry.class, commitHash);
-    }
-
-    @Override
-    public Commit getCommit(long commitHash) throws IllegalArgumentException {
-        AuditLogEntry entry = getAuditLogEntry(commitHash);
-
-        if (entry == null) {
-            throw new IllegalArgumentException("No commit with hash " + commitHash);
-        }
-
-        return entry.toCommit();
-    }
-
-    @Override
-    public List<Commit> getCommits() {
-        List<AuditLogEntry> entries = getEntries();
-        return entries.stream().map(AuditLogEntry::toCommit).collect(Collectors.toList());
     }
 
     @Override

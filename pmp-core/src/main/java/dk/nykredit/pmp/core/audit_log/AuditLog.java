@@ -7,10 +7,6 @@ import dk.nykredit.pmp.core.commit.Commit;
 public interface AuditLog {
     void logCommit(Commit commit);
 
-    Commit getCommit(long commitHash) throws IllegalArgumentException;
-
-    List<Commit> getCommits();
-
     AuditLogEntry getLatestCommitToParameter(String name);
 
     AuditLogEntry getAuditLogEntry(long commitHash);

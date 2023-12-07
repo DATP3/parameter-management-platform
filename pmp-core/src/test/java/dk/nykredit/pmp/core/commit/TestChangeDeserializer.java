@@ -109,7 +109,6 @@ public class TestChangeDeserializer {
 
         CommitRevert expectedRevert = new CommitRevert();
         expectedRevert.setCommitHash(commit.getCommitHash());
-        expectedRevert.setRevertType(ChangeType.COMMIT_REVERT);
 
         assertEquals(expectedRevert, revert);
     }

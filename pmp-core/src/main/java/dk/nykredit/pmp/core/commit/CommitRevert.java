@@ -7,6 +7,7 @@ import dk.nykredit.pmp.core.audit_log.AuditLog;
 import dk.nykredit.pmp.core.audit_log.AuditLogEntry;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
+import dk.nykredit.pmp.core.audit_log.RevertPartChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,43 +16,44 @@ import lombok.Setter;
 @Getter
 public class CommitRevert implements Change {
     private long commitHash;
-    private ChangeType revertType;
 
     public CommitRevert() {
-        // Default revert type. Can also be SERVICE_COMMIT_REVERT
-        revertType = ChangeType.COMMIT_REVERT;
     }
 
-    public CommitRevert(long commitHash, ChangeType revertType) {
+    public CommitRevert(long commitHash) {
         this.commitHash = commitHash;
-        this.revertType = revertType;
     }
 
-    public List<Change> apply(CommitDirector commitDirector) throws CommitException {
+    public List<ChangeEntity> apply(CommitDirector commitDirector) throws CommitException {
         if (commitHash == 0) {
             throw new IllegalArgumentException("rommitHash cannot be 0 when applying revert");
-        }
-
-        if (revertType == null) {
-            throw new IllegalArgumentException("revertType cannot be null when applying revert");
         }
 
         AuditLog auditLog = commitDirector.getAuditLog();
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
-        List<Change> appliedChanges = new ArrayList<>();
+        List<ChangeEntity> appliedChanges = new ArrayList<>();
 
         for (ChangeEntity changeEntity : changeEntities) {
-            if (changeEntity.getParameterName() != null) {
-                AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
-                if (latestChange == null || latestChange.getCommitId() != commitHash) {
-                    continue;
-                }
+            if (changeEntity.getParameterName() == null) {
+                throw new IllegalArgumentException("Parameter name cannot be null when reverting commit");
             }
 
-            Change refencedChange = changeEntity.toChange();
-            refencedChange.undo(commitDirector);
-            appliedChanges.add(this);
+            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
+            if (latestChange == null || latestChange.getCommitId() != commitHash) {
+                continue;
+            }
+
+            Object oldValueTyped = commitDirector.getParameterService().getTypeParsers()
+                    .parse(changeEntity.getOldValue(), changeEntity.getParameterType());
+
+            commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(),
+                    oldValueTyped);
+
+            ChangeEntity resultingChangeEntity = new RevertPartChangeEntityFactory().createChangeEntity(changeEntity,
+                    ChangeType.COMMIT_REVERT, commitHash);
+
+            appliedChanges.add(resultingChangeEntity);
         }
 
         return appliedChanges;
@@ -62,13 +64,20 @@ public class CommitRevert implements Change {
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
 
-        for (ChangeEntity change : changeEntities) {
-            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(change.getParameterName());
+        for (ChangeEntity changeEntity : changeEntities) {
+            if (changeEntity.getParameterName() == null) {
+                throw new IllegalArgumentException("Parameter name cannot be null when reverting commit");
+            }
+
+            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
             if (latestChange == null || latestChange.getCommitId() != commitHash) {
                 continue;
             }
 
-            change.toChange().apply(commitDirector);
+            Object newValueTyped = commitDirector.getParameterService().getTypeParsers()
+                    .parse(changeEntity.getNewValue(), changeEntity.getParameterType());
+
+            commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(), newValueTyped);
         }
     }
 
@@ -84,11 +93,11 @@ public class CommitRevert implements Change {
         }
 
         CommitRevert other = (CommitRevert) obj;
-        return commitHash == other.getCommitHash() && revertType == other.getRevertType();
+        return commitHash == other.getCommitHash();
     }
 
     @Override
     public String toString() {
-        return "CommitRevert {\n    commitHash=" + commitHash + ", \n    revertType=" + revertType + "\n}";
+        return "CommitRevert {\n    commitHash=" + commitHash + "\n}";
     }
 }

@@ -63,9 +63,10 @@ public class TestAuditLog extends H2StartDatabase {
 
         commitDirector.apply(commit);
 
-        Commit commit2 = auditLog.getCommit(commit.getCommitHash());
+        AuditLogEntry commitEntry2 = auditLog.getAuditLogEntry(commit.getCommitHash());
+        AuditLogEntry commitEntry = new AuditLogEntryFactory().createAuditLogEntry(commit);
 
-        assertEquals(commit, commit2);
+        assertEquals(commitEntry, commitEntry2);
     }
 
     @Test
@@ -104,9 +105,9 @@ public class TestAuditLog extends H2StartDatabase {
 
         commitDirector.apply(commit2);
 
-        Commit commit3 = auditLog.getCommit(commit2.getCommitHash());
+        AuditLogEntry commitEntry2 = auditLog.getAuditLogEntry(commit2.getCommitHash());
 
-        assertEquals(commit2.getAppliedChanges(), commit3.getChanges());
+        assertEquals("data1", commitEntry2.getChanges().get(0).getNewValue());
 
         parameterService.getRepository().endTransaction();
     }

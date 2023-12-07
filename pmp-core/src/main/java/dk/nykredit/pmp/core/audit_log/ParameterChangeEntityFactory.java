@@ -1,25 +1,16 @@
 package dk.nykredit.pmp.core.audit_log;
 
-import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.ParameterChange;
 
-public class ParameterChangeEntityFactory extends ChangeEntityFactory {
+public class ParameterChangeEntityFactory {
+    public ChangeEntity createChangeEntity(ParameterChange paramChange) {
+        ChangeEntity resultingChangeEntity = new ChangeEntity();
+        resultingChangeEntity.setChangeType(ChangeType.PARAMETER_CHANGE);
+        resultingChangeEntity.setParameterName(paramChange.getName());
+        resultingChangeEntity.setOldValue(paramChange.getOldValue());
+        resultingChangeEntity.setNewValue(paramChange.getNewValue());
+        resultingChangeEntity.setParameterType(paramChange.getType());
 
-    public ParameterChangeEntityFactory(AuditLogEntry auditLogEntry) {
-        super(auditLogEntry);
-    }
-
-    @Override
-    public ChangeEntity createChangeEntity(Change change) {
-        ChangeEntity changeEntity = new ChangeEntity();
-        ParameterChange paramChange = (ParameterChange) change;
-        changeEntity.setCommit(auditLogEntry);
-        changeEntity.setParameterName(paramChange.getName());
-        changeEntity.setParameterType(paramChange.getType());
-        changeEntity.setOldValue(paramChange.getOldValue());
-        changeEntity.setNewValue(paramChange.getNewValue());
-        changeEntity.setChangeType(ChangeType.PARAMETER_CHANGE);
-
-        return changeEntity;
+        return resultingChangeEntity;
     }
 }
