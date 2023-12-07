@@ -36,7 +36,7 @@ public class ParameterRevert implements Change {
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
 
         for (ChangeEntity changeEntity : changeEntities) {
-            if (parameterName == changeEntity.getParameterName()) {
+            if (parameterName.equals(changeEntity.getParameterName())) {
                 Object oldValueTyped = commitDirector.getParameterService().getTypeParsers()
                         .parse(changeEntity.getOldValue(), changeEntity.getParameterType());
 
@@ -51,7 +51,8 @@ public class ParameterRevert implements Change {
         }
 
         throw new IllegalArgumentException(
-                "No parameter change found with parameter name: " + parameterName + " in commit: " + commitHash + ".");
+                "No parameter change found with parameter name: " + parameterName + " in commit: "
+                        + Long.toHexString(commitHash) + ".");
     }
 
     @Override
