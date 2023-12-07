@@ -1,7 +1,5 @@
 package dk.nykredit.pmp.core.commit;
 
-import dk.nykredit.pmp.core.audit_log.AuditLog;
-import dk.nykredit.pmp.core.audit_log.AuditLogEntry;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
 import dk.nykredit.pmp.core.service.ParameterService;
 import org.jboss.weld.environment.se.Weld;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestParameterRevert extends H2StartDatabase {
     private WeldContainer container;
