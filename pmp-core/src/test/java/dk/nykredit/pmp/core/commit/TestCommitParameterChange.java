@@ -24,17 +24,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestCommitParameterChange extends H2StartDatabase {
 
 	private static final String commitJson = "{\n" +
-			"\"pushDate\": \"2023-11-28T09:15:12.293Z\",\n" +
-			"\"user\": \"test\",\n" +
-			"\"message\": \"test commit\",\n" +
-			"\"changes\": [\n" +
-			"{\n" +
-			"\"name\": \"test1\",\n" +
-			"\"type\": \"String\",\n" +
-			"\"oldValue\": \"data1\",\n" +
-			"\"newValue\": \"data2\"\n" +
-			"}\n" +
-			"]\n" +
+			"    \"changes\": [\n" +
+			"        {\n" +
+			"            \"newValue\": \"data2\",\n" +
+			"            \"service\": { \"name\": \"service2\", \"address\": \"2.2.2.2\", \"environment\": { \"environment\": \"prod\" } },\n" +
+			"            \"id\": \"61\",\n" +
+			"            \"name\": \"test1\",\n" +
+			"            \"type\": \"String\",\n" +
+			"            \"value\": \"data1\"\n" +
+			"        }\n" +
+			"    ],\n" +
+			"    \"user\": \"test\",\n" +
+			"    \"message\": \"test commit\",\n" +
+			"    \"pushDate\": \"2023-11-28T09:15:12.293Z\",\n" +
+			"    \"affectedServices\": [\"service2\"]\n" +
 			"}";
 
 	private WeldContainer container;
@@ -197,5 +200,6 @@ public class TestCommitParameterChange extends H2StartDatabase {
 		assertEquals("test commit", commit.getMessage());
 		assertEquals(pushDate, commit.getPushDate());
 		assertEquals(changes, commit.getChanges());
+		assertEquals(List.of("service2"), commit.getAffectedServices());
 	}
 }
