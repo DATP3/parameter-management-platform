@@ -10,10 +10,14 @@ import dk.nykredit.pmp.core.service.ParameterService;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.transaction.Transactional;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,24 +27,27 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class TestCommitParameterChange extends H2StartDatabase {
 
-	private static final String commitJson = "{\n" +
-			"\"pushDate\": \"2023-11-28T09:15:12.293Z\",\n" +
-			"\"user\": \"test\",\n" +
-			"\"message\": \"test commit\",\n" +
-			"\"changes\": [\n" +
-			"{\n" +
-			"\"name\": \"test1\",\n" +
-			"\"type\": \"String\",\n" +
-			"\"oldValue\": \"data1\",\n" +
-			"\"newValue\": \"data2\"\n" +
-			"}\n" +
-			"]\n" +
-			"}";
+	private static final String commitJsonPath = "comitJson.json";
+	private static String commitJson;
 
+	
 	private WeldContainer container;
 	private CommitDirector commitDirector;
 
 	private ObjectMapper mapper;
+	
+	@BeforeAll
+	public void beforeAll(){
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(commitJsonPath);
+
+		try {
+				commitJson = new String(inputStream.readAllBytes());
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+	}
 
 	@BeforeEach
 	public void before() {
@@ -73,6 +80,7 @@ public class TestCommitParameterChange extends H2StartDatabase {
 		change.setNewValue("data2");
 		change.setOldValue("data1");
 		change.setType("String");
+		change.service = new Service("testServiceName", "testServiceRoot", new Environment("testServiceEnvironment"));
 		changes.add(change);
 
 		commit.setChanges(changes);

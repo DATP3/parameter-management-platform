@@ -8,6 +8,7 @@ import dk.nykredit.pmp.core.audit_log.AuditLogEntry;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,10 +22,6 @@ public class CommitRevert implements Change {
         AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
         List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
         List<PersistableChange> appliedChanges = new ArrayList<>();
-
-        if (!commitDirector.getChangeValidator().validateChange(this)) {
-            return appliedChanges;
-        }
 
         for (ChangeEntity changeEntity : changeEntities) {
             AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
@@ -54,6 +51,12 @@ public class CommitRevert implements Change {
 
             change.toChange().apply(commitDirector);
         }
+    }
+
+    @Override
+    public void acceptVisitor(ChangeVisitor visitor) {
+
+        visitor.visit(this);
     }
 
     @Override

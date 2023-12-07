@@ -9,13 +9,13 @@ public class Service {
 
     private String name;
     private String address;
-    private String environment;
+    private Environment environment;
 
     public Service() {
         
     }
 
-    public Service (String name, String address, String environment) {
+    public Service (String name, String address, Environment environment) {
         this.address = address;
         this.environment = environment;
         this.name = name;

@@ -22,6 +22,9 @@ public class Commit {
     @Inject
     private ServiceInfoProvider serviceInfoProvider;
 
+    @Inject 
+    ChangeValidator changeValidator;
+
     private LocalDateTime pushDate;
     private String user;
     private String message;
@@ -29,13 +32,17 @@ public class Commit {
     private List<Change> changes;
 
     @JsonIgnore
+    private List<Change> validatedChanges;
+    @JsonIgnore
     private List<PersistableChange> appliedChanges;
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
         appliedChanges = new ArrayList<>(changes.size());
 
-        for (Change change : changes) {
+        validateChanges(changes);
+
+        for (Change change : validatedChanges) {
 
             try {
                 appliedChanges.addAll(change.apply(commitDirector));
@@ -45,6 +52,17 @@ public class Commit {
                 throw e;
             }
         }
+    }
+
+    private void validateChanges(List<Change> changes) {
+
+        ChangeValidator changeValidator = new ChangeValidator();
+
+        for (Change change : changes) {
+            change.acceptVisitor(changeValidator);
+        }
+
+        validatedChanges = changeValidator.getValidatedChanges();
     }
 
     private void undoChanges(List<PersistableChange> changes, CommitDirector commitDirector) {

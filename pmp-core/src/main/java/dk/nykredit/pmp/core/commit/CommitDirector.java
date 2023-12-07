@@ -29,8 +29,4 @@ public class CommitDirector {
         auditLog.logCommit(commit);
 
     }
-
-    public ChangeValidator getValidator() {
-        return changeValidator;
-    }
 }

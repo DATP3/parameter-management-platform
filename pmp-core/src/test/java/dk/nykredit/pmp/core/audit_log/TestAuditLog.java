@@ -16,7 +16,9 @@ import dk.nykredit.pmp.core.commit.Change;
 import dk.nykredit.pmp.core.commit.Commit;
 import dk.nykredit.pmp.core.commit.CommitDirector;
 import dk.nykredit.pmp.core.commit.CommitRevert;
+import dk.nykredit.pmp.core.commit.Environment;
 import dk.nykredit.pmp.core.commit.ParameterChange;
+import dk.nykredit.pmp.core.commit.Service;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
 import dk.nykredit.pmp.core.service.ParameterService;
 
@@ -27,6 +29,8 @@ public class TestAuditLog extends H2StartDatabase {
     private AuditLog auditLog;
     private CommitDirector commitDirector;
 
+    private Service testThisService;
+
     @BeforeEach
     public void before() {
         Weld weld = new Weld();
@@ -35,7 +39,8 @@ public class TestAuditLog extends H2StartDatabase {
         parameterService = container.select(ParameterService.class).get();
         parameterService.persistParameter("test1", "data1");
         parameterService.persistParameter("test2", 5);
-
+        testThisService = new Service("testServiceName", "testServiceRoot", new Environment("testServiceEnvironment"));
+    
         auditLog = container.select(AuditLog.class).get();
     }
 
@@ -52,8 +57,8 @@ public class TestAuditLog extends H2StartDatabase {
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
 
-        Change c1 = new ParameterChange("test1", "String", "data1", "data2");
-        Change c2 = new ParameterChange("test2", "Integer", "5", "10");
+        Change c1 = new ParameterChange("test1", "String", "data1", "data2", testThisService);
+		Change c2 = new ParameterChange("test2", "Integer", "5", "10", testThisService);
 
         List<Change> changes = new ArrayList<>();
         changes.add(c1);
@@ -75,8 +80,8 @@ public class TestAuditLog extends H2StartDatabase {
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
 
-        Change c1 = new ParameterChange("test1", "String", "data1", "data2");
-        Change c2 = new ParameterChange("test2", "Integer", "5", "10");
+        Change c1 = new ParameterChange("test1", "String", "data1", "data2", testThisService);
+        Change c2 = new ParameterChange("test2", "Integer", "5", "10", testThisService);
 
         List<Change> changes = new ArrayList<>();
         changes.add(c1);

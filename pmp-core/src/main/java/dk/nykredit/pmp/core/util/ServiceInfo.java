@@ -29,6 +29,6 @@ public class ServiceInfo {
 
     @Override
     public String toString() {
-        return ("pmpRoot: " + pmpRoot + ", name: " + name);
+        return ("pmpRoot: " + pmpRoot + ", name: " + name + ", environment: " + environment);
     }
 }

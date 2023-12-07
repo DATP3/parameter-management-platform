@@ -1,0 +1,20 @@
+{
+    "pushDate": "2023-11-28T09:15:12.293Z",
+    "user": "test",
+    "message": "test commit",
+    "changes": [
+        {
+            "name": "test1",
+            "type": "String",
+            "oldValue": "data1",
+            "newValue": "data2",
+            "service": {
+                "name": "testServiceName",
+                "address": "testServiceRoot",
+                "environment": {
+                    "environment": "testServiceEnvironment"
+                }
+            }
+        }
+    ]
+}

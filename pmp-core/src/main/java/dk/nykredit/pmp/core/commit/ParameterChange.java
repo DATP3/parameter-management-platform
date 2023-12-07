@@ -10,6 +10,7 @@ import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.service.ParameterService;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,6 +41,11 @@ public class ParameterChange implements PersistableChange {
         this.newValue = newValue;
     }
 
+    @Override
+    public void acceptVisitor(ChangeVisitor visitor) {
+        visitor.visit(this);
+    }
+
     public String getPmpRoot() {
         return service.getPmpRoot();
     }
@@ -51,11 +57,6 @@ public class ParameterChange implements PersistableChange {
 
     @Override
     public List<PersistableChange> apply(CommitDirector commitDirector) throws CommitException {
-
-        if (!commitDirector.getChangeValidator().validateChange(this)) {
-            return new ArrayList<>();
-        }
-
         ParameterService parameterService = commitDirector.getParameterService();
 
 

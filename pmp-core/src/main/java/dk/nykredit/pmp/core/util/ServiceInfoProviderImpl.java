@@ -17,7 +17,10 @@ public class ServiceInfoProviderImpl implements ServiceInfoProvider {
     
     @Override
     public ServiceInfo getServiceInfo() {
-        if (serviceInfo == null) {
+        if (serviceInfo == null ||
+            serviceInfo.getPmpRoot() == null ||
+            serviceInfo.getName() == null ||
+            serviceInfo.getEnvironment() == null) {
             serviceInfo = readServiceFile();
         }
         return serviceInfo;
