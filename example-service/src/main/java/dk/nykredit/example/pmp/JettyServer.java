@@ -5,6 +5,7 @@ import dk.nykredit.pmp.core.remote.PMPServerImpl;
 import org.eclipse.jetty.cdi.CdiDecoratingListener;
 import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ListenerHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
@@ -41,6 +42,8 @@ public class JettyServer {
 				new EnhancedListener()));
 		cx.addBean(new ServletContextHandler.Initializer(cx,
 				new CdiServletContainerInitializer()));
+
+		cx.getServletHandler().addListener(new ListenerHolder(DatabaseContextInitializer.class));
 
 		// Either start a fresh Jetty server like this or add the handler from
 		// `PMPHandlerFactory.getHandler()` to
