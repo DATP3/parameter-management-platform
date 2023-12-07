@@ -12,12 +12,6 @@ interface ServiceListElementProps {
 const ServiceListElement = ({ service }: ServiceListElementProps) => {
     const { data, error } = useParameterQuery(service);
 
-    useEffect(() => {
-        if (error) {
-            console.error(error);
-        }
-    }, [error]);
-
     return (
         <CollapsibleList
             defaultOpen
