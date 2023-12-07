@@ -30,8 +30,7 @@ const config: PlaywrightTestConfig<{}, {}> = {
         trace: 'on-first-retry',
 
         /** Run without opening browser */
-        // headless: !process.env.PLAYWRIGHT_NOT_HEADLESS
-        headless: true
+        headless: !process.env.PLAYWRIGHT_NOT_HEADLESS
     },
 
     /** Configure projects for major browsers */
