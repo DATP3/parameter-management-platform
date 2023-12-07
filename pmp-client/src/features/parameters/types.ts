@@ -12,18 +12,18 @@ export interface ParameterResponse {
 }
 
 export enum ParameterType {
-    STRING = 'string',
-    CHARACTER = 'character',
-    INTEGER = 'integer',
-    LONG = 'long',
-    SHORT = 'short',
-    BYTE = 'byte',
-    FLOAT = 'float',
-    DOUBLE = 'double',
-    BIGDECIMAL = 'bigdecimal',
-    BOOLEAN = 'boolean',
-    LOCALDATE = 'localdate',
-    LOCALDATETIME = 'localdatetime'
+    STRING = 'String',
+    CHARACTER = 'Character',
+    INTEGER = 'Integer',
+    LONG = 'Long',
+    SHORT = 'Short',
+    BYTE = 'Byte',
+    FLOAT = 'Float',
+    DOUBLE = 'Double',
+    BIGDECIMAL = 'Bigdecimal',
+    BOOLEAN = 'Boolean',
+    LOCALDATE = 'Localdate',
+    LOCALDATETIME = 'Localdatetime'
 }
 
 export interface ParameterFilter {

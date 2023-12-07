@@ -66,7 +66,8 @@ const useAuditLogEntries = (queryString: string) => {
 
                 // TODO: Use real data. Test is set up to intercept
                 // const response = await axios.get(`${service.address}/pmp/log?query=${queryString}`, {
-                const response = await axios.get(`/mock/auditentries/${service.address}.json`, {
+                console.log(`${service.address}/log`);
+                const response = await axios.get(`http://${service.address}/log`, {
                     headers: {
                         'pmp-environment': environment,
                         Authorization: `Bearer ${token}`

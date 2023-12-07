@@ -38,12 +38,15 @@ const usePushCommitSingleService = () => {
 
     return useMutation({
         mutationFn: async ({ commit, service }: SingleServiceMutationVariables) => {
+            console.log(service);
+
             const token = (await instance.acquireTokenSilent({ account: accounts[0], scopes })).accessToken;
 
             const adaptedData = adaptCommit(commit);
             console.log(adaptedData);
+            console.log('POSTING COMMIT TO: ' + service.address);
 
-            const res = await axios.post(service.address, adaptedData, {
+            const res = await axios.post(`http://${service.address}/commit`, adaptedData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'pmp-environment': environment
@@ -68,6 +71,7 @@ const usePushCommit = (commit: CommitBody) => {
             if (!services) {
                 return;
             }
+            console.log(services);
             const promises = services?.map((service) => {
                 return mutateAsync({ service, commit });
             });

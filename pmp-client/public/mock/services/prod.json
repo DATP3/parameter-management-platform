@@ -1,9 +1,6 @@
 {
     "environment": "prod",
     "services": [
-        { "name": "service1", "pmpRoot": "1.1.1.1", "lastRefresh": 1701777516214 },
-        { "name": "service2", "pmpRoot": "2.2.2.2", "lastRefresh": 1701777516214 },
-        { "name": "service5", "pmpRoot": "5.5.5.5", "lastRefresh": 1701777516214 },
-        { "name": "service7", "pmpRoot": "7.7.7.7", "lastRefresh": 1701777516214 }
+        { "name": "service1", "pmpRoot": "localhost:64017", "lastRefresh": 1701777516214 }
     ]
 }
