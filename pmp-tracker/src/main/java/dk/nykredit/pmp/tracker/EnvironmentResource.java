@@ -14,7 +14,7 @@ public class EnvironmentResource {
     private Tracker tracker;
 
     public EnvironmentResource() {
-        tracker = new Tracker();
+        tracker = Tracker.getTracker();
     }
 
     @Context HttpHeaders headers;

@@ -70,3 +70,6 @@ databaseChangeLog:
               - column:
                   name: AUTHOR
                   type: VARCHAR2(4000)
+              - column:
+                  name: AFFECTED_SERVICES
+                  type: VARCHAR2(4000)

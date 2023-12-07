@@ -1,8 +1,7 @@
 package dk.nykredit.pmp.core.commit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeEntityFactory;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
@@ -14,11 +13,18 @@ import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
+// TODO: Delete this when we put services on this object
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ParameterChange implements PersistableChange {
     protected String name;
     protected String type;
+
+    @JsonProperty("value")
     protected String oldValue;
     protected String newValue;
     protected Service service;

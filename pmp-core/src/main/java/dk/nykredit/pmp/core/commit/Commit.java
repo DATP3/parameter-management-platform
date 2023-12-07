@@ -28,6 +28,7 @@ public class Commit {
     private LocalDateTime pushDate;
     private String user;
     private String message;
+    private List<String> affectedServices;
 
     private List<Change> changes;
 

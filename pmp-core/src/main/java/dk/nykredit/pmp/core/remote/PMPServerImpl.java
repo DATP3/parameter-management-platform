@@ -1,5 +1,8 @@
 package dk.nykredit.pmp.core.remote;
 
+import dk.nykredit.pmp.core.util.ServiceInfo;
+import dk.nykredit.pmp.core.util.ServiceInfoProvider;
+import dk.nykredit.pmp.core.util.ServiceInfoProviderImpl;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 
@@ -8,6 +11,7 @@ public class PMPServerImpl implements PMPServer {
     // TODO: This can be injected but Weld is being rude :(
     private final TrackerService trackerService = new TrackerServiceImpl();
     private final PMPHandlerFactory handlerFactory = new PMPHandlerFactoryImpl();
+    private final ServiceInfoProvider serviceInfoProvider = new ServiceInfoProviderImpl();
 
     private final Server server;
     private final int port;
@@ -25,11 +29,11 @@ public class PMPServerImpl implements PMPServer {
         System.out.println("Starting PMP remote on port " + port);
         try {
             server.start();
-            // TODO: Get the right data about the service
+            ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
             try {
-                trackerService.announce("http://localhost:" + port + "/","Test Service", "Test1");
+                trackerService.announce(serviceInfo.getPmpRoot(), serviceInfo.getName(), serviceInfo.getEnvironment());
             } catch (Exception e) {
-                // TODO: handle exception
+                throw new Error(e);
             }
             
         } catch (Exception e) {

@@ -73,6 +73,7 @@ public class TestCommitParameterChange extends H2StartDatabase {
 		Commit commit = new Commit();
 		commit.setUser("author");
 		commit.setPushDate(LocalDateTime.now());
+		commit.setAffectedServices(List.of("service1"));
 
 		List<Change> changes = new ArrayList<>();
 		ParameterChange change = new ParameterChange();
@@ -96,6 +97,7 @@ public class TestCommitParameterChange extends H2StartDatabase {
 		Commit commit = new Commit();
 		commit.setUser("author");
 		commit.setPushDate(LocalDateTime.now());
+		commit.setAffectedServices(List.of("service1"));
 
 		List<Change> changes = new ArrayList<>();
 		ParameterChange change = new ParameterChange();
@@ -162,6 +164,7 @@ public class TestCommitParameterChange extends H2StartDatabase {
 		Commit commit = new Commit();
 		commit.setUser("author");
 		commit.setPushDate(LocalDateTime.now());
+		commit.setAffectedServices(List.of("service1"));
 
 		List<Change> changes = new ArrayList<>();
 		ParameterChange change1 = new ParameterChange();
@@ -202,5 +205,6 @@ public class TestCommitParameterChange extends H2StartDatabase {
 		assertEquals("test commit", commit.getMessage());
 		assertEquals(pushDate, commit.getPushDate());
 		assertEquals(changes, commit.getChanges());
+		assertEquals(List.of("service2"), commit.getAffectedServices());
 	}
 }

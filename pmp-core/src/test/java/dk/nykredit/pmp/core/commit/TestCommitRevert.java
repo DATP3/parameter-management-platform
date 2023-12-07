@@ -47,6 +47,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit.setUser("author");
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change = new ParameterChange();
@@ -67,6 +68,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit2.setPushDate(LocalDateTime.now());
         commit2.setUser("test1");
         commit2.setMessage("revert commit 1");
+        commit2.setAffectedServices(List.of("service1"));
 
         List<Change> changes2 = new ArrayList<>();
         changes2.add(commitRevert);
@@ -92,6 +94,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit.setUser("author");
         commit.setMessage("test commit asd");
         commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         {
             List<Change> changes = new ArrayList<>();
@@ -118,6 +121,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit2.setUser("author");
         commit2.setMessage("test commit 2");
         commit2.setPushDate(LocalDateTime.now());
+        commit2.setAffectedServices(List.of("service1"));
 
         {
             List<Change> changes = new ArrayList<>();
@@ -140,6 +144,7 @@ public class TestCommitRevert extends H2StartDatabase {
         revertCommit.setPushDate(LocalDateTime.now());
         revertCommit.setUser("test1");
         revertCommit.setMessage("revert commit 1");
+        revertCommit.setAffectedServices(List.of("service1"));
 
         List<Change> changes2 = new ArrayList<>();
         changes2.add(commitRevert);
@@ -168,6 +173,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit1.setPushDate(LocalDateTime.now());
         commit1.setUser("user 1");
         commit1.setMessage("commit 1");
+        commit1.setAffectedServices(List.of("service1"));
 
         commitDirector.apply(commit1);
 
@@ -180,6 +186,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit2.setPushDate(LocalDateTime.now());
         commit2.setUser("user 1");
         commit2.setMessage("revert commit 1");
+        commit2.setAffectedServices(List.of("service1"));
 
         commitDirector.apply(commit2);
 
@@ -194,6 +201,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit3.setPushDate(LocalDateTime.now());
         commit3.setUser("user 1");
         commit3.setMessage("revert commit 2");
+        commit3.setAffectedServices(List.of("service1"));
 
         commitDirector.apply(commit3);
 
