@@ -1,5 +1,6 @@
 import { CommitBody, ParameterChange } from '../types';
 import { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Service } from '../../services/types';
 import axios from 'axios';
@@ -7,7 +8,6 @@ import { isParameterChange } from '../commitStoreHelpers';
 import { scopes } from '../../auth/authConfig';
 import useEnvironment from '../../environment/useEnvironment';
 import { useMsal } from '@azure/msal-react';
-import { useMutation } from '@tanstack/react-query';
 import useServices from '../../services/useServices';
 
 const adaptCommit = (commit: CommitBody) => {
@@ -49,6 +49,7 @@ const usePushCommitSingleService = () => {
                     'pmp-environment': environment
                 }
             });
+
             return res;
         }
     });
@@ -60,6 +61,7 @@ const usePushCommit = (commit: CommitBody) => {
     const [requestState, setRequestState] = useState<RequestState>('loading');
     const { data: services } = useServices();
     const { mutateAsync } = usePushCommitSingleService();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         const fun = async () => {
@@ -71,6 +73,16 @@ const usePushCommit = (commit: CommitBody) => {
             });
 
             const results = await Promise.allSettled(promises);
+
+            // Refetch any data from services which successfully recieved the changes
+            results.forEach((res, i) => {
+                if (res.status === 'fulfilled') {
+                    void queryClient.invalidateQueries({
+                        predicate: (query) => query.queryKey.includes(services[i].name)
+                    });
+                }
+            });
+
             if (results.every((res) => res.status === 'fulfilled')) {
                 setRequestState('success');
             } else if (results.every((res) => res.status === 'rejected')) {
