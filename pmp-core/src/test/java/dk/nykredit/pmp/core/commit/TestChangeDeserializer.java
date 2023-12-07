@@ -82,8 +82,9 @@ public class TestChangeDeserializer {
         String json = mapper.writeValueAsString(revertAdapter);
         Change revert = mapper.readValue(json, Change.class);
 
-        Change expectedRevert = RevertFactory.createChange(paramChange, commit.getCommitHash(),
-                ChangeType.PARAMETER_REVERT);
+        ParameterRevert expectedRevert = new ParameterRevert();
+        expectedRevert.setCommitHash(commit.getCommitHash());
+        expectedRevert.setParameterName(paramChange.getName());
 
         assertEquals(expectedRevert, revert);
     }
