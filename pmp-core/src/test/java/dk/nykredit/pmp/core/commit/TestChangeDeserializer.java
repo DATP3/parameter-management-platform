@@ -69,6 +69,7 @@ public class TestChangeDeserializer {
         commit.setUser("author");
         commit.setMessage("test");
         commit.setChanges(List.of(paramChange));
+        commit.setAffectedServices(List.of("service1"));
 
         commitDirector.apply(commit);
 
@@ -95,6 +96,7 @@ public class TestChangeDeserializer {
         commit.setUser("author");
         commit.setMessage("test");
         commit.setChanges(List.of(paramChange));
+        commit.setAffectedServices(List.of("service1"));
 
         commitDirector.apply(commit);
 

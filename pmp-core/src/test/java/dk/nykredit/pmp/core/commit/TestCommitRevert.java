@@ -224,6 +224,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit1.setUser("author");
         commit1.setMessage("change both parameters");
         commit1.setPushDate(LocalDateTime.now());
+        commit1.setAffectedServices(List.of("service1"));
 
         {
             List<Change> changes = new ArrayList<>();
@@ -250,6 +251,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit2.setUser("author");
         commit2.setMessage("revert test2");
         commit2.setPushDate(LocalDateTime.now());
+        commit2.setAffectedServices(List.of("service1"));
 
         {
             List<Change> changes = new ArrayList<>();
@@ -267,6 +269,7 @@ public class TestCommitRevert extends H2StartDatabase {
         commit3.setUser("author");
         commit3.setMessage("revert commit1");
         commit3.setPushDate(LocalDateTime.now());
+        commit3.setAffectedServices(List.of("service1"));
 
         {
             List<Change> changes = new ArrayList<>();
