@@ -61,13 +61,10 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
         @Override
         public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                 throws IOException, ServletException {
-            System.out.println("Filtering request");
 
             if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
                 HttpServletResponse httpRes = ((HttpServletResponse) response);
                 HttpServletRequest httpReq = ((HttpServletRequest) request);
-
-                System.out.println("HTTP!");
 
                 httpRes.setHeader("Access-Control-Allow-Origin", httpReq.getHeader("Origin"));
                 httpRes.setHeader("Access-Control-Allow-Credentials", "true");
