@@ -27,7 +27,7 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
     @Override
     public Handler getHandler() {
         ServletContextHandler cx = new ServletContextHandler();
-        cx.setContextPath("/");
+        cx.setContextPath("/pmp");
         cx.addServlet(ParametersServlet.class, "/parameters");
         cx.addServlet(CommitServlet.class, "/commit");
         cx.addServlet(LogServlet.class, "/log");

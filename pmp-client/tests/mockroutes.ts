@@ -4,7 +4,9 @@ import { getBaseUrl } from './helpers';
 
 const routeToPublicMock = async (page: Page, from: string, to: string) => {
     await page.route(from, async (route) => {
-        const base = getBaseUrl(page);
+        const base = 'http://localhost:4173';
+        // const base = getBaseUrl(page);
+        // throw new Error(`Mock route not found: ${base}/mock${to}`);
         const response = await axios.get<unknown[]>(`${base}/mock${to}`);
         await route.fulfill({
             status: 200,
@@ -33,5 +35,5 @@ export const mockParametersRoute = async (page: Page) => {
 };
 
 export const mockAuditLogRoute = async (page: Page) => {
-    await routeToPublicMock(page, '*/**/pmp/log?*', '/auditentries/2.2.2.2.json');
+    await routeToPublicMock(page, '*/**/pmp/log*', '/auditentries/2.2.2.2.json');
 };

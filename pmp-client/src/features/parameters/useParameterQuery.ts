@@ -22,8 +22,8 @@ const parameterParser = z.object({
  */
 const useParameterQuery = (service: Service) => {
     // TODO: Use real data. Test is set up to intercept
-    return useSimpleQuery(['parameters', service.name], `http://${service.address}/parameters`, parameterParser);
-    //return useSimpleQuery(['parameters', service.name], `/mock/parameters/${service.address}.json`, parameterParser);
+    // return useSimpleQuery(['parameters', service.name], `http://${service.address}/pmp/parameters`, parameterParser);
+    return useSimpleQuery(['parameters', service.name], `/mock/parameters/${service.address}.json`, parameterParser);
 };
 
 export default useParameterQuery;
