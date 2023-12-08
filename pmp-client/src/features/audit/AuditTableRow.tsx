@@ -13,7 +13,7 @@ const AuditTableRow = (_: AuditTableRowProps) => {
     return (
         <>
             <AuditDetailsDialog open={open} onClose={() => setOpen(false)} />
-            <DataTableRow className='tableRow' onClick={() => setOpen(true)}>
+            <DataTableRow className='tableRow cursor-pointer' onClick={() => setOpen(true)}>
                 <DataTableCell>{formatDate(entry.pushDate)}</DataTableCell>
                 <DataTableCell>{entry.user}</DataTableCell>
                 <DataTableCell>
