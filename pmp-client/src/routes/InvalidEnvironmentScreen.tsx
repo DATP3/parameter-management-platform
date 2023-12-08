@@ -1,6 +1,7 @@
 import { Button, CircularProgress, Grid, GridCell, Typography } from 'rmwc';
-import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
+
 import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
+import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 
 const InvalidEnvironmentScreen = () => {
     const setEnvironment = useSetEnvironment_UNSAFE();
@@ -27,7 +28,7 @@ const InvalidEnvironmentScreen = () => {
                     {/* <h3>To proceed, please pick an environment</h3> */}
                     <Grid>
                         {environments.map((e) => (
-                            <GridCell>
+                            <GridCell key={e.environment}>
                                 <Button
                                     className='w-full h-20'
                                     key={e.environment}

@@ -33,14 +33,14 @@ interface SingleServiceMutationVariables {
 }
 
 const usePushCommitSingleService = () => {
-    const { instance, accounts } = useMsal();
-    const { environment } = useEnvironment();
+    // const { instance, accounts } = useMsal();
+    // const { environment } = useEnvironment();
 
     return useMutation({
         mutationFn: async ({ commit, service }: SingleServiceMutationVariables) => {
-            const token = (await instance.acquireTokenSilent({ account: accounts[0], scopes })).accessToken;
+            // const token = (await instance.acquireTokenSilent({ account: accounts[0], scopes })).accessToken;
 
-            const adaptedData = adaptCommit(commit);
+            // const adaptedData = adaptCommit(commit);
 
             const res = await axios.post(`${service.address}/pmp/commit`, adaptedData, {
                 headers: {
@@ -49,7 +49,7 @@ const usePushCommitSingleService = () => {
                 }
             });
 
-            return res;
+            // return res;
         }
     });
 };
