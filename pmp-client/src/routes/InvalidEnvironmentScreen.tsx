@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Typography } from 'rmwc';
+import { Button, CircularProgress, Grid, GridCell, Typography } from 'rmwc';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
 
@@ -19,14 +19,27 @@ const InvalidEnvironmentScreen = () => {
     return (
         // TODO: Change button style per environment
         <>
-            <div className='prose max-w-full'>
-                <h3>To proceed, please pick an environment</h3>
-
-                {environments.map((e) => (
-                    <Button key={e.environment} raised onClick={() => setEnvironment(e)}>
-                        {e.environment}
-                    </Button>
-                ))}
+            <div className='prose max-w-full p-40 flex justify-center w-full'>
+                <div>
+                    <Typography use='headline4'>Parameter Management Platform</Typography>
+                    <br></br>
+                    <Typography use='headline5'>To proceed, please pick an environment</Typography>
+                    {/* <h3>To proceed, please pick an environment</h3> */}
+                    <Grid>
+                        {environments.map((e) => (
+                            <GridCell>
+                                <Button
+                                    className='w-full h-20'
+                                    key={e.environment}
+                                    raised
+                                    onClick={() => setEnvironment(e)}
+                                >
+                                    {e.environment}
+                                </Button>
+                            </GridCell>
+                        ))}
+                    </Grid>
+                </div>
             </div>
         </>
     );

@@ -1,29 +1,31 @@
-[
-    { "id": "109", "name": "request_timeout", "type": "integer", "value": "20" },
-    { "id": "110", "name": "api_url_prefix", "type": "string", "value": "https://api.example-service.com" },
-    { "id": "111", "name": "enable_verbose_logging", "type": "boolean", "value": "true" },
-    { "id": "112", "name": "data_encoding_format", "type": "string", "value": "parquet" },
-    { "id": "113", "name": "max_retry_attempts", "type": "integer", "value": "3" },
-    { "id": "114", "name": "notification_email_address", "type": "string", "value": "notifications@example.com" },
-    { "id": "115", "name": "failure_threshold_percentage", "type": "float", "value": "0.15" },
-    { "id": "116", "name": "data_expiry_date", "type": "LocalDate", "value": "2025-10-31" },
-    { "id": "117", "name": "user_access_rights", "type": "string", "value": "admin_access" },
-    { "id": "118", "name": "api_authentication_key", "type": "string", "value": "authKey876543" },
-    { "id": "119", "name": "response_timeout_seconds", "type": "integer", "value": "40" },
-    {
-        "id": "120",
-        "name": "authentication_service_endpoint",
-        "type": "string",
-        "value": "https://auth.example-service.com"
-    },
-    { "id": "121", "name": "enable_debug_mode", "type": "boolean", "value": "false" },
-    { "id": "122", "name": "output_data_format", "type": "string", "value": "json" },
-    { "id": "124", "name": "admin_contact_email", "type": "string", "value": "admin_contact@example-service.org" },
-    { "id": "125", "name": "success_threshold_percentage", "type": "float", "value": "0.90" },
-    { "id": "126", "name": "expiry_notification_date", "type": "LocalDate", "value": "2025-09-15" },
-    { "id": "127", "name": "user_role_preference", "type": "string", "value": "premium_user" },
-    { "id": "128", "name": "client_api_key", "type": "string", "value": "keyABCDE67890" },
-    { "id": "129", "name": "interest_rate_1", "type": "float", "value": "3.5" },
-    { "id": "130", "name": "interest_rate_2", "type": "float", "value": "2.75" },
-    { "id": "131", "name": "interest_rate_3", "type": "float", "value": "4.25" }
-]
+{
+    "parameters": [
+        { "id": "109", "name": "request_timeout", "type": "Integer", "value": "20" },
+        { "id": "110", "name": "api_url_prefix", "type": "String", "value": "https://api.example-service.com" },
+        { "id": "111", "name": "enable_verbose_logging", "type": "Boolean", "value": "true" },
+        { "id": "112", "name": "data_encoding_format", "type": "String", "value": "parquet" },
+        { "id": "113", "name": "max_retry_attempts", "type": "Integer", "value": "3" },
+        { "id": "114", "name": "notification_email_address", "type": "String", "value": "notifications@example.com" },
+        { "id": "115", "name": "failure_threshold_percentage", "type": "Float", "value": "0.15" },
+        { "id": "116", "name": "data_expiry_date", "type": "Localdate", "value": "2025-10-31" },
+        { "id": "117", "name": "user_access_rights", "type": "String", "value": "admin_access" },
+        { "id": "118", "name": "api_authentication_key", "type": "String", "value": "authKey876543" },
+        { "id": "119", "name": "response_timeout_seconds", "type": "Integer", "value": "40" },
+        {
+            "id": "120",
+            "name": "authentication_service_endpoint",
+            "type": "String",
+            "value": "https://auth.example-service.com"
+        },
+        { "id": "121", "name": "enable_debug_mode", "type": "Boolean", "value": "false" },
+        { "id": "122", "name": "output_data_format", "type": "String", "value": "json" },
+        { "id": "124", "name": "admin_contact_email", "type": "String", "value": "admin_contact@example-service.org" },
+        { "id": "125", "name": "success_threshold_percentage", "type": "Float", "value": "0.90" },
+        { "id": "126", "name": "expiry_notification_date", "type": "Localdate", "value": "2025-09-15" },
+        { "id": "127", "name": "user_role_preference", "type": "String", "value": "premium_user" },
+        { "id": "128", "name": "client_api_key", "type": "String", "value": "keyABCDE67890" },
+        { "id": "129", "name": "interest_rate_1", "type": "Float", "value": "3.5" },
+        { "id": "130", "name": "interest_rate_2", "type": "Float", "value": "2.75" },
+        { "id": "131", "name": "interest_rate_3", "type": "Float", "value": "4.25" }
+    ]
+}
