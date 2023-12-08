@@ -11,6 +11,7 @@ public class Environment {
             services = new ArrayList<>();
         }
     }
+
     public Environment(String environmentName) {
         this.environmentName = environmentName;
         if (services == null) {

@@ -7,153 +7,171 @@ import java.util.TimerTask;
 
 public final class Tracker {
 
-	private static Tracker tracker;
-	// The time in miliseconds within which the service must have been refreshed (1 min.).
-	private final static int staleTimeLimit = 3600000;
-	private static Timer timer;
+    private static Tracker tracker;
+    // The time in miliseconds within which the service must have been refreshed (1
+    // min.).
+    private static int staleTimeLimit = 3600000;
+    private static int maintenanceTimer = 30000;
+    private static Timer timer;
 
+    private static ArrayList<Environment> environments;
 
-	private static ArrayList<Environment> environments;
+    private Tracker() {
+        if (environments == null) {
+            environments = new ArrayList<>();
+        }
 
-	private Tracker(){
-		if (environments == null) {
-			environments = new ArrayList<>();
-		}
+        if (timer == null) {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    pruneStaleServices(staleTimeLimit);
+                }
+            }, maintenanceTimer, staleTimeLimit);
+        }
+    }
 
-		if (timer == null) {
-			timer = new Timer();
-			timer.schedule(new TimerTask() {
-				public void run() {
-					pruneStaleServices(staleTimeLimit);
-				}
-			 }, 30000, staleTimeLimit);
-		}
-	}
+    public static synchronized Tracker getTracker() {
+        if (tracker == null) {
+            tracker = new Tracker();
+        }
 
-	public static synchronized Tracker getTracker() {
-		if (tracker == null) {
-			tracker = new Tracker();
-		}
+        return tracker;
+    }
 
-		return tracker;
-	}
+    public ArrayList<Service> getServices(String environmentReq) {
 
-	public ArrayList<Service> getServices(String environmentReq){
+        if (findEnvironment(environmentReq) == null)
+            return null;
 
-		if (findEnvironment(environmentReq) == null) return null;
+        return findEnvironment(environmentReq).getServices();
+    }
 
-		return findEnvironment(environmentReq).getServices();
-	}
+    public boolean serviceIsRegistered(String environmentReq, Service service) {
 
-	public boolean serviceIsRegistered(String environmentReq, Service service) {
+        return findEnvironment(environmentReq).getServices().contains(service);
+    }
 
-		return findEnvironment(environmentReq).getServices().contains(service);
-	} 
+    public Service getServiceFromAddress(String address, String environmentReq) {
 
-	public Service getServiceFromAddress(String address, String environmentReq) {
+        Environment environment = findEnvironment(environmentReq);
 
-		Environment environment = findEnvironment(environmentReq);
+        if (environment == null)
+            return null;
 
-		if (environment == null) return null;
+        for (Service service : findEnvironment(environmentReq).getServices()) {
+            if (service.getPmpRoot().equals(address)) {
+                return service;
+            }
+        }
 
-		for (Service service : findEnvironment(environmentReq).getServices()) {
-			if (service.getPmpRoot().equals(address)) {
-				return service;
-			}
-		}
+        return null;
+    }
 
-		return null;
-	}
+    public void registerService(Service service, String environmentReq) {
 
-	public void registerService(Service service, String environmentReq) {
-		
-		createEnvironment(environmentReq).getServices().add(service);
-	}
+        createEnvironment(environmentReq).getServices().add(service);
+    }
 
-	public ArrayList<Service> readServices(String environmentReq) {
-		return findEnvironment(environmentReq).getServices();
-	}
+    public ArrayList<Service> readServices(String environmentReq) {
+        return findEnvironment(environmentReq).getServices();
+    }
 
-	/**
-	 * Returns a list of all the environments that are registered.
-	 * @return a list of all the environments that are registered.
-	 */
-	public ArrayList<String> getEnvironmentNames() {
-		
-		ArrayList<String> environmentNames = new ArrayList<>();
+    /**
+     * Returns a list of all the environments that are registered.
+     * 
+     * @return a list of all the environments that are registered.
+     */
+    public ArrayList<String> getEnvironmentNames() {
 
-		for (Environment environment : environments) {
-			environmentNames.add(environment.getEnvironmentName());
-		}
+        ArrayList<String> environmentNames = new ArrayList<>();
 
-		return environmentNames;
-	
-	}
+        for (Environment environment : environments) {
+            environmentNames.add(environment.getEnvironmentName());
+        }
 
-	/**
-	 * Removes all services that have gone too long without a refresh.
-	 * Removes all environments that have no services.
-	 * @param staleTimeLimit the time in miliseconds within which the service must have been refreshed.
-	 */
-	private void pruneStaleServices(int staleTimeLimit) {
+        return environmentNames;
 
-		for (Environment environment : environments) {
+    }
 
-			ListIterator<Service> iterator = environment.getServices().listIterator();
-			
-			while (iterator.hasNext()) {
-				if (iterator.next().isStale(staleTimeLimit)) {
-					iterator.remove();
-				}
-			}
-		}
+    /**
+     * Removes all services that have gone too long without a refresh.
+     * Removes all environments that have no services.
+     * 
+     * @param staleTimeLimit the time in miliseconds within which the service must
+     *                       have been refreshed.
+     */
+    private void pruneStaleServices(int staleTimeLimit) {
 
-		pruneEmptyEnvironments();
-	}
+        for (Environment environment : environments) {
 
-	private void pruneEmptyEnvironments() {
+            ListIterator<Service> iterator = environment.getServices().listIterator();
 
-		ListIterator<Environment> envIterator = environments.listIterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().isStale(staleTimeLimit)) {
+                    iterator.remove();
+                }
+            }
+        }
 
-		while (envIterator.hasNext()) {
-			if (envIterator.next().getServices().isEmpty()) {
-				envIterator.remove();
-			}
-		}
-	}
+        pruneEmptyEnvironments();
+    }
 
-	/**
-	 * Finds an environment by name.
-	 * @param envString the name of the environment to be found.
-	 * @return the environment that was found or null if no environment was found.
-	 */
-	private Environment findEnvironment(String envString) {
+    private void pruneEmptyEnvironments() {
 
-		for (Environment environment : environments) {
-			if (environment.getEnvironmentName().equals(envString)) {
-				return environment;
-			}
-		}
+        ListIterator<Environment> envIterator = environments.listIterator();
 
-		return null;
+        while (envIterator.hasNext()) {
+            if (envIterator.next().getServices().isEmpty()) {
+                envIterator.remove();
+            }
+        }
+    }
 
-	}
+    /**
+     * Finds an environment by name.
+     * 
+     * @param envString the name of the environment to be found.
+     * @return the environment that was found or null if no environment was found.
+     */
+    private Environment findEnvironment(String envString) {
 
-	/**
-	 * Creates a new environment if it does not already exist.
-	 * @param envString the name of the environment to be created.
-	 * @return the environment that was created or the existing environment.
-	 */
-	private Environment createEnvironment(String envString) {
+        for (Environment environment : environments) {
+            if (environment.getEnvironmentName().equals(envString)) {
+                return environment;
+            }
+        }
 
-		if (findEnvironment(envString) != null) {
-			return findEnvironment(envString);
-		}
+        return null;
 
-		Environment newEnvironment = new Environment(envString);
-		environments.add(newEnvironment);
+    }
 
-		return newEnvironment;
+    /**
+     * Creates a new environment if it does not already exist.
+     * 
+     * @param envString the name of the environment to be created.
+     * @return the environment that was created or the existing environment.
+     */
+    private Environment createEnvironment(String envString) {
 
-	}
+        if (findEnvironment(envString) != null) {
+            return findEnvironment(envString);
+        }
+
+        Environment newEnvironment = new Environment(envString);
+        environments.add(newEnvironment);
+
+        return newEnvironment;
+
+    }
+
+    /**
+     * DANGER!
+     * For testing purposes to clear environments in between tests
+     */
+    public void clearEnvironments() {
+        if (!environments.isEmpty()) {
+            environments.clear();
+        }
+    }
 }
