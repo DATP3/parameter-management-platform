@@ -28,7 +28,7 @@ const PendingChanges = () => {
                                 <GridCell span={8} style={{}}>
                                     <List twoLine>
                                         <ListItemPrimaryText>
-                                            <Typography use='headline5'>Pending Changes</Typography>
+                                            <Typography use='headline5'>Pending Commit</Typography>
                                         </ListItemPrimaryText>
                                         <ListItemSecondaryText>
                                             <Typography use='subtitle1'>

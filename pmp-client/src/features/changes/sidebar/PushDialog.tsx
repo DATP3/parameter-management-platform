@@ -62,9 +62,9 @@ const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps
     return (
         <>
             <Dialog open={open} onClose={onClose} onClosed={() => setInput('')}>
-                <DialogTitle>Push Pending Changes</DialogTitle>
+                <DialogTitle>Push Pending Commit</DialogTitle>
                 <DialogContent>
-                    <Typography use='headline6'>Are you sure you want to push the current pending changes?</Typography>
+                    <Typography use='headline6'>Are you sure you want to push the current pending commit?</Typography>
                     {showWarning && (
                         <>
                             <div>
