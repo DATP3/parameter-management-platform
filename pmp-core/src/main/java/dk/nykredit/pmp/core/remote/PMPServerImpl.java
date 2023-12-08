@@ -29,13 +29,14 @@ public class PMPServerImpl implements PMPServer {
         System.out.println("Starting PMP remote on port " + port);
         try {
             server.start();
-            ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
+            // ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
             try {
-                trackerService.announce(serviceInfo.getPmpRoot(), serviceInfo.getName(), serviceInfo.getEnvironment());
+                // trackerService.announce(serviceInfo.getPmpRoot(), serviceInfo.getName(),
+                // serviceInfo.getEnvironment());
+                trackerService.announce("http://localhost:64017", "Example service", "prod");
             } catch (Exception e) {
                 throw new Error(e);
             }
-            
         } catch (Exception e) {
             throw new Error(e);
         }

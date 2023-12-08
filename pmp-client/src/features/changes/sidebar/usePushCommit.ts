@@ -42,7 +42,7 @@ const usePushCommitSingleService = () => {
 
             const adaptedData = adaptCommit(commit);
 
-            const res = await axios.post(`http://${service.address}/pmp/commit`, adaptedData, {
+            const res = await axios.post(`${service.address}/pmp/commit`, adaptedData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'pmp-environment': environment

@@ -22,7 +22,6 @@ public class TrackerServiceImpl implements TrackerService {
 
     static {
         try {
-            // TODO: Add the real URL here
             String urlStr = System.getProperty("dk.nykredit.pmp.core.trackerurl", "http://localhost:8080");
             TRACKER_URL = new URL(urlStr);
         } catch (MalformedURLException e) {
@@ -31,11 +30,10 @@ public class TrackerServiceImpl implements TrackerService {
     }
 
     @Override
-    public boolean announce(String pmpRoot, String serviceName, String environment) throws IOException {
+    public void announce(String pmpRoot, String serviceName, String environment) throws IOException {
         RequestBody body = RequestBody.create(JSON.toString(Map.of(
                 "pmpRoot", pmpRoot,
-                "name", serviceName
-        )), MediaType.get("application/json"));
+                "name", serviceName)), MediaType.get("application/json"));
         URL url;
         try {
             url = new URL(TRACKER_URL, TRACKER_PATH);
@@ -53,12 +51,10 @@ public class TrackerServiceImpl implements TrackerService {
             if (res.isSuccessful() && !heatbeatStarted) {
                 startHeartbeat(pmpRoot, serviceName, environment);
             }
-            return res.isSuccessful();
-        } catch (Exception e) {
+        } catch (IOException e) {
             // TODO: handle exception
+            throw e;
         }
-
-        return false;
     }
 
     private void startHeartbeat(String pmpRoot, String serviceName, String environment) throws IOException {
@@ -72,7 +68,7 @@ public class TrackerServiceImpl implements TrackerService {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                
+
             }
         }, HEARTBEAT_INTERVAL, HEARTBEAT_INTERVAL);
     }

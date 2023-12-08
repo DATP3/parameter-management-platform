@@ -64,9 +64,7 @@ const useAuditLogEntries = (queryString: string) => {
                 const token = accounts[0].idToken;
                 if (!token) throw new Error('No token');
 
-                // TODO: Use real data. Test is set up to intercept
-                // const response = await axios.get(`${service.address}/pmp/log?query=${queryString}`, {
-                const response = await axios.get(`http://${service.address}/pmp/log`, {
+                const response = await axios.get(`${service.address}/pmp/log`, {
                     headers: {
                         'pmp-environment': environment,
                         Authorization: `Bearer ${token}`

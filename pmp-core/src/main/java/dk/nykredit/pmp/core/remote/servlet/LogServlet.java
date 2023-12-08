@@ -37,6 +37,7 @@ public class LogServlet extends HttpServlet {
 		AuditLogResponse response = responseFactory.fromEntries(entries);
 
 		res.setStatus(HttpServletResponse.SC_OK);
+		res.setHeader("Content-Type", "application/json");
 		objectMapper.writeValue(res.getWriter(), response);
 	}
 }

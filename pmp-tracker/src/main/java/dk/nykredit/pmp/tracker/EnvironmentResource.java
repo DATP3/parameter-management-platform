@@ -17,15 +17,17 @@ public class EnvironmentResource {
         tracker = Tracker.getTracker();
     }
 
-    @Context HttpHeaders headers;
+    @Context
+    HttpHeaders headers;
+
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public Response environments() {
 
-        if (headers == null || 
-            headers.getRequestHeader("Authorization") == null ||
-            headers.getRequestHeader("Authorization").get(0) == null ||
-            headers.getRequestHeader("Authorization").get(0).isBlank()) {
+        if (headers == null ||
+                headers.getRequestHeader("Authorization") == null ||
+                headers.getRequestHeader("Authorization").get(0) == null ||
+                headers.getRequestHeader("Authorization").get(0).isBlank()) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
@@ -34,5 +36,4 @@ public class EnvironmentResource {
         return Response.ok(environmentResponse).build();
     }
 
-    
 }

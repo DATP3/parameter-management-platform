@@ -1,5 +1,5 @@
 {
-    "pmpRoot": "testRoot",
-    "name": "testServiceName",
-    "environment": "testEnvironment"
+  "pmpRoot": "http://localhost:64017",
+  "name": "Example service",
+  "environment": "prod"
 }

@@ -1,9 +1,9 @@
 import { QueryKey, UseQueryResult, useQuery } from '@tanstack/react-query';
 
 import axios from 'axios';
-import { z } from 'zod';
 import useEnvironment from '../environment/useEnvironment';
 import { useMsal } from '@azure/msal-react';
+import { z } from 'zod';
 
 /**
  * An abstraction over react-query's useQuery hook, which makes it easier to make simple, validated get requests
