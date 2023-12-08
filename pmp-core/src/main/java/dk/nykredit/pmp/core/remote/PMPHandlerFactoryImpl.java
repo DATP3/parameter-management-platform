@@ -1,27 +1,20 @@
 package dk.nykredit.pmp.core.remote;
 
+import dk.nykredit.pmp.core.remote.servlet.CommitServlet;
 import dk.nykredit.pmp.core.remote.servlet.LogServlet;
-
-import java.io.IOException;
-import java.util.EnumSet;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import dk.nykredit.pmp.core.remote.servlet.ParametersServlet;
 import org.eclipse.jetty.cdi.CdiDecoratingListener;
 import org.eclipse.jetty.cdi.CdiServletContainerInitializer;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.servlet.ListenerHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.jboss.weld.environment.servlet.EnhancedListener;
 
-import dk.nykredit.pmp.core.remote.servlet.CommitServlet;
-import dk.nykredit.pmp.core.remote.servlet.ParametersServlet;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.EnumSet;
 
 public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
     @Override
@@ -38,6 +31,8 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
                         javax.servlet.DispatcherType.ERROR,
                         javax.servlet.DispatcherType.FORWARD,
                         javax.servlet.DispatcherType.INCLUDE));
+
+        cx.getServletHandler().addListener(new ListenerHolder(ServiceContextInitializer.class));
 
         // Initialize CDI
         cx.setInitParameter(
