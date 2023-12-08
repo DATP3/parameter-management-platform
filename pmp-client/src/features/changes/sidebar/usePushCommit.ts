@@ -77,7 +77,8 @@ const usePushCommit = (commit: CommitBody) => {
             results.forEach((res, i) => {
                 if (res.status === 'fulfilled') {
                     void queryClient.invalidateQueries({
-                        predicate: (query) => query.queryKey.includes(services[i].name)
+                        predicate: (query) =>
+                            query.queryKey.includes(services[i].name) || query.queryKey.includes('auditLogEntries')
                     });
                 }
             });
