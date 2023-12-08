@@ -3,12 +3,16 @@ import { ThemeOptions } from './types';
 export const DEFAULT_THEME: ThemeOptions = {};
 
 export const THEMES: Record<string, ThemeOptions> = {
-    ['invalid']: {},
+    ['invalid']: {
+        primary: 'grey'
+    },
     ['test']: {
         primary: '#55828b',
         secondary: '#d9e5d6'
     },
-    ['dev']: {},
+    ['dev']: {
+        primary: '#6200ee'
+    },
     ['preprod']: {
         primary: '#f85e00',
         secondary: '#ffee88'

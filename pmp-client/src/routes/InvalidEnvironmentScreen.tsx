@@ -1,5 +1,6 @@
-import { Button, CircularProgress, Grid, GridCell, Typography } from 'rmwc';
+import { Button, CircularProgress, Grid, GridCell, ThemeProvider, Typography } from 'rmwc';
 
+import { getTheme } from '../features/theme/themes';
 import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
 import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
 
@@ -29,14 +30,16 @@ const InvalidEnvironmentScreen = () => {
                     <Grid>
                         {environments.map((e) => (
                             <GridCell key={e.environment}>
-                                <Button
-                                    className='w-full h-20'
-                                    key={e.environment}
-                                    raised
-                                    onClick={() => setEnvironment(e)}
-                                >
-                                    {e.environment}
-                                </Button>
+                                <ThemeProvider key={e.environment} options={getTheme(e.environment)}>
+                                    <Button
+                                        className='w-full h-20'
+                                        key={e.environment}
+                                        raised
+                                        onClick={() => setEnvironment(e)}
+                                    >
+                                        {e.environment}
+                                    </Button>
+                                </ThemeProvider>
                             </GridCell>
                         ))}
                     </Grid>
