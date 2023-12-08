@@ -22,8 +22,8 @@ export enum ParameterType {
     DOUBLE = 'Double',
     BIGDECIMAL = 'Bigdecimal',
     BOOLEAN = 'Boolean',
-    LOCALDATE = 'Localdate',
-    LOCALDATETIME = 'Localdatetime'
+    LOCALDATE = 'LocalDate',
+    LOCALDATETIME = 'LocalDateTime'
 }
 
 export interface ParameterFilter {

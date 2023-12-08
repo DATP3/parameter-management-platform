@@ -7,7 +7,7 @@
         { "id": "50", "name": "max_retry_attempts_v2", "type": "Integer", "value": "5" },
         { "id": "51", "name": "notification_email", "type": "String", "value": "notification@admin.com" },
         { "id": "52", "name": "failure_threshold_percent_v2", "type": "Float", "value": "0.08" },
-        { "id": "53", "name": "data_expiration_date_v2", "type": "Localdate", "value": "2025-09-15" },
+        { "id": "53", "name": "data_expiration_date_v2", "type": "LocalDate", "value": "2025-09-15" },
         { "id": "54", "name": "user_access_level", "type": "String", "value": "full_access" },
         { "id": "55", "name": "api_secret_key_v2", "type": "String", "value": "s7y9z1a4b3c8d2" },
         { "id": "56", "name": "response_timeout_seconds_v2", "type": "Integer", "value": "40" },
@@ -16,10 +16,10 @@
         { "id": "59", "name": "output_data_format_v2", "type": "String", "value": "yaml" },
         { "id": "61", "name": "admin_contact_email", "type": "String", "value": "admin@newexample.org" },
         { "id": "62", "name": "success_threshold_percent_v2", "type": "Float", "value": "0.92" },
-        { "id": "63", "name": "expiry_notification_date_v2", "type": "Localdate", "value": "2025-06-01" },
+        { "id": "63", "name": "expiry_notification_date_v2", "type": "LocalDate", "value": "2025-06-01" },
         { "id": "64", "name": "user_role_preference_v2", "type": "String", "value": "advanced_user" },
         { "id": "65", "name": "client_api_key", "type": "String", "value": "key123456" },
-        { "id": "66", "name": "release_5.2_datetime", "type": "Localdatetime", "value": "2023-12-15T15:30" },
+        { "id": "66", "name": "release_5.2_datetime", "type": "LocalDateTime", "value": "2023-12-15T15:30" },
         { "id": "47", "name": "param10", "type": "String", "value": "newValue10" }
     ]
 }

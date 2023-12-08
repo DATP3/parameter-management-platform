@@ -7,7 +7,7 @@
         { "id": "20", "name": "max_connection_retries", "type": "integer", "value": "3" },
         { "id": "21", "name": "notification_email_address", "type": "string", "value": "admin@example.com" },
         { "id": "22", "name": "failure_threshold_percentage", "type": "float", "value": "0.05" },
-        { "id": "23", "name": "data_expiry_date", "type": "localdate", "value": "2024-06-30" },
+        { "id": "23", "name": "data_expiry_date", "type": "LocalDate", "value": "2024-06-30" },
         { "id": "24", "name": "user_access_permission", "type": "string", "value": "read_only" },
         { "id": "25", "name": "api_access_token", "type": "string", "value": "a1b2c3d4e5f6" },
         { "id": "26", "name": "response_timeout_seconds", "type": "integer", "value": "45" },
@@ -16,7 +16,7 @@
         { "id": "29", "name": "output_format_preference", "type": "string", "value": "xml" },
         { "id": "31", "name": "admin_email_address", "type": "string", "value": "admin@example.org" },
         { "id": "32", "name": "success_threshold_percentage", "type": "float", "value": "0.95" },
-        { "id": "33", "name": "expiry_notification_date", "type": "localdate", "value": "2024-12-15" },
+        { "id": "33", "name": "expiry_notification_date", "type": "LocalDate", "value": "2024-12-15" },
         { "id": "34", "name": "user_role_preference", "type": "string", "value": "power_user" },
         { "id": "35", "name": "api_key_secret", "type": "string", "value": "x7y8z9a0b1c2" },
         { "id": "36", "name": "connection_timeout_seconds", "type": "integer", "value": "20" },
@@ -26,9 +26,9 @@
         { "id": "40", "name": "max_retry_attempts", "type": "integer", "value": "4" },
         { "id": "41", "name": "support_email_address", "type": "string", "value": "support@example.com" },
         { "id": "42", "name": "error_threshold_percentage", "type": "float", "value": "0.1" },
-        { "id": "43", "name": "expiration_alert_date", "type": "localdate", "value": "2025-03-01" },
+        { "id": "43", "name": "expiration_alert_date", "type": "LocalDate", "value": "2025-03-01" },
         { "id": "44", "name": "user_role_preference", "type": "string", "value": "standard_user" },
         { "id": "45", "name": "client_secret_key", "type": "string", "value": "s3cr3tK3y" },
-        { "id": "46", "name": "relese_5.1_datatime", "type": "localdatetime", "value": "2023-11-29T12:00" }
+        { "id": "46", "name": "relese_5.1_datatime", "type": "LocalDateTime", "value": "2023-11-29T12:00" }
     ]
 }

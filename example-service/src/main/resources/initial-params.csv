@@ -1,2 +1,4 @@
 person,String,Test Person
 max_retries,Integer,5
+data_expiry_date,LocalDate,2024-06-30
+release_5.2_datetime,LocalDateTime,2023-12-15T15:30

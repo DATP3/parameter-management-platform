@@ -6,7 +6,7 @@
     { "id": "92", "name": "retry_attempt_limit", "type": "integer", "value": "4" },
     { "id": "93", "name": "notification_recipient_email", "type": "string", "value": "notify@example.com" },
     { "id": "94", "name": "failure_threshold_percent_v2", "type": "float", "value": "0.15" },
-    { "id": "95", "name": "data_expiration_date_v3", "type": "localdate", "value": "2025-12-31" },
+    { "id": "95", "name": "data_expiration_date_v3", "type": "LocalDate", "value": "2025-12-31" },
     { "id": "96", "name": "user_privilege_level", "type": "string", "value": "superuser" },
     { "id": "97", "name": "api_security_key", "type": "string", "value": "secure123456" },
     { "id": "98", "name": "response_timeout_seconds_v3", "type": "integer", "value": "60" },
@@ -20,8 +20,8 @@
     { "id": "101", "name": "output_data_format_v3", "type": "string", "value": "protobuf" },
     { "id": "103", "name": "admin_contact_email_v2", "type": "string", "value": "admin_contact@example.org" },
     { "id": "104", "name": "success_threshold_percent_v3", "type": "float", "value": "0.88" },
-    { "id": "105", "name": "expiry_notification_date_v3", "type": "localdate", "value": "2025-09-01" },
+    { "id": "105", "name": "expiry_notification_date_v3", "type": "LocalDate", "value": "2025-09-01" },
     { "id": "106", "name": "user_role_preference_v2", "type": "string", "value": "advanced_user" },
     { "id": "107", "name": "client_api_key_v2", "type": "string", "value": "keyABCDE12345" },
-    { "id": "108", "name": "release_7.0_datetime", "type": "localdatetime", "value": "2024-07-20T14:30" }
+    { "id": "108", "name": "release_7.0_datetime", "type": "LocalDateTime", "value": "2024-07-20T14:30" }
 ]

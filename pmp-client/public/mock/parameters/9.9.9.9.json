@@ -6,7 +6,7 @@
     { "id": "159", "name": "retry_attempt_threshold", "type": "integer", "value": "6" },
     { "id": "160", "name": "notification_handler", "type": "string", "value": "alerting-team@example.com" },
     { "id": "161", "name": "failure_ratio_threshold", "type": "float", "value": "0.25" },
-    { "id": "162", "name": "data_expiry_deadline", "type": "localdate", "value": "2026-08-31" },
+    { "id": "162", "name": "data_expiry_deadline", "type": "LocalDate", "value": "2026-08-31" },
     { "id": "163", "name": "access_rights_grouping", "type": "string", "value": "limited_access" },
     { "id": "164", "name": "auth_secret_key", "type": "string", "value": "ultrasecret567" },
     { "id": "165", "name": "response_timeout_limit", "type": "integer", "value": "60" },
@@ -20,7 +20,7 @@
         "value": "admin-contact@service-example.org"
     },
     { "id": "171", "name": "success_rate_threshold_v2", "type": "float", "value": "0.92" },
-    { "id": "33", "name": "expiry_notification_date", "type": "localdate", "value": "2024-12-15" },
+    { "id": "33", "name": "expiry_notification_date", "type": "LocalDate", "value": "2024-12-15" },
     { "id": "173", "name": "user_category_preference", "type": "string", "value": "premium_category" },
     { "id": "174", "name": "api_token_key", "type": "string", "value": "token789XYZ" },
     { "id": "175", "name": "interest_rate_7", "type": "float", "value": "4.75" },
