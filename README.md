@@ -50,3 +50,29 @@ Then open <http://localhost:5173>
 
 Tests for the core, tracker, and example service are written in JUnit 5. These automatically run during the build steps of those projects. Tests for the client are written with playwright and can be run with `npm run test:e2e` from the client directory.
 While build with an end-to-end system, client tests are integration tests, run on mock data.
+
+## Environment variables
+
+The following environment variables can be set to change the behaviour of the service:
+
+### Client
+
+| Name                 | Description                                                            | Default                 |
+| -------------------- | ---------------------------------------------------------------------- | ----------------------- |
+| `VITE_TRACKER_URL`   | URL of the tracker to gather services from                             | `http://localhost:8080` |
+| `TEST_USER_EMAIL`    | User email for client testing. Required to run any playwright tests    |                         |
+| `TEST_USER_PASSWORD` | User password for client testing. Required to run any playwright tests |                         |
+
+see `.env.local.example` for an example of how to set these.
+
+### Core / Example service
+
+| Name                       | Description                     | Default                 |
+| -------------------------- | ------------------------------- | ----------------------- |
+| `SERVICE_INFO_PMPROOT`     | External address of the service | `http://localhost:8080` |
+| `SERVICE_INFO_ENVIRONMENT` | The service's environment       |                         |
+| `SERVICE_INFO_NAME`        | Name to register the service as |                         |
+
+### Tracker
+
+None
