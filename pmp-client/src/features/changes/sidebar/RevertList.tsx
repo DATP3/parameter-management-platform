@@ -117,6 +117,7 @@ const RevertInfoMenu = ({ revert }: { revert: Revert }) => {
     );
 };
 
+/** List of reverts in changelist */
 const RevertList = () => {
     const removeChange = useCommitStore((s) => s.removeChange);
     const changes = useCommitStore((s) => s.changes);

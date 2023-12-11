@@ -17,9 +17,8 @@ interface ParamChangeEntryProps {
     change: ParameterChange;
 }
 
+/** Single parameter change row in change list */
 const ParamChangeEntry = ({ change }: ParamChangeEntryProps) => {
-    // TODO: Make the new value editable. For some reason, if the "value" property of the TextField is set to the new value, the text field is not editable.
-
     const removeChange = useCommitStore((s) => s.removeChange);
     const addParameterChange = useCommitStore((s) => s.addChange);
 

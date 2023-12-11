@@ -14,6 +14,7 @@ import {
 import useSelectedServices from './useSelectedServices';
 import useServices from './useServices';
 
+/** List radios with services to pick which are active */
 const ListofServices = () => {
     const { data: services, isPending, error } = useServices();
     const [selectedServices, setSelectedServices] = useSelectedServices();

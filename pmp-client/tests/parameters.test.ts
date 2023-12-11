@@ -21,13 +21,16 @@ test.describe('Parameter page', () => {
         await seviceSegment.getByText(service).click();
         await clearChanges(page);
 
+        // Check initial value
         const mainSegment = getSegment(page, 'main');
         await expect(getInputByvalue(mainSegment, initialParameterValue)).toBeVisible();
 
+        // Fill new value and check initial can no longer be found
         await getInputByvalue(mainSegment, initialParameterValue).fill(newParameterValue);
         await expect(getInputByvalue(mainSegment, initialParameterValue)).toHaveCount(0);
         await expect(getInputByvalue(mainSegment, newParameterValue)).toBeVisible();
 
+        // Find new and old value in change list
         const changesSegment = getSegment(page, 'changes');
         await expect(getInputByvalue(changesSegment, initialParameterValue)).toBeVisible();
         await expect(getInputByvalue(changesSegment, newParameterValue)).toBeVisible();

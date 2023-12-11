@@ -25,7 +25,6 @@ test.describe('Audit page', () => {
         // Open dialog
         const mainSegment = getSegment(page, 'main');
         await mainSegment.getByRole('cell', { name: hash }).click();
-        // await mainSegment.getByText(hash).click();
 
         // Add revert
         await mainSegment.getByRole('button', { name: 'Revert Commit' }).click();

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Theme } from 'rmwc';
 
+/** Adds a colored bar to the left of a component, fitting the current theme */
 const ThemeMarkerWrapper = ({ children }: { children: ReactNode }) => {
     return (
         <div className='themeMarkerWrapper' style={{ display: 'flex' }}>

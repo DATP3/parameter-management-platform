@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
-import { useParameterFilter } from './useParamererFilter';
+import Filter from './Filter';
 import { Namable } from './types';
 import { ParameterType } from '../parameters/types';
-import Filter from './Filter';
+import { useEffect } from 'react';
+import { useParameterFilter } from './useParamererFilter';
 
+/** Filter for parameter page */
 const ParameterFilter = () => {
     const [filter, setFilter] = useParameterFilter();
 
     useEffect(() => {
         setAllTypes(true);
+        // Disable to only run on mount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleTypeChecked = (data: Namable, isChecked: boolean) => {

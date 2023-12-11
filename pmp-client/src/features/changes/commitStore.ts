@@ -49,7 +49,6 @@ const initialState: State = {
  *
  * @param storageKey Key used for local storage
  */
-// Mutators in this store are messy but work. This is an issue, but not a priority.
 export const createCommitStore = (storageKey: string) => {
     return createStore<CommitStoreState>()(
         persist(

@@ -1,15 +1,17 @@
 import { DataTable, DataTableBody, DataTableContent, DataTableHead, DataTableHeadCell, DataTableRow } from 'rmwc';
-import ParameterListRow from './ParameterListRow';
 import { Parameter, SortingCatagory } from '../../features/parameters/types';
+
+import ParameterListRow from './ParameterListRow';
 import { Service } from '../../features/services/types';
-import { useState } from 'react';
 import ThemeMarkerWrapper from '../../features/components/ThemeMarkerWrapper';
+import { useState } from 'react';
 
 interface ParameterListProps {
     parameters: Parameter[];
     service: Service;
 }
 
+/** Lists all parameters on the given service */
 const ParameterList = (props: ParameterListProps) => {
     const { parameters, service } = props;
     const [sortingCatagory, setSortingCatagory] = useState<SortingCatagory>(SortingCatagory.NAME);

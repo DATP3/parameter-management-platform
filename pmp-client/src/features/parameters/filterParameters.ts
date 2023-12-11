@@ -1,5 +1,11 @@
 import { Parameter, ParameterFilter, ParameterType } from './types';
 
+/**
+ * Filters a list of parameters based on a filter object.
+ * @param parameters The parameters to filter
+ * @param filter The filter options to apply
+ * @returns a filtered list of parameters
+ */
 const filterParameters = (parameters: Parameter[], filter: ParameterFilter) => {
     return parameters.filter((parameter) => {
         let isMatching = true;

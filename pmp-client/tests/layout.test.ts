@@ -11,5 +11,6 @@ test('displays current environment in header', async ({ page }) => {
 
     await page.waitForURL(/\/prod\/parameters/);
 
+    // Find env in header
     await expect(page.locator('header').getByRole('button').getByText(environment)).toBeVisible();
 });

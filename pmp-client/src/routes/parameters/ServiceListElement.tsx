@@ -8,6 +8,7 @@ interface ServiceListElementProps {
     service: Service;
 }
 
+/** Header for a service list sublist */
 const ServiceListElement = ({ service }: ServiceListElementProps) => {
     const { data, error } = useParameterQuery(service);
 

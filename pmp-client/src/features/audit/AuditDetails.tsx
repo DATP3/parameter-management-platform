@@ -25,6 +25,7 @@ import useServices from '../services/useServices';
 
 interface AuditDetailsServiceCollapsProps extends AuditLogEntryChange {}
 
+/** List with all changes to a service */
 const AuditDetailsServiceCollaps = ({ service, parameterChanges, reverts }: AuditDetailsServiceCollapsProps) => {
     const entry = useAuditDetailsEntry();
     const revertChanges = reverts.reduce((acc: AuditDetailsRevertRowProps[], revert) => {
@@ -82,6 +83,7 @@ interface AuditDetailsParameterChangeRowProps extends AuditLogEntryParameterChan
     service: Service;
 }
 
+/** Single parameter change list item */
 const AuditDetailsParameterChangeRow = ({ name, newValue, oldValue, service }: AuditDetailsParameterChangeRowProps) => {
     const entry = useAuditDetailsEntry();
     return (
@@ -108,6 +110,7 @@ interface AuditDetailsRevertRowProps {
     oldValue: AuditLogEntryParameterChange['oldValue'];
 }
 
+/** Single revert list item */
 const AuditDetailsRevertRow = ({
     name,
     newValue,
@@ -140,6 +143,7 @@ const AuditDetailsRevertRow = ({
 
 interface AuditDetailsProps {}
 
+/** Display the details of the commit. Requires AuditDetailsContext  */
 const AuditDetails = (_: AuditDetailsProps) => {
     const entry = useAuditDetailsEntry();
     const { data: allServices } = useServices();

@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import useEnvironment from '../environment/useEnvironment';
-import { Button } from 'rmwc';
 
+import { Button } from 'rmwc';
+import useEnvironment from '../environment/useEnvironment';
+
+/** Renders a list of navigational buttons */
 const PageNavigator = () => {
     const { environment } = useEnvironment();
     const { pathname } = useLocation();

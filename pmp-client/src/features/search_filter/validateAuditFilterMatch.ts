@@ -1,6 +1,12 @@
 import { AuditFilter } from './types';
 import { AuditLogEntry } from '../audit/useAuditLogEntries';
 
+/**
+ * Checks if the provided entry matches the filter
+ * @param filter The audit filter to check against
+ * @param entry The entry to check
+ * @returns true if it matches, false otherwise
+ */
 const validateAuditFilterMatch = (filter: AuditFilter, entry: AuditLogEntry) => {
     let compareString = `${entry.hash}¤${entry.pushDate.toLocaleString()}¤${entry.user}¤${entry.message}`;
 

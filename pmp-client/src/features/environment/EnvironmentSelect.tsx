@@ -1,9 +1,9 @@
 import { Button, CircularProgress, Menu, MenuItem, MenuSurfaceAnchor, Typography } from 'rmwc';
 
 import useEnvironment from './useEnvironment';
+import useEnvironmentQuery from './useEnvironmentQuery';
 import useSetEnvironment_UNSAFE from './useSetEnvironment_UNSAFE';
 import { useState } from 'react';
-import useEnvironmentQuery from './useEnvironmentQuery';
 
 /* Not exhaustive. Generated from observed runtime behavior. */
 interface RMWCMenuSelectEvent {
@@ -12,6 +12,7 @@ interface RMWCMenuSelectEvent {
     };
 }
 
+/** Select for changing environment. Should only be used in nav bar */
 const EnvironmentSelect = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { environment } = useEnvironment();

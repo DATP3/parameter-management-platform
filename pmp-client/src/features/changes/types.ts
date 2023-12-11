@@ -44,14 +44,8 @@ export interface ParameterRevert extends IRevert {
  */
 export type Revert = CommitRevert | ServiceRevert | ParameterRevert;
 
+/** A change type encompassing all changes */
 export type Change = ParameterChange | Revert;
-
-/** A change entry with all changes for the service */
-export interface ServiceChanges {
-    service: Service;
-    parameterChanges: ParameterChange[];
-    reverts: Revert[];
-}
 
 export interface CommitBody {
     pushDate: Date;

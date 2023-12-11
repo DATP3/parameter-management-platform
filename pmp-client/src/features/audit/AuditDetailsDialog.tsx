@@ -9,6 +9,7 @@ interface AuditDetailsDialogProps {
     onClose?: () => void;
 }
 
+/** Dialog displaying details of a single commit */
 const AuditDetailsDialog = ({ open, onClose }: AuditDetailsDialogProps) => {
     const entry = useAuditDetailsEntry();
     return (

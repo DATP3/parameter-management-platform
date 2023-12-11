@@ -10,6 +10,7 @@ interface PushStatusProps {
     commit: CommitBody;
 }
 
+/** Loading state for pushing commits. Automatically pushed current commit on mount */
 const PushStatus = ({ open, onClose, commit }: PushStatusProps) => {
     const { requestState } = usePushCommit(commit);
     const clearChanges = useCommitStore((s) => s.clear);

@@ -1,4 +1,5 @@
 import { Button, SimpleMenuSurface } from 'rmwc';
+
 import { FilterData } from './types';
 import FilterElement from './FilterElement';
 
@@ -6,6 +7,7 @@ interface FilterProps {
     filters: FilterData[];
 }
 
+/** Filter button */
 const Filter = ({ filters }: FilterProps) => {
     return (
         <SimpleMenuSurface

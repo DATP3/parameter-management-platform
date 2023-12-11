@@ -52,6 +52,7 @@ export interface AuditLogEntry {
     changes: AuditLogEntryChange[];
 }
 
+/** Fetches and combines audit log data from all connected services */
 const useAuditLogEntries = (queryString: string) => {
     const { data: services = [] } = useServices();
     const { environment } = useEnvironment();

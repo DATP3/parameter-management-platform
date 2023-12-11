@@ -3,7 +3,6 @@ import { Configuration, RedirectRequest } from '@azure/msal-browser';
 
 /**
  * Configuration for MSAL authentication.
- * TODO - Move to environment variables.
  */
 export const authConfig: Configuration = {
     auth: {

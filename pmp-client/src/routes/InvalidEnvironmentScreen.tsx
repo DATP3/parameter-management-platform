@@ -1,7 +1,9 @@
 import { Button, CircularProgress, Typography } from 'rmwc';
-import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
-import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
 
+import useEnvironmentQuery from '../features/environment/useEnvironmentQuery';
+import useSetEnvironment_UNSAFE from '../features/environment/useSetEnvironment_UNSAFE';
+
+/** Screen to display when no recognized environment has been selected */
 const InvalidEnvironmentScreen = () => {
     const setEnvironment = useSetEnvironment_UNSAFE();
 

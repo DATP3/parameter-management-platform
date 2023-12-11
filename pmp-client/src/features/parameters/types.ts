@@ -1,5 +1,6 @@
 import { ParameterValue } from '../changes/types';
 
+/** General parameter interface. All parameter values have a toString() function for display */
 export interface Parameter<T extends ParameterValue = ParameterValue> {
     id: string;
     name: string;

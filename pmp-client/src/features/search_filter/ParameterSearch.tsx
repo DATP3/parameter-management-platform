@@ -1,6 +1,7 @@
 import Search from './Search';
 import { useParameterFilter } from './useParamererFilter';
 
+/** Search bar for parameter filter. Uses context */
 const ParameterSearch = () => {
     const [filter, setFilter] = useParameterFilter();
 

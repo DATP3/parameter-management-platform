@@ -19,6 +19,7 @@ export const THEMES: Record<string, ThemeOptions> = {
     }
 };
 
+/** Gets the theme object corresponding to the given environment */
 export const getTheme = (environment?: string): ThemeOptions => {
     const env = environment?.toLowerCase();
     let pickTheme: string;

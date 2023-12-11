@@ -4,9 +4,11 @@ import { Revert } from '../changes/types';
 import useCommitStore from '../changes/useCommitStore';
 
 interface RevertButtonProps {
+    /** The revert to add when clicked. */
     revert: Revert;
 }
 
+/** General revert button component, changing its styling based on revert type and state */
 const RevertButton = ({ revert }: RevertButtonProps): JSX.Element => {
     const addChange = useCommitStore((s) => s.addChange);
     const removeChange = useCommitStore((s) => s.removeChange);

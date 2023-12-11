@@ -13,6 +13,7 @@ import ChangeList from './ChangeList';
 import useCommitStore from '../useCommitStore';
 import useEnvironment from '../../environment/useEnvironment';
 
+/** List of all pending changes */
 const PendingChanges = () => {
     const environment = useEnvironment();
     const undo = useCommitStore((s) => s.undo);

@@ -56,6 +56,11 @@ const usePushCommitSingleService = () => {
 
 type RequestState = 'loading' | 'success' | 'error' | 'partial';
 
+/**
+ * Pushes a commit to all connected services.
+ * @param commit The commit to push
+ * @returns a derived request state for all requests. 'loading' as long as any request is not finished.
+ */
 const usePushCommit = (commit: CommitBody) => {
     const [requestState, setRequestState] = useState<RequestState>('loading');
     const { data: services } = useServices();

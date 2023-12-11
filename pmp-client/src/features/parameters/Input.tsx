@@ -11,6 +11,9 @@ interface InputProps {
     disabled?: boolean;
 }
 
+/**
+ * General input component for parameters. Renders the correct input type based on the parameter type.
+ */
 const Input = (props: InputProps) => {
     const { type, isValid, disabled, value, onParamChange } = props;
 

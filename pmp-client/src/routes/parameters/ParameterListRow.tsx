@@ -14,6 +14,7 @@ interface ParameterListRowProps {
     service: Service;
 }
 
+/** Single list item for listing parameters */
 const ParameterListRow = ({ parameter, service }: ParameterListRowProps) => {
     const addChange = useCommitStore((s) => s.addChange);
     const removeChange = useCommitStore((s) => s.removeChange);

@@ -1,6 +1,7 @@
 import Search from './Search';
 import { useAuditFilter } from './useAuditFilter';
 
+/** Searchbar for audit page. Updates context */
 const AuditSearch = () => {
     const [filter, setFilter] = useAuditFilter();
 

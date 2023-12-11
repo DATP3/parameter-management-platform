@@ -46,8 +46,6 @@ const AccountSection = () => {
  * The top app bar in the main application layout.
  *
  * Handles switching between environments.
- *
- * TODO: Environment logic should be moved to a separate component.
  */
 const AppBar = () => {
     const isValid = useIsEnvironmentValid();

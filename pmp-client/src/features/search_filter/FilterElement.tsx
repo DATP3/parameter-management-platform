@@ -1,11 +1,13 @@
 import { Checkbox, CollapsibleList, SimpleListItem } from 'rmwc';
-import { FilterData } from './types';
+
 import { ChangeEvent } from 'react';
+import { FilterData } from './types';
 
 interface FilterElementProps {
     filter: FilterData;
 }
 
+/** Element representing individual filter option */
 const FilterElement = ({ filter }: FilterElementProps) => {
     return (
         <CollapsibleList

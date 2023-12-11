@@ -12,6 +12,7 @@ const routeToPublicMock = async (page: Page, from: string, to: string) => {
     });
 };
 
+/** Intercept all get requests and return mock data instead */
 export const mockAllRoutes = async (page: Page) => {
     await mockEnvironmentRoute(page);
     await mockServicesRoute(page);

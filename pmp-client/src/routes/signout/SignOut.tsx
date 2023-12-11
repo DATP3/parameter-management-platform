@@ -4,6 +4,7 @@ import { Button } from 'rmwc';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
+/** Signout page */
 const SignOut = () => {
     const isAuthenticated = useIsAuthenticated();
     const { instance } = useMsal();

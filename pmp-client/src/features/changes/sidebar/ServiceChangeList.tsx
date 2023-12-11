@@ -19,6 +19,7 @@ interface ServiceChangeListProps {
     changes: ParameterChange[];
 }
 
+/** List of all changes for a single service */
 const ServiceChangeList = ({ serviceName, changes }: ServiceChangeListProps) => {
     const removeChange = useCommitStore((s) => s.removeChange);
 

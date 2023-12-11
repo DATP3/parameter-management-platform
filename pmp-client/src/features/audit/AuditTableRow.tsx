@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 interface AuditTableRowProps {}
 
+/** Row item for the audit list table. Displays information about commit and provides the details dialog */
 const AuditTableRow = (_: AuditTableRowProps) => {
     const [open, setOpen] = useState(false);
     const entry = useAuditDetailsEntry();

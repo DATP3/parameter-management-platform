@@ -34,6 +34,7 @@ const getAffectedServices = (changes: Change[]) => {
     }, []);
 };
 
+/** Dialog letting user push. Also handles subsequent loading state in sub component */
 const PushDialog = ({ environment, open, onClose, showWarning }: PushDialogProps) => {
     const [input, setInput] = useState('');
     const [commitMessage, setCommitMessage] = useState('');

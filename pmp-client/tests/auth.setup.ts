@@ -14,18 +14,21 @@ setup('authenticate', async ({ page }) => {
         throw new Error('TEST_USER_EMAIL or TEST_USER_PASSWORD not set');
     }
 
+    // trigger auth redirect
     await page.goto('/');
     await page.waitForURL(/login\.microsoftonline\.com/);
+
+    // Fill email
     await page.waitForSelector('input[name="loginfmt"]');
-    // await page.getByPlaceholder(/Email/).fill('dummy.datp3@outlook.com');
     await page.getByPlaceholder(/Email/).fill(email);
     await page.getByRole('button', { name: 'Next' }).click();
 
+    // Fill password
     await page.waitForSelector('input[name="passwd"]');
-    // await page.getByPlaceholder(/Password/).fill('%Wv4dZqX%Cf8CyksJeYx');
     await page.getByPlaceholder(/Password/).fill(password);
     await page.getByRole('button', { name: 'Sign in' }).click();
 
+    // Do not save credentials at msft
     await page.getByRole('button', { name: 'No' }).click();
 
     expect(await page.title()).toBe('Parameter Management Platform');
@@ -33,5 +36,6 @@ setup('authenticate', async ({ page }) => {
     // Wait for credentials to be written to localstorage. Msal does this asynchronously.
     await page.waitForTimeout(2000);
 
+    // Save credentials to file for other tests
     await page.context().storageState({ path: authFile });
 });

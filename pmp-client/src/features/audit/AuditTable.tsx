@@ -15,6 +15,7 @@ import { useAuditFilter } from '../search_filter/useAuditFilter';
 import useAuditLogEntries from './useAuditLogEntries';
 import validateAuditFilterMatch from '../search_filter/validateAuditFilterMatch';
 
+/** Table with entire audit list */
 const AuditList = () => {
     const { data: entries, isPending, isError, errors } = useAuditLogEntries('');
     const [filter] = useAuditFilter();

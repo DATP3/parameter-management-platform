@@ -1,3 +1,4 @@
+/** Possible theme keys as read on rmwc.io. Internal typing was missing from the library */
 export type ThemeKey =
     | 'primary'
     | 'secondary'

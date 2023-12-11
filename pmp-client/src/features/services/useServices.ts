@@ -38,8 +38,6 @@ const adaptServiceData = (data: RawServiceData): ServiceData => {
 /**
  * Get a list of services for the current environment.
  * @returns A UseQueryResult object, identical to the one returned by react-query's useQuery hook.
- *
- * TODO: Remove mock data and as such, the filter.
  */
 const useServices = () => {
     const { environment } = useEnvironment();

@@ -1,11 +1,12 @@
 import './audit.css';
 
-import AuditTable from '../../features/audit/AuditTable';
-import { Typography } from 'rmwc';
 import AuditFilterProvider from '../../features/search_filter/AuditFilterProvider';
 import AuditSearch from '../../features/search_filter/AuditSearch';
+import AuditTable from '../../features/audit/AuditTable';
 import PageNavigator from '../../features/routing/PageNavigator';
+import { Typography } from 'rmwc';
 
+/** Audot / Commit history page */
 const AuditPage = () => {
     return (
         <AuditFilterProvider>

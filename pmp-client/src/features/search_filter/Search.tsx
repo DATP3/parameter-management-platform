@@ -6,6 +6,7 @@ interface SearchProps {
     setQuery: (query: string) => void;
 }
 
+/** General search bar used in other components */
 const Search = ({ value, setQuery, hintText }: SearchProps) => {
     return (
         <TextField
