@@ -20,6 +20,8 @@ public class Commit {
     private String user;
     private String message;
     private List<String> affectedServices;
+    private Long commitHash;
+
     private List<Change> changes;
 
     @JsonIgnore
@@ -66,11 +68,29 @@ public class Commit {
         return Long.hashCode(this.getCommitHash());
     }
 
+    public void setCommitHash(long commitHash) {
+        this.commitHash = commitHash;
+    }
+
+    public void setCommitHash(Long commitHash) {
+        if (commitHash != null) {
+            this.commitHash = commitHash;
+        }
+    }
+
     public long getCommitHash() {
-        return pushDate.hashCode()
-                + user.hashCode()
-                + message.hashCode()
-                + changes.stream().mapToInt(Change::hashCode).sum();
+        // Commit hash should preferably be calculated from the raw commit before
+        // creating this, but as commits may come from other sources in the future, we
+        // calculate it here otherwise. Calculating here cannot take changes to other
+        // services into account
+        if (commitHash == null) {
+            commitHash = pushDate.hashCode()
+                    + user.hashCode()
+                    + message.hashCode()
+                    + changes.stream().mapToLong(Change::hashCode).sum();
+        }
+
+        return commitHash;
 
     }
 
