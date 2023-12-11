@@ -20,8 +20,6 @@ public class Commit {
     private String user;
     private String message;
     private List<String> affectedServices;
-    private long commitHash;
-
     private List<Change> changes;
 
     @JsonIgnore
