@@ -53,10 +53,6 @@ public class Commit {
         }
     }
 
-    public void undoChanges(CommitDirector commitDirector) {
-        undoChanges(appliedChanges, commitDirector);
-    }
-
     @Override
     public String toString() {
         return "Commit{" +
@@ -78,10 +74,6 @@ public class Commit {
                 + message.hashCode()
                 + changes.stream().mapToInt(Change::hashCode).sum();
 
-    }
-
-    public List<Change> getChanges() {
-        return changes;
     }
 
     @Override
