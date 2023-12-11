@@ -1,32 +1,31 @@
+import { CommitBody, ParameterChange } from '../types';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-// import { CommitBody, ParameterChange } from '../types';
-import { CommitBody } from '../types';
 import { Service } from '../../services/types';
-// import axios from 'axios';
-// import { isParameterChange } from '../commitStoreHelpers';
-// import { scopes } from '../../auth/authConfig';
-// import useEnvironment from '../../environment/useEnvironment';
-// import { useMsal } from '@azure/msal-react';
+import axios from 'axios';
+import { isParameterChange } from '../commitStoreHelpers';
+import { scopes } from '../../auth/authConfig';
+import useEnvironment from '../../environment/useEnvironment';
+import { useMsal } from '@azure/msal-react';
 import useServices from '../../services/useServices';
 
-// const adaptCommit = (commit: CommitBody) => {
-//     const flattenParameterChange = (c: ParameterChange) => {
-//         return {
-//             newValue: c.newValue,
-//             service: c.service,
-//             ...c.parameter
-//         };
-//     };
+const adaptCommit = (commit: CommitBody) => {
+    const flattenParameterChange = (c: ParameterChange) => {
+        return {
+            newValue: c.newValue,
+            service: c.service,
+            ...c.parameter
+        };
+    };
 
-//     const adaptedCommit = {
-//         ...commit,
-//         changes: commit.changes.map((c) => (isParameterChange(c) ? flattenParameterChange(c) : c))
-//     };
+    const adaptedCommit = {
+        ...commit,
+        changes: commit.changes.map((c) => (isParameterChange(c) ? flattenParameterChange(c) : c))
+    };
 
-//     return adaptedCommit;
-// };
+    return adaptedCommit;
+};
 
 interface SingleServiceMutationVariables {
     commit: CommitBody;
@@ -34,14 +33,14 @@ interface SingleServiceMutationVariables {
 }
 
 const usePushCommitSingleService = () => {
-    // const { instance, accounts } = useMsal();
-    // const { environment } = useEnvironment();
+    const { instance, accounts } = useMsal();
+    const { environment } = useEnvironment();
 
     return useMutation({
         mutationFn: async ({ commit, service }: SingleServiceMutationVariables) => {
-            // const token = (await instance.acquireTokenSilent({ account: accounts[0], scopes })).accessToken;
+            const token = (await instance.acquireTokenSilent({ account: accounts[0], scopes })).accessToken;
 
-            // const adaptedData = adaptCommit(commit);
+            const adaptedData = adaptCommit(commit);
 
             const res = await axios.post(`${service.address}/pmp/commit`, adaptedData, {
                 headers: {
@@ -50,7 +49,7 @@ const usePushCommitSingleService = () => {
                 }
             });
 
-            // return res;
+            return res;
         }
     });
 };
