@@ -60,28 +60,6 @@ public class CommitRevert implements Change {
         return appliedChanges;
     }
 
-    public void undo(CommitDirector commitDirector) {
-        AuditLog auditLog = commitDirector.getAuditLog();
-        AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
-        List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
-
-        for (ChangeEntity changeEntity : changeEntities) {
-            if (changeEntity.getParameterName() == null) {
-                throw new IllegalArgumentException("Parameter name cannot be null when reverting commit");
-            }
-
-            AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
-            if (latestChange == null || latestChange.getCommitId() != commitHash) {
-                continue;
-            }
-
-            Object newValueTyped = commitDirector.getParameterService().getTypeParsers()
-                    .parse(changeEntity.getNewValue(), changeEntity.getParameterType());
-
-            commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(), newValueTyped);
-        }
-    }
-
     @Override
     public int hashCode() {
         return Long.hashCode(commitHash) * 2;

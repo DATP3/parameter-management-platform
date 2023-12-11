@@ -66,23 +66,6 @@ public class ParameterRevert implements Change {
     }
 
     @Override
-    public void undo(CommitDirector commitDirector) {
-        AuditLog auditLog = commitDirector.getAuditLog();
-        AuditLogEntry auditLogEntry = auditLog.getAuditLogEntry(commitHash);
-        List<ChangeEntity> changeEntities = auditLogEntry.getChangeEntities();
-
-        for (ChangeEntity changeEntity : changeEntities) {
-            if (parameterName == changeEntity.getParameterName()) {
-                Object newValueTyped = commitDirector.getParameterService().getTypeParsers()
-                        .parse(changeEntity.getNewValue(), changeEntity.getParameterType());
-
-                commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(),
-                        newValueTyped);
-            }
-        }
-    }
-
-    @Override
     public String toString() {
         return "ParameterRevert {\n"
                 + "commitHash: " + commitHash +

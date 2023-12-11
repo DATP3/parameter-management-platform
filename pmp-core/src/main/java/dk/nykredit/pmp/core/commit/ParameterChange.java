@@ -72,14 +72,6 @@ public class ParameterChange implements Change {
     }
 
     @Override
-    public void undo(CommitDirector commitDirector) {
-        ParameterService parameterService = commitDirector.getParameterService();
-
-        Object oldValueTyped = parameterService.getTypeParsers().parse(oldValue, type);
-        parameterService.updateParameter(name, oldValueTyped);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         return obj instanceof ParameterChange && ((ParameterChange) obj).getName().equals(name)
                 && ((ParameterChange) obj).getNewValue().equals(newValue)
