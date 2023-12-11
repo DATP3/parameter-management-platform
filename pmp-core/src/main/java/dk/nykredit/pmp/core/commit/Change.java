@@ -9,7 +9,5 @@ import dk.nykredit.pmp.core.util.ChangeVisitor;
 public interface Change {
     List<ChangeEntity> apply(CommitDirector commitDirector) throws CommitException;
 
-    void undo(CommitDirector commitDirector);
-
     void acceptVisitor(ChangeVisitor changeVisitor);
 }
