@@ -1,4 +1,4 @@
-import { CircularProgress, Dialog, DialogActions, DialogButton, DialogContent, DialogTitle } from 'rmwc';
+import { CircularProgress, Dialog, DialogActions, DialogButton, DialogContent, DialogTitle, Icon } from 'rmwc';
 
 import { CommitBody } from '../types';
 import useCommitStore from '../useCommitStore';
@@ -37,7 +37,9 @@ const PushStatus = ({ open, onClose, commit }: PushStatusProps) => {
         return (
             <>
                 <Dialog open={open} onClose={handleClose} onOpen={clearChanges}>
-                    <DialogTitle>Failed to push changes</DialogTitle>
+                    <DialogTitle>
+                        Failed to push changes <Icon icon='error' className='relative bottom-[-5px] text-red-600' />
+                    </DialogTitle>
                     <DialogContent>
                         Changes could not be pushed to the services, try again later. The current change list has been
                         preserved.
@@ -56,7 +58,10 @@ const PushStatus = ({ open, onClose, commit }: PushStatusProps) => {
         return (
             <>
                 <Dialog open={open} onClose={handleClose} onOpen={clearChanges}>
-                    <DialogTitle>Pushed changes, but some services failed</DialogTitle>
+                    <DialogTitle>
+                        Pushed changes, but some services failed{' '}
+                        <Icon icon='warning' className='relative bottom-[-5px] text-orange-500' />
+                    </DialogTitle>
                     <DialogContent>
                         Changes were successfully pushed to some services. Others however failed. See details in commit
                         history.
@@ -75,12 +80,12 @@ const PushStatus = ({ open, onClose, commit }: PushStatusProps) => {
         return (
             <>
                 <Dialog open={open} onClose={handleClose} onOpen={clearChanges}>
-                    <DialogTitle>Changes pushed succesfully</DialogTitle>
-                    <DialogContent>
-                        Changes were successfully pushed to all services. Change list will be cleared shortly
-                    </DialogContent>
+                    <DialogTitle>
+                        Changes pushed succesfully{' '}
+                        <Icon icon='check_circle' className='relative bottom-[-5px] text-green-600' />
+                    </DialogTitle>
                     <DialogActions>
-                        <DialogButton danger outlined action='accept'>
+                        <DialogButton outlined action='accept'>
                             OK
                         </DialogButton>
                     </DialogActions>

@@ -8,6 +8,7 @@ import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.audit_log.RevertPartChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,14 +16,23 @@ import lombok.Setter;
 @Setter
 public class ParameterRevert implements Change {
     private long commitHash;
+    private String revertType;
+    private Service service;
     private String parameterName;
 
     public ParameterRevert() {
     }
 
-    public ParameterRevert(String parameterName, long commitHash) {
-        this.commitHash = commitHash;
+    public ParameterRevert(String parameterName, long commitHash, String type, Service service) {
         this.parameterName = parameterName;
+        this.commitHash = commitHash;
+        this.revertType = type;
+        this.service = service;
+    }
+
+    public ParameterRevert(String parameterName, long commitHash) {
+        this.parameterName = parameterName;
+        this.commitHash = commitHash;
     }
 
     @Override
@@ -93,5 +103,10 @@ public class ParameterRevert implements Change {
         ParameterRevert other = (ParameterRevert) obj;
         return commitHash == other.commitHash
                 && parameterName.equals(other.parameterName);
+    }
+
+    @Override
+    public void acceptVisitor(ChangeVisitor changeVisitor) {
+        changeVisitor.visit(this);
     }
 }

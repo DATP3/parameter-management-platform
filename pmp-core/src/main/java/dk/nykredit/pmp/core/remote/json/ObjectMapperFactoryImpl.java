@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
-import dk.nykredit.pmp.core.commit.Change;
+import dk.nykredit.pmp.core.remote.json.raw_types.RawChange;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,7 +25,7 @@ public class ObjectMapperFactoryImpl implements ObjectMapperFactory {
         if (mapper == null) {
             mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule();
-            module.addDeserializer(Change.class, new ChangeDeserializer(auditLog));
+            module.addDeserializer(RawChange.class, new RawChangeDeserializer(auditLog));
             mapper.registerModule(module);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");

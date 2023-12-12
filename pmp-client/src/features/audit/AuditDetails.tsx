@@ -178,7 +178,11 @@ const AuditDetails = (_: AuditDetailsProps) => {
                     <br />
                     {affectedServices.map((s) => (
                         <Fragment key={s.serviceName}>
-                            <Typography key={s.serviceName} use='subtitle2'>
+                            <Typography
+                                key={s.serviceName}
+                                use='subtitle2'
+                                style={{ color: s.connected ? '' : '#b00020' }}
+                            >
                                 {s.serviceName} -{' '}
                                 {!s.connected ? 'not connected' : s.selected ? 'selected' : 'not selected'}
                             </Typography>

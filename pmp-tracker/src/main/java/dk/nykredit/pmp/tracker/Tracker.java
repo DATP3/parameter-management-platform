@@ -68,10 +68,10 @@ public final class Tracker {
         return null;
     }
 
-    public void registerService(Service service, String environmentReq) {
-
-        createEnvironment(environmentReq).getServices().add(service);
-    }
+	public synchronized void registerService(Service service, String environmentReq) {
+		
+		createEnvironment(environmentReq).getServices().add(service);
+	}
 
     public ArrayList<Service> readServices(String environmentReq) {
         return findEnvironment(environmentReq).getServices();

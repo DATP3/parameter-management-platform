@@ -12,6 +12,11 @@ import java.util.List;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 public class AuditLogResponse {
+
+	// Force use of factory
+	private AuditLogResponse() {
+	}
+
 	private List<AuditLogEntry> commits;
 
 	private String name;

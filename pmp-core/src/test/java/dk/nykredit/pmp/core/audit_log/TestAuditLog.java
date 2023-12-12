@@ -17,6 +17,7 @@ import dk.nykredit.pmp.core.commit.Commit;
 import dk.nykredit.pmp.core.commit.CommitDirector;
 import dk.nykredit.pmp.core.commit.CommitRevert;
 import dk.nykredit.pmp.core.commit.ParameterChange;
+import dk.nykredit.pmp.core.commit.Service;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
 import dk.nykredit.pmp.core.service.ParameterService;
 
@@ -52,9 +53,10 @@ public class TestAuditLog extends H2StartDatabase {
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
         commit.setAffectedServices(List.of("service1"));
+        Service service = new Service("service1", "service1address", "prod");
 
-        Change c1 = new ParameterChange("test1", "String", "data1", "data2");
-        Change c2 = new ParameterChange("test2", "Integer", "5", "10");
+        Change c1 = new ParameterChange("test1", "String", "data1", "data2", service, "id1");
+        Change c2 = new ParameterChange("test2", "Integer", "5", "10", service, "id2");
 
         List<Change> changes = new ArrayList<>();
         changes.add(c1);
@@ -79,9 +81,10 @@ public class TestAuditLog extends H2StartDatabase {
         commit.setMessage("test commit");
         commit.setPushDate(LocalDateTime.now());
         commit.setAffectedServices(List.of("service1"));
+        Service service = new Service("service1", "service1address", "prod");
 
-        Change c1 = new ParameterChange("test1", "String", "data1", "data2");
-        Change c2 = new ParameterChange("test2", "Integer", "5", "10");
+        Change c1 = new ParameterChange("test1", "String", "data1", "data2", service, "id1");
+        Change c2 = new ParameterChange("test2", "Integer", "5", "10", service, "id2");
 
         List<Change> changes = new ArrayList<>();
         changes.add(c1);

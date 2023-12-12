@@ -1,0 +1,77 @@
+services:
+  pmp-tracker:
+    build: ../pmp-tracker
+    ports:
+      - "38429:8080"
+  pmp-client:
+    build: ../pmp-client
+    ports:
+      - 4173:4173
+    environment:
+      - VITE_TRACKER_URL=https://tracker-datp3.datalogi.net/pmp-tracker/rest
+  dev-service-1:
+    build: ..
+    depends_on:
+      - pmp-tracker
+    ports:
+      - "64017:64017"
+    environment:
+      - SERVICE_INFO_PMPROOT=https://dev1-datp3.datalogi.net
+      - SERVICE_INFO_ENVIRONMENT=development
+      - SERVICE_INFO_NAME=dev-service-1
+      - TRACKER_URL=http://pmp-tracker:8080
+  dev-service-2:
+    build: ..
+    depends_on:
+      - pmp-tracker
+    ports:
+      - "64018:64017"
+    environment:
+      - SERVICE_INFO_PMPROOT=https://dev2-datp3.datalogi.net
+      - SERVICE_INFO_ENVIRONMENT=development
+      - SERVICE_INFO_NAME=dev-service-2
+      - TRACKER_URL=http://pmp-tracker:8080
+  dev-service-3:
+    build: ..
+    depends_on:
+      - pmp-tracker
+    ports:
+      - "64019:64017"
+    environment:
+      - SERVICE_INFO_PMPROOT=https://dev3-datp3.datalogi.net
+      - SERVICE_INFO_ENVIRONMENT=development
+      - SERVICE_INFO_NAME=dev-service-3
+      - TRACKER_URL=http://pmp-tracker:8080
+  preprod-service-1:
+    build: ..
+    depends_on:
+      - pmp-tracker
+    ports:
+      - "64020:64017"
+    environment:
+      - SERVICE_INFO_PMPROOT=https://pre1-datp3.datalogi.net
+      - SERVICE_INFO_ENVIRONMENT=preprod
+      - SERVICE_INFO_NAME=preprod-service-1
+      - TRACKER_URL=http://pmp-tracker:8080
+  preprod-service-2:
+    build: ..
+    depends_on:
+      - pmp-tracker
+    ports:
+      - "64021:64017"
+    environment:
+      - SERVICE_INFO_PMPROOT=https://pre2-datp3.datalogi.net
+      - SERVICE_INFO_ENVIRONMENT=preprod
+      - SERVICE_INFO_NAME=preprod-service-2
+      - TRACKER_URL=http://pmp-tracker:8080
+  preprod-service-3:
+    build: ..
+    depends_on:
+      - pmp-tracker
+    ports:
+      - "64022:64017"
+    environment:
+      - SERVICE_INFO_PMPROOT=https://pre3-datp3.datalogi.net
+      - SERVICE_INFO_ENVIRONMENT=preprod
+      - SERVICE_INFO_NAME=preprod-service-3
+      - TRACKER_URL=http://pmp-tracker:8080

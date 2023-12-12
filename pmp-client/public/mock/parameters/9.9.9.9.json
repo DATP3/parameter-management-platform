@@ -1,29 +1,32 @@
-[
-    { "id": "155", "name": "data_throughput_limit", "type": "integer", "value": "120" },
-    { "id": "156", "name": "service_api_endpoint", "type": "string", "value": "https://api-endpoint.service" },
-    { "id": "157", "name": "verbose_logging_enabled", "type": "boolean", "value": "true" },
-    { "id": "158", "name": "data_encoding_style", "type": "string", "value": "avro-json" },
-    { "id": "159", "name": "retry_attempt_threshold", "type": "integer", "value": "6" },
-    { "id": "160", "name": "notification_handler", "type": "string", "value": "alerting-team@example.com" },
-    { "id": "161", "name": "failure_ratio_threshold", "type": "float", "value": "0.25" },
-    { "id": "162", "name": "data_expiry_deadline", "type": "LocalDate", "value": "2026-08-31" },
-    { "id": "163", "name": "access_rights_grouping", "type": "string", "value": "limited_access" },
-    { "id": "164", "name": "auth_secret_key", "type": "string", "value": "ultrasecret567" },
-    { "id": "165", "name": "response_timeout_limit", "type": "integer", "value": "60" },
-    { "id": "166", "name": "auth_service_url", "type": "string", "value": "https://auth-service-endpoint.com" },
-    { "id": "167", "name": "debug_feature_disabled", "type": "boolean", "value": "false" },
-    { "id": "168", "name": "output_data_format_type", "type": "string", "value": "protobuf" },
-    {
-        "id": "170",
-        "name": "admin_contact_email_address_v2",
-        "type": "string",
-        "value": "admin-contact@service-example.org"
-    },
-    { "id": "171", "name": "success_rate_threshold_v2", "type": "float", "value": "0.92" },
-    { "id": "33", "name": "expiry_notification_date", "type": "LocalDate", "value": "2024-12-15" },
-    { "id": "173", "name": "user_category_preference", "type": "string", "value": "premium_category" },
-    { "id": "174", "name": "api_token_key", "type": "string", "value": "token789XYZ" },
-    { "id": "175", "name": "interest_rate_7", "type": "float", "value": "4.75" },
-    { "id": "176", "name": "interest_rate_8", "type": "float", "value": "2.5" },
-    { "id": "177", "name": "interest_rate_9", "type": "float", "value": "3.25" }
-]
+{
+    "parameters": [
+        { "id": "155", "name": "data_throughput_limit", "type": "Integer", "value": "120" },
+        { "id": "156", "name": "service_api_endpoint", "type": "String", "value": "https://api-endpoint.service" },
+        { "id": "157", "name": "verbose_logging_enabled", "type": "Boolean", "value": "true" },
+        { "id": "158", "name": "data_encoding_style", "type": "String", "value": "avro-json" },
+        { "id": "159", "name": "retry_attempt_threshold", "type": "Integer", "value": "6" },
+        { "id": "160", "name": "notification_handler", "type": "String", "value": "alerting-team@example.com" },
+        { "id": "161", "name": "failure_ratio_threshold", "type": "Float", "value": "0.25" },
+        { "id": "162", "name": "data_expiry_deadline", "type": "Localdate", "value": "2026-08-31" },
+        { "id": "163", "name": "access_rights_grouping", "type": "String", "value": "limited_access" },
+        { "id": "164", "name": "auth_secret_key", "type": "String", "value": "ultrasecret567" },
+        { "id": "165", "name": "response_timeout_limit", "type": "Integer", "value": "60" },
+        { "id": "166", "name": "auth_service_url", "type": "String", "value": "https://auth-service-endpoint.com" },
+        { "id": "167", "name": "debug_feature_disabled", "type": "Boolean", "value": "false" },
+        { "id": "168", "name": "output_data_format_type", "type": "String", "value": "protobuf" },
+        {
+            "id": "170",
+            "name": "admin_contact_email_address_v2",
+            "type": "String",
+            "value": "admin-contact@service-example.org"
+        },
+        { "id": "171", "name": "success_rate_threshold_v2", "type": "Float", "value": "0.92" },
+        { "id": "33", "name": "expiry_notification_date", "type": "Localdate", "value": "2024-12-15" },
+        { "id": "173", "name": "user_category_preference", "type": "String", "value": "premium_category" },
+        { "id": "174", "name": "api_token_key", "type": "String", "value": "token789XYZ" },
+        { "id": "175", "name": "interest_rate_7", "type": "Float", "value": "4.75" },
+        { "id": "176", "name": "interest_rate_8", "type": "Float", "value": "2.5" },
+        { "id": "177", "name": "interest_rate_9", "type": "Float", "value": "3.25" }
+    ]
+}
+

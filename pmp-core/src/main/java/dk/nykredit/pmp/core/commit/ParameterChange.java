@@ -1,6 +1,5 @@
 package dk.nykredit.pmp.core.commit;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ParameterChangeEntityFactory;
@@ -8,6 +7,7 @@ import dk.nykredit.pmp.core.commit.exception.CommitException;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.service.ParameterService;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,24 +16,27 @@ import java.util.List;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
-// TODO: Delete this when we put services on this object
 public class ParameterChange implements Change {
-    protected String name;
-    protected String type;
+    private String name;
+    private String type;
 
     @JsonProperty("value")
-    protected String oldValue;
-    protected String newValue;
+    private String oldValue;
+    private String newValue;
+    private String id;
+
+    private Service service;
 
     public ParameterChange() {
     }
 
-    public ParameterChange(String name, String type, String oldValue, String newValue) {
+    public ParameterChange(String name, String type, String oldValue, String newValue, Service service, String id) {
         this.name = name;
         this.type = type;
         this.oldValue = oldValue;
         this.newValue = newValue;
+        this.service = service;
+        this.id = id;
     }
 
     @Override
@@ -97,5 +100,10 @@ public class ParameterChange implements Change {
                 ", oldValue='" + oldValue + '\'' +
                 ", newValue='" + newValue + '\'' +
                 '}';
+    }
+
+    @Override
+    public void acceptVisitor(ChangeVisitor changeVisitor) {
+        changeVisitor.visit(this);
     }
 }

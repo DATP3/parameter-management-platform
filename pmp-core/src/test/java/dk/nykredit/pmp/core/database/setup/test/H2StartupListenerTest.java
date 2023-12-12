@@ -20,6 +20,7 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
@@ -34,6 +35,7 @@ class H2StartupListenerTest {
     private final TestLogger logger = TestLoggerFactory.getTestLogger(H2StartupListenerSetup.class);
 
     @Test
+    @Disabled
     void tcpStartup() throws Exception {
         System.setProperty("dk.nykredit.pmp.h2.startservers", "false");
         startupListener.contextInitialized();

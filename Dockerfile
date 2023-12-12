@@ -4,4 +4,5 @@ RUN mkdir /opt/app
 COPY . /opt/app/
 WORKDIR /opt/app
 RUN mvn clean install -am
-CMD [ "mvn", "-pl", "example-service" , "exec:java" ]
+
+CMD [ "mvn", "-pl", "example-service", "verify", "exec:java" ]

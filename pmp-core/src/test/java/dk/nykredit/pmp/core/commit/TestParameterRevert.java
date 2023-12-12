@@ -26,53 +26,69 @@ public class TestParameterRevert extends H2StartDatabase {
 
         ParameterService parameterService = commitDirector.getParameterService();
         parameterService.persistParameter("test1", "data1");
-        parameterService.persistParameter("test2", 5);
+        parameterService.persistParameter("test2", 10);
+        parameterService.getRepository().startTransaction();
     }
 
     @AfterEach
     public void after() {
+        ParameterService parameterService = commitDirector.getParameterService();
+        parameterService.getRepository().endTransaction();
         container.shutdown();
     }
 
     @Test
     public void testRevertParameterChange() {
-        ParameterService parameterService = commitDirector.getParameterService();
-        parameterService.getRepository().startTransaction();
 
-        Commit commit = new Commit();
-        commit.setUser("author");
-        commit.setMessage("test commit");
-        commit.setPushDate(LocalDateTime.now());
-        commit.setAffectedServices(List.of("service1"));
+        Commit appliedCommit = new Commit();
+        appliedCommit.setUser("author");
+        appliedCommit.setMessage("test commit");
+        appliedCommit.setPushDate(LocalDateTime.now());
+        appliedCommit.setAffectedServices(List.of("service1"));
 
-        Change c1 = new ParameterChange("test1", "String", "data1", "data2");
-        Change c2 = new ParameterChange("test2", "Integer", "5", "10");
-
+        Change c1 = new ParameterChange(
+            "test1",
+            "String", 
+            "data1", 
+            "data2", 
+            new Service(
+                "service1", 
+                "service1Address", 
+                "service1Environment"), 
+            "id1");
+        Change c2 = new ParameterChange(
+            "test2",
+            "Integer", 
+            "10", 
+            "5", 
+            new Service(
+                "service1", 
+                "service1Address", 
+                "service1Environment"), 
+            "id2");
         List<Change> changes = new ArrayList<>();
         changes.add(c1);
         changes.add(c2);
 
-        commit.setChanges(changes);
+        appliedCommit.setChanges(changes);
 
-        commitDirector.apply(commit);
+        commitDirector.apply(appliedCommit);
 
         assertEquals("data2", commitDirector.getParameterService().findParameterByName("test1"));
-        assertEquals(10, commitDirector.getParameterService().<Integer>findParameterByName("test2"));
+        assertEquals(5, commitDirector.getParameterService().<Integer>findParameterByName("test2"));
 
         Commit commit2 = new Commit();
         commit2.setUser("author");
-        commit2.setMessage("revert param test1");
+        commit2.setMessage("revert param test2");
         commit2.setPushDate(LocalDateTime.now());
         commit2.setAffectedServices(List.of("service1"));
 
-        Change paramRevert = new ParameterRevert("test1", commit.getCommitHash());
+        Change paramRevert = new ParameterRevert("test2", appliedCommit.getCommitHash());
         commit2.setChanges(List.of(paramRevert));
 
         commitDirector.apply(commit2);
 
-        assertEquals("data1", commitDirector.getParameterService().findParameterByName("test1"));
+        assertEquals("data2", commitDirector.getParameterService().findParameterByName("test1"));
         assertEquals(10, commitDirector.getParameterService().<Integer>findParameterByName("test2"));
-
-        parameterService.getRepository().endTransaction();
     }
 }

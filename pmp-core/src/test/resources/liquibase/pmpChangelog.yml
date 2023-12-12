@@ -1,4 +1,10 @@
 databaseChangeLog:
+  - preConditions:
+      - onError: WARN
+      - onFail: WARN
+      - sqlCheck:
+          expectedResult: 0
+          sql: SELECT count(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'PARAMETER_MANAGEMENT'
   - changeSet:
       id: PMP_table_generate_01
       author: REL

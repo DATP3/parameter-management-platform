@@ -8,8 +8,8 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.h2.jdbcx.JdbcDataSource;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,10 +18,10 @@ import java.sql.SQLException;
 
 public class H2StartDatabase {
 
-    private static H2StartupListenerSetup startupListener;
+    private H2StartupListenerSetup startupListener;
 
-    @BeforeAll
-    static void setupDatabase() throws LiquibaseException, SQLException {
+    @BeforeEach
+    public void setupDatabase() throws LiquibaseException, SQLException {
         startupListener = new H2StartupListenerSetup();
 
         System.setProperty("dk.nykredit.pmp.h2.startservers", "true");
@@ -36,6 +36,11 @@ public class H2StartDatabase {
         db.setDatabaseChangeLogTableName("PMP_CHANGE_LOG");
         db.setDatabaseChangeLogLockTableName("PMP_CHANGE_LOG_LOCK");
         Liquibase liquibase = new Liquibase("liquibase/pmpChangelog.yml", new ClassLoaderResourceAccessor(), db);
+        try {
+            liquibase.dropAll();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         liquibase.update(new Contexts("default"));
     }
 
@@ -48,8 +53,8 @@ public class H2StartDatabase {
         return ds;
     }
 
-    @AfterAll
-    static void closeDatabase() {
+    @AfterEach
+    public void closeDatabase() {
         startupListener.contextDestroyed();
     }
 }

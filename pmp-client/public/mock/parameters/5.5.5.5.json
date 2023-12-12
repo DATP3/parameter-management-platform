@@ -1,23 +1,26 @@
-[
-    { "id": "88", "name": "connection_timeout", "type": "integer", "value": "20" },
-    { "id": "89", "name": "api_base_url", "type": "string", "value": "https://api.base.example.com" },
-    { "id": "90", "name": "enable_verbose_logging", "type": "boolean", "value": "true" },
-    { "id": "91", "name": "data_serialization_format", "type": "string", "value": "protobuf" },
-    { "id": "92", "name": "max_retry_attempts", "type": "integer", "value": "5" },
-    { "id": "93", "name": "notification_email", "type": "string", "value": "notify@admin.com" },
-    { "id": "94", "name": "failure_threshold_percent", "type": "float", "value": "0.12" },
-    { "id": "95", "name": "data_expiration_date", "type": "LocalDate", "value": "2025-12-31" },
-    { "id": "96", "name": "user_access_level", "type": "string", "value": "full_access" },
-    { "id": "97", "name": "api_secret_key", "type": "string", "value": "secure987654" },
-    { "id": "98", "name": "response_timeout", "type": "integer", "value": "45" },
-    { "id": "99", "name": "authentication_service_url", "type": "string", "value": "https://auth.base.example.com" },
-    { "id": "100", "name": "verbose_logging_enabled", "type": "boolean", "value": "false" },
-    { "id": "101", "name": "output_data_format", "type": "string", "value": "json" },
-    { "id": "103", "name": "admin_contact_email", "type": "string", "value": "admin@base.example.org" },
-    { "id": "104", "name": "success_threshold_percent", "type": "float", "value": "0.92" },
-    { "id": "105", "name": "expiry_notification_date", "type": "LocalDate", "value": "2025-09-01" },
-    { "id": "106", "name": "user_role_preference", "type": "string", "value": "advanced_user" },
-    { "id": "107", "name": "client_api_key", "type": "string", "value": "keyABCDE12345" },
-    { "id": "108", "name": "interest_rate", "type": "float", "value": "0.025" },
-    { "id": "109", "name": "release_7.0_datetime", "type": "LocalDateTime", "value": "2024-07-20T14:30" }
-]
+{
+    "parameters": [
+        { "id": "88", "name": "connection_timeout", "type": "Integer", "value": "20" },
+        { "id": "89", "name": "api_base_url", "type": "String", "value": "https://api.base.example.com" },
+        { "id": "90", "name": "enable_verbose_logging", "type": "Boolean", "value": "true" },
+        { "id": "91", "name": "data_serialization_format", "type": "String", "value": "protobuf" },
+        { "id": "92", "name": "max_retry_attempts", "type": "Integer", "value": "5" },
+        { "id": "93", "name": "notification_email", "type": "String", "value": "notify@admin.com" },
+        { "id": "94", "name": "failure_threshold_percent", "type": "Float", "value": "0.12" },
+        { "id": "95", "name": "data_expiration_date", "type": "Localdate", "value": "2025-12-31" },
+        { "id": "96", "name": "user_access_level", "type": "String", "value": "full_access" },
+        { "id": "97", "name": "api_secret_key", "type": "String", "value": "secure987654" },
+        { "id": "98", "name": "response_timeout", "type": "Integer", "value": "45" },
+        { "id": "99", "name": "authentication_service_url", "type": "String", "value": "https://auth.base.example.com" },
+        { "id": "100", "name": "verbose_logging_enabled", "type": "Boolean", "value": "false" },
+        { "id": "101", "name": "output_data_format", "type": "String", "value": "json" },
+        { "id": "103", "name": "admin_contact_email", "type": "String", "value": "admin@base.example.org" },
+        { "id": "104", "name": "success_threshold_percent", "type": "Float", "value": "0.92" },
+        { "id": "105", "name": "expiry_notification_date", "type": "Localdate", "value": "2025-09-01" },
+        { "id": "106", "name": "user_role_preference", "type": "String", "value": "advanced_user" },
+        { "id": "107", "name": "client_api_key", "type": "String", "value": "keyABCDE12345" },
+        { "id": "108", "name": "interest_rate", "type": "Float", "value": "0.025" },
+        { "id": "109", "name": "release_7.0_datetime", "type": "Localdatetime", "value": "2024-07-20T14:30" }
+    ]
+}
+

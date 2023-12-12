@@ -9,6 +9,7 @@ import dk.nykredit.pmp.core.audit_log.ChangeEntity;
 import dk.nykredit.pmp.core.audit_log.ChangeType;
 import dk.nykredit.pmp.core.audit_log.RevertPartChangeEntityFactory;
 import dk.nykredit.pmp.core.commit.exception.CommitException;
+import dk.nykredit.pmp.core.util.ChangeVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -99,5 +100,10 @@ public class CommitRevert implements Change {
     @Override
     public String toString() {
         return "CommitRevert {\n    commitHash=" + commitHash + "\n}";
+    }
+
+    @Override
+    public void acceptVisitor(ChangeVisitor changeVisitor) {
+        changeVisitor.visit(this);
     }
 }

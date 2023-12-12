@@ -1,5 +1,5 @@
 {
-    "environment": "prod",
+    "environment": "dev",
     "services": [
         { "name": "service1", "pmpRoot": "1.1.1.1", "lastRefresh": 1901999516214 },
         { "name": "service2", "pmpRoot": "2.2.2.2", "lastRefresh": 1901999516214 },

@@ -1,8 +1,6 @@
 package dk.nykredit.pmp.core.audit_log;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import dk.nykredit.pmp.core.commit.Change;
-import dk.nykredit.pmp.core.commit.Commit;
 import dk.nykredit.pmp.core.remote.json.AuditLogEntrySerializer;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "PMP_AUDIT_LOG")

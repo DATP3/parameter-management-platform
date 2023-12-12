@@ -1,6 +1,5 @@
 package dk.nykredit.example.pmp;
 
-import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.command.CommandScope;
 import liquibase.command.core.UpdateCommandStep;
@@ -20,7 +19,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.enterprise.event.Observes;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;

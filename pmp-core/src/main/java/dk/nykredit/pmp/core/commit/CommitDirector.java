@@ -22,6 +22,9 @@ public class CommitDirector {
     public void apply(Commit commit) throws CommitException {
         // If applying the commit fails, a `CommitException` will be thrown,
         // and `logCommit` will not be called
+        System.out.println("Applying commit\n\n\n");
+        System.out.println(commit);
+        System.out.println("\n\n\n");
         commit.apply(this);
         auditLog.logCommit(commit);
 

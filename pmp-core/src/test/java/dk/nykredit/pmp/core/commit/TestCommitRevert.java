@@ -167,7 +167,8 @@ public class TestCommitRevert extends H2StartDatabase {
 
         Commit commit1 = new Commit();
         String expectedValueAfterTest = "data2";
-        Change change1 = new ParameterChange("test1", "String", "data1", expectedValueAfterTest);
+        Service service = new Service("service1", "service1address", "prod");
+        Change change1 = new ParameterChange("test1", "String", "data1", expectedValueAfterTest, service, "id1");
         List<Change> changes1 = new ArrayList<>();
         changes1.add(change1);
         commit1.setChanges(changes1);

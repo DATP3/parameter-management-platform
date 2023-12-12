@@ -20,11 +20,17 @@ public class Commit {
     private String user;
     private String message;
     private List<String> affectedServices;
+    private Long commitHash;
 
     private List<Change> changes;
 
     @JsonIgnore
     private List<ChangeEntity> appliedChanges;
+
+    public Commit() {
+        changes = new ArrayList<>();
+        affectedServices = new ArrayList<>();
+    }
 
     // Uses command pattern to apply changes
     public void apply(CommitDirector commitDirector) throws CommitException {
@@ -66,12 +72,34 @@ public class Commit {
         return Long.hashCode(this.getCommitHash());
     }
 
-    public long getCommitHash() {
-        return pushDate.hashCode()
-                + user.hashCode()
-                + message.hashCode()
-                + changes.stream().mapToInt(Change::hashCode).sum();
+    public void setCommitHash(long commitHash) {
+        this.commitHash = commitHash;
+    }
 
+    public void setCommitHash(Long commitHash) {
+        if (commitHash != null) {
+            this.commitHash = commitHash;
+        }
+    }
+
+    public long getCommitHash() {
+        // Commit hash should preferably be calculated from the raw commit before
+        // creating this, but as commits may come from other sources in the future, we
+        // calculate it here otherwise. Calculating here cannot take changes to other
+        // services into account
+        if (commitHash == null) {
+            commitHash = pushDate.hashCode()
+                    + user.hashCode()
+                    + message.hashCode()
+                    + changes.stream().mapToLong(Change::hashCode).sum();
+        }
+
+        return commitHash;
+
+    }
+
+    public List<Change> getChanges() {
+        return changes;
     }
 
     @Override

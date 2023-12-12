@@ -23,7 +23,7 @@ const PageNavigator = () => {
                     tag={Link}
                     to={`/${environment}/${page.path}`}
                     label={page.label}
-                    unelevated={pathname.includes(page.path)}
+                    unelevated={!pathname.includes(page.path)}
                 />
             ))}
         </div>

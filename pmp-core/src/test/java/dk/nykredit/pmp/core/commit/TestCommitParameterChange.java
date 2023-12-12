@@ -1,11 +1,8 @@
 package dk.nykredit.pmp.core.commit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.nykredit.pmp.core.commit.exception.OldValueInconsistentException;
 import dk.nykredit.pmp.core.commit.exception.TypeInconsistentException;
 import dk.nykredit.pmp.core.database.setup.H2StartDatabase;
-import dk.nykredit.pmp.core.remote.json.ObjectMapperFactoryImpl;
 import dk.nykredit.pmp.core.service.ParameterService;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -23,27 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class TestCommitParameterChange extends H2StartDatabase {
 
-	private static final String commitJson = "{\n" +
-			"    \"changes\": [\n" +
-			"        {\n" +
-			"            \"newValue\": \"data2\",\n" +
-			"            \"service\": { \"name\": \"service2\", \"address\": \"2.2.2.2\", \"environment\": { \"environment\": \"prod\" } },\n" +
-			"            \"id\": \"61\",\n" +
-			"            \"name\": \"test1\",\n" +
-			"            \"type\": \"String\",\n" +
-			"            \"value\": \"data1\"\n" +
-			"        }\n" +
-			"    ],\n" +
-			"    \"user\": \"test\",\n" +
-			"    \"message\": \"test commit\",\n" +
-			"    \"pushDate\": \"2023-11-28T09:15:12.293Z\",\n" +
-			"    \"affectedServices\": [\"service2\"]\n" +
-			"}";
-
     private WeldContainer container;
     private CommitDirector commitDirector;
-
-    private ObjectMapper mapper;
 
     @BeforeEach
     public void before() {
@@ -53,8 +31,6 @@ public class TestCommitParameterChange extends H2StartDatabase {
         ParameterService parameterService = commitDirector.getParameterService();
         parameterService.persistParameter("test1", "data1");
         parameterService.persistParameter("test2", 5);
-
-        mapper = new ObjectMapperFactoryImpl().getObjectMapper();
     }
 
     @AfterEach
@@ -66,10 +42,10 @@ public class TestCommitParameterChange extends H2StartDatabase {
     public void testApplyStringParameterChange() {
         ParameterService parameterService = commitDirector.getParameterService();
 
-		Commit commit = new Commit();
-		commit.setUser("author");
-		commit.setPushDate(LocalDateTime.now());
-		commit.setAffectedServices(List.of("service1"));
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change = new ParameterChange();
@@ -89,10 +65,10 @@ public class TestCommitParameterChange extends H2StartDatabase {
     public void testApplyIntegerParameterChange() {
         ParameterService parameterService = commitDirector.getParameterService();
 
-		Commit commit = new Commit();
-		commit.setUser("author");
-		commit.setPushDate(LocalDateTime.now());
-		commit.setAffectedServices(List.of("service1"));
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change = new ParameterChange();
@@ -106,6 +82,49 @@ public class TestCommitParameterChange extends H2StartDatabase {
         assertDoesNotThrow(() -> commit.apply(commitDirector));
 
         assertEquals((Integer) 6, parameterService.findParameterByName("test2"));
+    }
+
+    @Test
+    public void testApplyConsecutiveIntegerParameterChange() {
+        ParameterService parameterService = commitDirector.getParameterService();
+
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
+
+        List<Change> changes = new ArrayList<>();
+        ParameterChange change = new ParameterChange();
+        change.setName("test2");
+        change.setNewValue("6");
+        change.setOldValue("5");
+        change.setType("Integer");
+        changes.add(change);
+
+        commit.setChanges(changes);
+        assertDoesNotThrow(() -> commit.apply(commitDirector));
+
+        assertEquals((Integer) 6, parameterService.findParameterByName("test2"));
+
+        ParameterService parameterService2 = commitDirector.getParameterService();
+
+        Commit commit2 = new Commit();
+        commit2.setUser("author");
+        commit2.setPushDate(LocalDateTime.now());
+        commit2.setAffectedServices(List.of("service1"));
+
+        List<Change> changes2 = new ArrayList<>();
+        ParameterChange change2 = new ParameterChange();
+        change2.setName("test2");
+        change2.setNewValue("7");
+        change2.setOldValue("6");
+        change2.setType("Integer");
+        changes2.add(change2);
+
+        commit2.setChanges(changes2);
+        assertDoesNotThrow(() -> commit2.apply(commitDirector));
+
+        assertEquals((Integer) 7, parameterService2.findParameterByName("test2"));
     }
 
     @Test
@@ -156,10 +175,10 @@ public class TestCommitParameterChange extends H2StartDatabase {
     public void testUndoMultipleValues() {
         ParameterService parameterService = commitDirector.getParameterService();
 
-		Commit commit = new Commit();
-		commit.setUser("author");
-		commit.setPushDate(LocalDateTime.now());
-		commit.setAffectedServices(List.of("service1"));
+        Commit commit = new Commit();
+        commit.setUser("author");
+        commit.setPushDate(LocalDateTime.now());
+        commit.setAffectedServices(List.of("service1"));
 
         List<Change> changes = new ArrayList<>();
         ParameterChange change1 = new ParameterChange();
@@ -182,24 +201,4 @@ public class TestCommitParameterChange extends H2StartDatabase {
         assertEquals((Integer) 5, parameterService.findParameterByName("test2"));
         assertEquals("data1", parameterService.findParameterByName("test1"));
     }
-
-    @Test
-    public void testParseCommit() throws JsonProcessingException {
-        LocalDateTime pushDate = LocalDateTime.of(2023, 11, 28, 9, 15, 12, (int) 2.93e8);
-
-        List<Change> changes = new ArrayList<>();
-        ParameterChange change = new ParameterChange();
-        change.setName("test1");
-        change.setType("String");
-        change.setOldValue("data1");
-        change.setNewValue("data2");
-        changes.add(change);
-
-		Commit commit = mapper.readValue(commitJson, Commit.class);
-		assertEquals("test", commit.getUser());
-		assertEquals("test commit", commit.getMessage());
-		assertEquals(pushDate, commit.getPushDate());
-		assertEquals(changes, commit.getChanges());
-		assertEquals(List.of("service2"), commit.getAffectedServices());
-	}
 }

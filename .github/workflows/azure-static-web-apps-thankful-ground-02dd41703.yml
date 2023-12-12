@@ -2,9 +2,15 @@ name: Azure Static Web Apps CI/CD
 
 on:
   push:
+    paths:
+      - pmp-client/**
+      - ".github/workflows/*thankful-ground*.yml"
     branches:
       - main
   pull_request:
+    paths:
+      - pmp-client/**
+      - ".github/workflows/*thankful-ground*.yml"
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
@@ -32,6 +38,8 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+        env:
+          VITE_TRACKER_URL: "https://tracker-datp3.datalogi.net/pmp-tracker/rest"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

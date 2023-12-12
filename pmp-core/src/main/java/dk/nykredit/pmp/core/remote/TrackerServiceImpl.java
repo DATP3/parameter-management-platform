@@ -3,6 +3,8 @@ package dk.nykredit.pmp.core.remote;
 import okhttp3.*;
 import org.eclipse.jetty.util.ajax.JSON;
 
+import dk.nykredit.pmp.core.util.SystemEnvKeys;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,7 +24,9 @@ public class TrackerServiceImpl implements TrackerService {
 
     static {
         try {
-            String urlStr = System.getProperty("dk.nykredit.pmp.core.trackerurl", "http://localhost:8080");
+            String urlStr = System.getenv(SystemEnvKeys.TRACKER_URL);
+            if (urlStr == null)
+                urlStr = System.getProperty("dk.nykredit.pmp.core.trackerurl", "http://localhost:8080");
             TRACKER_URL = new URL(urlStr);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
