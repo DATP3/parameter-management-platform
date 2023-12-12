@@ -16,7 +16,7 @@ services:
     ports:
       - "64017:64017"
     environment:
-      - SERVICE_INFO_PMPROOT=http://dev1-datp3.datalogi.net
+      - SERVICE_INFO_PMPROOT=https://dev1-datp3.datalogi.net
       - SERVICE_INFO_ENVIRONMENT=development
       - SERVICE_INFO_NAME=dev-service-1
       - TRACKER_URL=http://pmp-tracker:8080
@@ -27,7 +27,7 @@ services:
     ports:
       - "64018:64017"
     environment:
-      - SERVICE_INFO_PMPROOT=http://dev2-datp3.datalogi.net
+      - SERVICE_INFO_PMPROOT=https://dev2-datp3.datalogi.net
       - SERVICE_INFO_ENVIRONMENT=development
       - SERVICE_INFO_NAME=dev-service-2
       - TRACKER_URL=http://pmp-tracker:8080
@@ -38,7 +38,7 @@ services:
     ports:
       - "64019:64017"
     environment:
-      - SERVICE_INFO_PMPROOT=http://dev3-datp3.datalogi.net
+      - SERVICE_INFO_PMPROOT=https://dev3-datp3.datalogi.net
       - SERVICE_INFO_ENVIRONMENT=development
       - SERVICE_INFO_NAME=dev-service-3
       - TRACKER_URL=http://pmp-tracker:8080
@@ -49,7 +49,7 @@ services:
     ports:
       - "64020:64017"
     environment:
-      - SERVICE_INFO_PMPROOT=http://pre1-datp3.datalogi.net
+      - SERVICE_INFO_PMPROOT=httpss://pre1-datp3.datalogi.net
       - SERVICE_INFO_ENVIRONMENT=preprod
       - SERVICE_INFO_NAME=preprod-service-1
       - TRACKER_URL=http://pmp-tracker:8080
@@ -60,7 +60,7 @@ services:
     ports:
       - "64021:64017"
     environment:
-      - SERVICE_INFO_PMPROOT=http://pre2-datp3.datalogi.net
+      - SERVICE_INFO_PMPROOT=https://pre2-datp3.datalogi.net
       - SERVICE_INFO_ENVIRONMENT=preprod
       - SERVICE_INFO_NAME=preprod-service-2
       - TRACKER_URL=http://pmp-tracker:8080
@@ -71,7 +71,7 @@ services:
     ports:
       - "64022:64017"
     environment:
-      - SERVICE_INFO_PMPROOT=http://pre3-datp3.datalogi.net
+      - SERVICE_INFO_PMPROOT=https://pre3-datp3.datalogi.net
       - SERVICE_INFO_ENVIRONMENT=preprod
       - SERVICE_INFO_NAME=preprod-service-3
       - TRACKER_URL=http://pmp-tracker:8080
