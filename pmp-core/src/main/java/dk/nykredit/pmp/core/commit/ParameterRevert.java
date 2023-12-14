@@ -1,5 +1,6 @@
 package dk.nykredit.pmp.core.commit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.nykredit.pmp.core.audit_log.AuditLog;
@@ -47,14 +48,38 @@ public class ParameterRevert implements Change {
 
         for (ChangeEntity changeEntity : changeEntities) {
             if (parameterName.equals(changeEntity.getParameterName())) {
+                // Object oldValueTyped = commitDirector.getParameterService().getTypeParsers()
+                // .parse(changeEntity.getOldValue(), changeEntity.getParameterType());
+
+                // commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(),
+                // oldValueTyped);
+
+                // ChangeEntity resultingChangeEntity = new RevertPartChangeEntityFactory()
+                // .createChangeEntity(changeEntity, ChangeType.PARAMETER_REVERT, commitHash);
+
+                AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
+                if (latestChange == null || latestChange.getCommitId() != commitHash) {
+
+                    // Try to find the latest change that was not reverted instead. This would also
+                    // be allowed
+                    latestChange = auditLog
+                            .getLatestNotRevertedChangeToParameter(changeEntity.getParameterName());
+                }
+
+                if (latestChange == null || latestChange.getCommitId() != commitHash) {
+                    // No revertable change was found
+                    return new ArrayList<>();
+                }
+
                 Object oldValueTyped = commitDirector.getParameterService().getTypeParsers()
                         .parse(changeEntity.getOldValue(), changeEntity.getParameterType());
 
                 commitDirector.getParameterService().updateParameter(changeEntity.getParameterName(),
                         oldValueTyped);
 
-                ChangeEntity resultingChangeEntity = new RevertPartChangeEntityFactory()
-                        .createChangeEntity(changeEntity, ChangeType.PARAMETER_REVERT, commitHash);
+                ChangeEntity resultingChangeEntity = new RevertPartChangeEntityFactory().createChangeEntity(
+                        changeEntity,
+                        ChangeType.COMMIT_REVERT, commitHash);
 
                 return List.of(resultingChangeEntity);
             }
