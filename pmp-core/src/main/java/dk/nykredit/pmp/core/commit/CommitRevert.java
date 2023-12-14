@@ -42,6 +42,14 @@ public class CommitRevert implements Change {
 
             AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
             if (latestChange == null || latestChange.getCommitId() != commitHash) {
+
+                // Try to find the latest change that was not reverted instead. This would also
+                // be allowed
+                latestChange = auditLog
+                        .getLatestNotRevertedChangeToParameter(changeEntity.getParameterName());
+            }
+
+            if (latestChange == null || latestChange.getCommitId() != commitHash) {
                 continue;
             }
 

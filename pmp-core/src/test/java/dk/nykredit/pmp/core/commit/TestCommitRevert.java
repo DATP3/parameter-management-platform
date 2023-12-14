@@ -295,4 +295,314 @@ public class TestCommitRevert extends H2StartDatabase {
 
         parameterService.getRepository().endTransaction();
     }
+
+    @Test
+    public void testAllowChainReverts() {
+        // This throws a bunch of exceptions to the console but the test seems to be
+        // working fine
+        ParameterService parameterService = commitDirector.getParameterService();
+
+        parameterService.getRepository().startTransaction();
+
+        // Make first parameter change to both parameters
+        Commit commit1 = new Commit();
+        commit1.setUser("author");
+        commit1.setMessage("change both parameters");
+        commit1.setPushDate(LocalDateTime.now());
+        commit1.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterChange change = new ParameterChange();
+            change.setName("test1");
+            change.setNewValue("data2");
+            change.setOldValue("data1");
+            change.setType("String");
+            changes.add(change);
+
+            ParameterChange change2 = new ParameterChange();
+            change2.setName("test2");
+            change2.setNewValue("10");
+            change2.setOldValue("5");
+            change2.setType("Integer");
+            changes.add(change2);
+
+            commit1.setChanges(changes);
+        }
+
+        commitDirector.apply(commit1);
+
+        // Make second parameter change to both parameters
+        Commit commit2 = new Commit();
+        commit2.setUser("author");
+        commit2.setMessage("change both parameters again");
+        commit2.setPushDate(LocalDateTime.now());
+        commit2.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterChange change = new ParameterChange();
+            change.setName("test1");
+            change.setNewValue("data3");
+            change.setOldValue("data2");
+            change.setType("String");
+            changes.add(change);
+
+            ParameterChange change2 = new ParameterChange();
+            change2.setName("test2");
+            change2.setNewValue("15");
+            change2.setOldValue("10");
+            change2.setType("Integer");
+            changes.add(change2);
+
+            commit2.setChanges(changes);
+        }
+
+        commitDirector.apply(commit2);
+
+        // Assert change stuck
+        String test1 = parameterService.findParameterByName("test1");
+        Integer test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data3", test1);
+        assertEquals(15, test2);
+
+        // Revert second commit
+        Commit commit3 = new Commit();
+        commit3.setUser("author");
+        commit3.setMessage("revert second commit");
+        commit3.setPushDate(LocalDateTime.now());
+        commit3.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            CommitRevert change = new CommitRevert();
+            change.setCommitHash(commit2.getCommitHash());
+            changes.add(change);
+
+            commit3.setChanges(changes);
+        }
+
+        commitDirector.apply(commit3);
+
+        // Assert first revert applied
+        test1 = parameterService.findParameterByName("test1");
+        test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data2", test1);
+        assertEquals(10, test2);
+
+        // Revert first commit
+        Commit commit4 = new Commit();
+        commit4.setUser("author");
+        commit4.setMessage("revert first commit");
+        commit4.setPushDate(LocalDateTime.now());
+        commit4.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            CommitRevert change = new CommitRevert();
+            change.setCommitHash(commit1.getCommitHash());
+            changes.add(change);
+
+            commit4.setChanges(changes);
+        }
+
+        commitDirector.apply(commit4);
+
+        test1 = parameterService.findParameterByName("test1");
+        test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data1", test1);
+        assertEquals(5, test2);
+
+        // AuditLogEntry entry3 =
+        // commitDirector.getAuditLog().getAuditLogEntry(commit4.getCommitHash());
+
+        // assertEquals(entry3.getChanges().size(), 1);
+        // assertEquals(entry3.getChanges().get(0).getParameterName(), "test1");
+
+        parameterService.getRepository().endTransaction();
+    }
+
+    @Test
+    public void testAllowLongerChainReverts() {
+        // This throws a bunch of exceptions to the console but the test seems to be
+        // working fine
+        ParameterService parameterService = commitDirector.getParameterService();
+
+        parameterService.getRepository().startTransaction();
+
+        // Make first parameter change to both parameters
+        Commit commit1 = new Commit();
+        commit1.setUser("author");
+        commit1.setMessage("change both parameters");
+        commit1.setPushDate(LocalDateTime.now());
+        commit1.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterChange change = new ParameterChange();
+            change.setName("test1");
+            change.setNewValue("data2");
+            change.setOldValue("data1");
+            change.setType("String");
+            changes.add(change);
+
+            ParameterChange change2 = new ParameterChange();
+            change2.setName("test2");
+            change2.setNewValue("10");
+            change2.setOldValue("5");
+            change2.setType("Integer");
+            changes.add(change2);
+
+            commit1.setChanges(changes);
+        }
+
+        commitDirector.apply(commit1);
+
+        // Make second parameter change to both parameters
+        Commit commit2 = new Commit();
+        commit2.setUser("author");
+        commit2.setMessage("change both parameters again");
+        commit2.setPushDate(LocalDateTime.now());
+        commit2.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterChange change = new ParameterChange();
+            change.setName("test1");
+            change.setNewValue("data3");
+            change.setOldValue("data2");
+            change.setType("String");
+            changes.add(change);
+
+            ParameterChange change2 = new ParameterChange();
+            change2.setName("test2");
+            change2.setNewValue("15");
+            change2.setOldValue("10");
+            change2.setType("Integer");
+            changes.add(change2);
+
+            commit2.setChanges(changes);
+        }
+
+        commitDirector.apply(commit2);
+
+        // Make third parameter change to both parameters
+        Commit commit22 = new Commit();
+        commit22.setUser("author");
+        commit22.setMessage("change both parameters again");
+        commit22.setPushDate(LocalDateTime.now());
+        commit22.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            ParameterChange change = new ParameterChange();
+            change.setName("test1");
+            change.setNewValue("data4");
+            change.setOldValue("data3");
+            change.setType("String");
+            changes.add(change);
+
+            ParameterChange change2 = new ParameterChange();
+            change2.setName("test2");
+            change2.setNewValue("20");
+            change2.setOldValue("15");
+            change2.setType("Integer");
+            changes.add(change2);
+
+            commit22.setChanges(changes);
+        }
+
+        commitDirector.apply(commit22);
+
+        // Assert change stuck
+        String test1 = parameterService.findParameterByName("test1");
+        Integer test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data4", test1);
+        assertEquals(20, test2);
+
+        // Revert second commit
+        Commit commit32 = new Commit();
+        commit32.setUser("author");
+        commit32.setMessage("revert second commit");
+        commit32.setPushDate(LocalDateTime.now());
+        commit32.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            CommitRevert change = new CommitRevert();
+            change.setCommitHash(commit22.getCommitHash());
+            changes.add(change);
+
+            commit32.setChanges(changes);
+        }
+
+        commitDirector.apply(commit32);
+
+        // Assert first revert applied
+        test1 = parameterService.findParameterByName("test1");
+        test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data3", test1);
+        assertEquals(15, test2);
+
+        Commit commit3 = new Commit();
+        commit3.setUser("author");
+        commit3.setMessage("revert second commit");
+        commit3.setPushDate(LocalDateTime.now());
+        commit3.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            CommitRevert change = new CommitRevert();
+            change.setCommitHash(commit2.getCommitHash());
+            changes.add(change);
+
+            commit3.setChanges(changes);
+        }
+
+        commitDirector.apply(commit3);
+
+        // Assert first revert applied
+        test1 = parameterService.findParameterByName("test1");
+        test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data2", test1);
+        assertEquals(10, test2);
+
+        // Revert first commit
+        Commit commit4 = new Commit();
+        commit4.setUser("author");
+        commit4.setMessage("revert first commit");
+        commit4.setPushDate(LocalDateTime.now());
+        commit4.setAffectedServices(List.of("service1"));
+
+        {
+            List<Change> changes = new ArrayList<>();
+            CommitRevert change = new CommitRevert();
+            change.setCommitHash(commit1.getCommitHash());
+            changes.add(change);
+
+            commit4.setChanges(changes);
+        }
+
+        commitDirector.apply(commit4);
+
+        test1 = parameterService.findParameterByName("test1");
+        test2 = parameterService.findParameterByName("test2");
+
+        assertEquals("data1", test1);
+        assertEquals(5, test2);
+
+        // AuditLogEntry entry3 =
+        // commitDirector.getAuditLog().getAuditLogEntry(commit4.getCommitHash());
+
+        // assertEquals(entry3.getChanges().size(), 1);
+        // assertEquals(entry3.getChanges().get(0).getParameterName(), "test1");
+
+        parameterService.getRepository().endTransaction();
+    }
 }
