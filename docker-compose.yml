@@ -8,7 +8,7 @@ services:
     ports:
      - 4173:4173
     environment:
-      - TRACKER_URL=http://pmp-tracker:8080/pmp-tracker/rest
+      - VITE_TRACKER_URL=http://localhost:38429/pmp-tracker/rest
   dev-service-1:
     build: .
     depends_on:
