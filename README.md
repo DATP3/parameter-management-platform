@@ -26,6 +26,16 @@ Dependencies:
 - Maven
 - Java 11
 
+#### Compose issues
+
+Due to environment issues on certain machines, it may be necessary to manually set `VITE_TRACKER_URL = http://localhost:38429/pmp-tracker/rest` in `pmp-client/.env.local` for the client to properly connect to the tracker. An example file is provided as `pmp-client/.env.local.example`.
+
+on \*nix systems:
+
+```shell
+cp pmp-client/.env.local.example pmp-client/.env.local
+```
+
 ### Manual setip
 
 Running the project has 3 steps. A quick guide is provided below, but for more detailed instructions, see the `README.md` in each of the subfolders.
