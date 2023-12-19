@@ -20,11 +20,16 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
     @Override
     public Handler getHandler() {
         ServletContextHandler cx = new ServletContextHandler();
+
+        // Set the root path of the context
         cx.setContextPath("/pmp");
+
+        // Add the servlets to the context
         cx.addServlet(ParametersServlet.class, "/parameters");
         cx.addServlet(CommitServlet.class, "/commit");
         cx.addServlet(LogServlet.class, "/log");
 
+        // Add the required CORS headers to all requests
         cx.addFilter(CorsFilter.class, "/*",
                 EnumSet.of(javax.servlet.DispatcherType.REQUEST,
                         javax.servlet.DispatcherType.ASYNC,
@@ -32,6 +37,7 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
                         javax.servlet.DispatcherType.FORWARD,
                         javax.servlet.DispatcherType.INCLUDE));
 
+        // Announce the service to the tracker when the API starts up
         cx.getServletHandler().addListener(new ListenerHolder(ServiceContextInitializer.class));
 
         // Initialize CDI
@@ -46,6 +52,10 @@ public class PMPHandlerFactoryImpl implements PMPHandlerFactory {
         return cx;
     }
 
+    /**
+     * A filter that accepts GET and POST requests and adds CORS headers to allow
+     * requests from all origins
+     */
     public static class CorsFilter implements Filter {
 
         @Override

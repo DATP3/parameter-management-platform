@@ -5,15 +5,37 @@ import dk.nykredit.pmp.core.repository.ParameterRepository;
 import dk.nykredit.pmp.core.util.EntityParser;
 
 public interface ParameterService {
-	<T> T findParameterByName(String name);
+    <T> T findParameterByName(String name);
 
-	<P> ParameterEntity persistParameter(String name, P value);
+    <P> ParameterEntity persistParameter(String name, P value);
 
-	<P> void updateParameter(String name, P value);
+    /**
+     * Persist parameter entity
+     *
+     * @name parameter name
+     * @value parameter value
+     */
+    <P> void updateParameter(String name, P value);
 
-	EntityParser getTypeParsers();
+    /**
+     * Get type parsers
+     * 
+     * @return EntityParser
+     */
+    EntityParser getTypeParsers();
 
-	String getParameterTypeName(String parameterName);
+    /**
+     * Get parameter type name
+     * 
+     * @param parameterName parameter name
+     * @return parameter type name
+     */
+    String getParameterTypeName(String parameterName);
 
-	ParameterRepository getRepository();
+    /**
+     * Get parameter repository
+     * 
+     * @return ParameterRepository
+     */
+    ParameterRepository getRepository();
 }
