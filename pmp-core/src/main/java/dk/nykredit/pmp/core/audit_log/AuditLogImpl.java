@@ -112,8 +112,8 @@ public class AuditLogImpl implements AuditLog {
                 continue;
             }
 
-            // If the latest change was a parameter change form a commit not preveusly
-            // looked at, the auditLogEntry is returned.
+            // If the latest change was a parameter change that does not have later reverts,
+            // the commit it is contained in, is returned.
             if (!revertedRefs.contains(auditLogEntry.getCommitId())) {
                 return auditLogEntry;
             }
