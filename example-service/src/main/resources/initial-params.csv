@@ -2,3 +2,11 @@ person,String,Test Person
 max_retries,Integer,5
 data_expiry_date,LocalDate,2024-06-30
 release_5.2_datetime,LocalDateTime,2023-12-15T15:30
+enable_debug_mode,Boolean,false,
+failure_threshold_percent_v2,Float,0.08
+concurrent_connection_limit,Byte,121
+upper_user_account_bound,Short,971
+u2f_key,Long,5089236
+mock_account_default_balance,Double,89723.43204
+mock_account_prefix,Character,M
+mock_account_accumulated_max,BigDecimal,23489234237984329234243223423

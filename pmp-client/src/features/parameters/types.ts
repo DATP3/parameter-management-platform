@@ -21,7 +21,7 @@ export enum ParameterType {
     BYTE = 'Byte',
     FLOAT = 'Float',
     DOUBLE = 'Double',
-    BIGDECIMAL = 'Bigdecimal',
+    BIGDECIMAL = 'BigDecimal',
     BOOLEAN = 'Boolean',
     LOCALDATE = 'LocalDate',
     LOCALDATETIME = 'LocalDateTime'
