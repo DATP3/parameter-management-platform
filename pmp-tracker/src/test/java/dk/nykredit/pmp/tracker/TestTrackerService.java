@@ -22,10 +22,9 @@ public class TestTrackerService {
     }
 
     /**
-     * Make sure the tracker is reset after each test
-     * 
-     * @clearEnvironments effectively resets the tracker,
-     *                    as services exist in environments
+     * Make sure the tracker is reset after each test.
+     * clearEnvironments effectively resets the tracker, 
+     * as services exist in environments
      */
     @AfterEach
     public void resetTracker() {
