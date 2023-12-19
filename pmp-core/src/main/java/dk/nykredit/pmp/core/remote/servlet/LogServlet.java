@@ -15,29 +15,31 @@ import java.util.List;
 
 public class LogServlet extends HttpServlet {
 
-	@Inject
-	private AuditLog auditLog;
+    @Inject
+    private AuditLog auditLog;
 
-	@Inject
-	private ObjectMapperFactory objectMapperFactory;
+    @Inject
+    private ObjectMapperFactory objectMapperFactory;
 
-	@Inject
-	private AuditLogResponse.Factory responseFactory;
+    @Inject
+    private AuditLogResponse.Factory responseFactory;
 
-	private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
-	@Override
-	public void init() {
-		this.objectMapper = objectMapperFactory.getObjectMapper();
-	}
+    @Override
+    public void init() {
+        this.objectMapper = objectMapperFactory.getObjectMapper();
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		List<AuditLogEntry> entries = auditLog.getEntries();
-		AuditLogResponse response = responseFactory.fromEntries(entries);
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        // Gets the audit log entries and creates a response object
+        List<AuditLogEntry> entries = auditLog.getEntries();
+        AuditLogResponse response = responseFactory.fromEntries(entries);
 
-		res.setStatus(HttpServletResponse.SC_OK);
-		res.setHeader("Content-Type", "application/json");
-		objectMapper.writeValue(res.getWriter(), response);
-	}
+        // Writes the response object to the response body
+        res.setStatus(HttpServletResponse.SC_OK);
+        res.setHeader("Content-Type", "application/json");
+        objectMapper.writeValue(res.getWriter(), response);
+    }
 }

@@ -12,9 +12,16 @@ public class ChangeValidatorFactoryImpl implements ChangeValidatorFactory {
     @Inject
     ServiceInfoProvider serviceInfoProvider;
 
+    /**
+     * Creates a new instance of {@link ChangeValidatorImpl} to make sure the
+     * validatedChanges list is empty, while still allowing access to the
+     * {@link AuditLog}
+     * and {@link ServiceInfo}.
+     * 
+     * @return a new instance of {@link ChangeValidatorImpl}
+     */
     @Override
     public ChangeValidator createChangeValidator() {
         return new ChangeValidatorImpl(auditLog, serviceInfoProvider.getServiceInfo());
     }
-
 }

@@ -32,10 +32,22 @@ public class Commit {
         affectedServices = new ArrayList<>();
     }
 
-    // Uses command pattern to apply changes
+    /**
+     * Applies the changes in the commit.
+     * 
+     * @param commitDirector The commit director is used to pass to the changes
+     *                       apply method, so they can edit the parameters and
+     *                       access
+     *                       the audit log.
+     * @throws CommitException If any of the changes throws an exception when
+     *                         applied it will be
+     *                         thrown by this method as well and all changes will be
+     *                         undone.
+     */
     public void apply(CommitDirector commitDirector) throws CommitException {
         appliedChanges = new ArrayList<>(changes.size());
 
+        // Apply changes one by one, and if any exceptions are thrown, undo all changes
         for (Change change : changes) {
             try {
                 appliedChanges.addAll(change.apply(commitDirector));
@@ -48,6 +60,8 @@ public class Commit {
     }
 
     private void undoChanges(List<ChangeEntity> changes, CommitDirector commitDirector) {
+        // As each change reprecent a change to a parameter, the old value of the change
+        // can be used to undo the change.
         for (ChangeEntity change : changes) {
             commitDirector.getParameterService().updateParameter(change.getParameterName(), change.getOldValue());
         }

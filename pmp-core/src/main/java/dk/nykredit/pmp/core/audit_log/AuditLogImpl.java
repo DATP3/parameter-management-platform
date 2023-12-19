@@ -22,9 +22,13 @@ public class AuditLogImpl implements AuditLog {
 
     @Override
     public void logCommit(Commit commit) {
+        // Creates the audit log entry from the commit using the factory
         AuditLogEntry entry = auditLogEntryFactory.createAuditLogEntry(commit);
+
+        // Begins transaction to make sure database works as expected
         entityManager.getTransaction().begin();
         try {
+            // Saves the entry as well as all its changes
             entityManager.persist(entry);
             for (ChangeEntity change : entry.getChangeEntities()) {
                 entityManager.persist(change);
@@ -76,12 +80,16 @@ public class AuditLogImpl implements AuditLog {
 
         while (true) {
             AuditLogEntry auditLogEntry = null;
+
+            // Tries to find the latest commit to the parameter. If there is no commits that
+            // effected the parameter, null is returned.
             try {
                 auditLogEntry = getLatestCommitToParameter(name, offset);
             } catch (IndexOutOfBoundsException e) {
                 return null;
             }
 
+            // finds the latest change to the parameter from the auditLogEntry.
             ChangeEntity lastChange = null;
             for (ChangeEntity changeEntity : auditLogEntry.getChangeEntities()) {
                 if (changeEntity.getParameterName().equals(name)) {
@@ -90,16 +98,22 @@ public class AuditLogImpl implements AuditLog {
                 }
             }
 
+            // If there is no change to the parameter, null is returned.
             if (lastChange == null) {
                 return null;
             }
 
+            // If the latest change was not a parameter change, the offset is incremented.
+            // This makes the next iteration of the while loop look for the next latest
+            // change.
             if (lastChange.getChangeType() != ChangeType.PARAMETER_CHANGE) {
                 revertedRefs.add(lastChange.getCommitRevertRef());
                 offset++;
                 continue;
             }
 
+            // If the latest change was a parameter change form a commit not preveusly
+            // looked at, the auditLogEntry is returned.
             if (!revertedRefs.contains(auditLogEntry.getCommitId())) {
                 return auditLogEntry;
             }
@@ -107,5 +121,4 @@ public class AuditLogImpl implements AuditLog {
             offset++;
         }
     }
-
 }

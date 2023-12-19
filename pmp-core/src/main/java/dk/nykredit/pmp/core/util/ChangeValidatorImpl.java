@@ -60,6 +60,8 @@ public class ChangeValidatorImpl implements ChangeValidator {
             return;
         }
 
+        // TODO: Should also check if the commitHash refrences an entry in the AuditLog
+
         validatedChanges.add(change);
         return;
     }

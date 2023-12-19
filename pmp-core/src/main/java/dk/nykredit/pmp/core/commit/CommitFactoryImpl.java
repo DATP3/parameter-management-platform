@@ -29,19 +29,25 @@ public class CommitFactoryImpl implements CommitFactory {
     @Override
     public Commit createCommit(RawCommit rawCommit) {
         Commit commit = new Commit();
+
+        // calculates the commit hash of the raw commit so the hash is the same on all
+        // services, since they all recive the same raw commit, but may not have the
+        // same validated changes.
         commit.setCommitHash(calculateHash(rawCommit));
         commit.setPushDate(rawCommit.getPushDate());
         commit.setUser(rawCommit.getUser());
         commit.setMessage(rawCommit.getMessage());
         commit.setAffectedServices(rawCommit.getAffectedServices());
 
+        // Creates a change validator and starts it on each change in the raw commit.
         ChangeValidator changeValidator = changeValidatorFactory.createChangeValidator();
-
         for (RawChange change : rawCommit.getChanges()) {
             Change convertedChange = changeFactory.createChange(change);
             convertedChange.acceptVisitor(changeValidator);
         }
 
+        // Sets the validated changes of the change validator to the commit and returns
+        // it.
         commit.setChanges(changeValidator.getValidatedChanges());
         return commit;
     }
