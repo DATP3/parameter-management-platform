@@ -9,26 +9,26 @@ import javax.servlet.ServletContextListener;
 
 public class ServiceContextInitializer implements ServletContextListener {
 
-	@Inject
-	TrackerService trackerService;
+    @Inject
+    TrackerService trackerService;
 
-	@Inject
-	ServiceInfoProvider serviceInfoProvider;
+    @Inject
+    ServiceInfoProvider serviceInfoProvider;
 
-	@Override
-	public void contextInitialized(ServletContextEvent servletContextEvent) {
-		ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
+    @Override
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        ServiceInfo serviceInfo = serviceInfoProvider.getServiceInfo();
 
-		try {
-			trackerService.announce(serviceInfo.getPmpRoot(), serviceInfo.getName(), serviceInfo.getEnvironment());
-		} catch (Exception e) {
-			throw new Error(e);
-		}
+        // Announce the service to the tracker
+        try {
+            trackerService.announce(serviceInfo.getPmpRoot(), serviceInfo.getName(), serviceInfo.getEnvironment());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
 
-	}
+    }
 
-	@Override
-	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		// TODO: Unregister from tracker?
-	}
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    }
 }

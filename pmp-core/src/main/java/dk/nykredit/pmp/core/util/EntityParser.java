@@ -9,9 +9,14 @@ import dk.nykredit.pmp.core.persistence.ParameterEntity;
  */
 public interface EntityParser {
 
-	<T> T parse(ParameterEntity entity);
+    <T> T parse(ParameterEntity entity);
 
-	<T> T parse(String value, String type);
+    /**
+     * Parse parameter from string.
+     * 
+     * @return parsed parameter
+     */
+    <T> T parse(String value, String type);
 
-	void addParser(String type, Function<String, Object> parserMethod);
+    void addParser(String type, Function<String, Object> parserMethod);
 }
