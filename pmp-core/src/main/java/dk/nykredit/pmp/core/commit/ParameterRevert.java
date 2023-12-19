@@ -65,7 +65,7 @@ public class ParameterRevert implements Change {
                 // was from, it should not be reverted unless the latest change was a revert.
                 AuditLogEntry latestChange = auditLog.getLatestCommitToParameter(changeEntity.getParameterName());
                 if (latestChange == null || latestChange.getCommitId() != commitHash) {
-                    // In case the latet change was a revert, the parameter could also have been
+                    // In case the latest change was a revert, the parameter could also have been
                     // changed to the current state by a parameter change. This is then found here.
                     latestChange = auditLog
                             .getLatestNotRevertedChangeToParameter(changeEntity.getParameterName());
