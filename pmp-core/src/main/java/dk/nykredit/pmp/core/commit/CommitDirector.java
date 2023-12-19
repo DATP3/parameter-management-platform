@@ -19,6 +19,13 @@ public class CommitDirector {
     @Inject
     private EntityManager entityManager;
 
+    /**
+     * Applies a commit and logs the commit in the audit log
+     * 
+     * @param commit to be applied
+     * @throws CommitException If the commit cannot be applied an exception will be
+     *                         thrown indicating the error
+     */
     public void apply(Commit commit) throws CommitException {
         // If applying the commit fails, a `CommitException` will be thrown,
         // and `logCommit` will not be called

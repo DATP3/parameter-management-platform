@@ -33,10 +33,12 @@ public class CommitServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         ObjectMapper mapper = objectMapperFactory.getObjectMapper();
 
+        // Reads the raw commit from the request body and creates a Commit object
         RawCommit rawCommit = mapper.readValue(req.getInputStream(), RawCommit.class);
         Commit commit = commitFactory.createCommit(rawCommit);
 
-
+        // Apply commit, and if any exceptions are thrown, return the appropriate HTTP
+        // status code
         try {
             commitDirector.apply(commit);
             res.setStatus(HttpServletResponse.SC_OK);

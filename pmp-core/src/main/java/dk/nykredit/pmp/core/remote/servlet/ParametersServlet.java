@@ -21,10 +21,12 @@ public class ParametersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        // Gets the parameters and maps them to a JSON object
         List<ParameterEntity> entities = parameterRepository.getParameters();
-
         String json = JSON.toString(Map.of("parameters", entities.toArray()));
 
+        // Sets the response status and content type, and writes the JSON object to the
+        // response body
         res.setStatus(HttpServletResponse.SC_OK);
         res.setContentType("application/json");
         res.getWriter().write(json);

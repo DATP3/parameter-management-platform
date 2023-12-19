@@ -1,13 +1,28 @@
 package dk.nykredit.pmp.core.audit_log;
 
 public class RevertPartChangeEntityFactory {
+
+    /**
+     * Creates the coresponding ChangeEntity after reverting a given ChangeEntity.
+     * 
+     * @param originalChangeEntity The ChangeEntity that the resulting ChangeEntity
+     *                             should be created from.
+     * @param revertType           The type of revert to create.
+     * @param commitRef            The commit reference of the revert.
+     * @return A ChangeEntity representing the revert of the
+     *         {@link originalChangeEntity}.
+     */
     public ChangeEntity createChangeEntity(ChangeEntity originalChangeEntity, ChangeType revertType, long commitRef) {
         ChangeEntity resultingChangeEntity = new ChangeEntity();
         resultingChangeEntity.setCommitRevertRef(commitRef);
-        // The client currently always recieves a logged revert as a COMMIT_REVERT. It should be changed to the correct type.
-        // Reading this from from the input arguments causes the client to recieve an empty list of reverts.
-        // This seems like an error in the "objectMapper.writeValue(res.getWriter(), response);" in LogServlet.java
-        // as the response object does include the correct revert type, yet the client recieves an empty list of reverts.
+        // The client currently always recieves a logged revert as a COMMIT_REVERT. It
+        // should be changed to the correct type.
+        // Reading this from from the input arguments causes the client to recieve an
+        // empty list of reverts.
+        // This seems like an error in the "objectMapper.writeValue(res.getWriter(),
+        // response);" in LogServlet.java
+        // as the response object does include the correct revert type, yet the client
+        // recieves an empty list of reverts.
         // Example of the response object at the bottom of this file.
         resultingChangeEntity.setChangeType(ChangeType.COMMIT_REVERT);
         resultingChangeEntity.setParameterName(originalChangeEntity.getParameterName());
@@ -24,49 +39,49 @@ public class RevertPartChangeEntityFactory {
 
 /*
  * {
-    "commits": [
-        {
-        "user": "DO52ZM@student.aau.dk",
-        "pushDate": "2023-12-10T17:49:26.204",
-        "hash": "ffffffff9e176cc4",
-        "message": "change",
-        "affectedServices": [
-            "Example service"
-        ],
-        "changes": {
-            "parameterChanges": [
-            {
-                "name": "max_retries",
-                "newValue": "55",
-                "oldValue": "5"
-            },
-            {
-                "name": "person",
-                "newValue": "Test Person a",
-                "oldValue": "Test Person"
-            }
-            ],
-            "reverts": []
-        }
-        },
-        {
-        "user": "DO52ZM@student.aau.dk",
-        "pushDate": "2023-12-10T17:50:06.86",
-        "hash": "ffffffff9ec4d690",
-        "message": "revert person alteration in change",
-        "affectedServices": [
-            "Example service"
-        ],
-        "changes": {
-            "parameterChanges": [],
-            "reverts": [
-            {}
-            ]
-        }
-        }
-    ],
-    "name": "Example service"
-    }
-
-    Error on line 63. The reverts object is empty.
+ * "commits": [
+ * {
+ * "user": "DO52ZM@student.aau.dk",
+ * "pushDate": "2023-12-10T17:49:26.204",
+ * "hash": "ffffffff9e176cc4",
+ * "message": "change",
+ * "affectedServices": [
+ * "Example service"
+ * ],
+ * "changes": {
+ * "parameterChanges": [
+ * {
+ * "name": "max_retries",
+ * "newValue": "55",
+ * "oldValue": "5"
+ * },
+ * {
+ * "name": "person",
+ * "newValue": "Test Person a",
+ * "oldValue": "Test Person"
+ * }
+ * ],
+ * "reverts": []
+ * }
+ * },
+ * {
+ * "user": "DO52ZM@student.aau.dk",
+ * "pushDate": "2023-12-10T17:50:06.86",
+ * "hash": "ffffffff9ec4d690",
+ * "message": "revert person alteration in change",
+ * "affectedServices": [
+ * "Example service"
+ * ],
+ * "changes": {
+ * "parameterChanges": [],
+ * "reverts": [
+ * {}
+ * ]
+ * }
+ * }
+ * ],
+ * "name": "Example service"
+ * }
+ * 
+ * Error on line 63. The reverts object is empty.
  */

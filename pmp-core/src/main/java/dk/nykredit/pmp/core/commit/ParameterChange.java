@@ -39,35 +39,51 @@ public class ParameterChange implements Change {
         this.id = id;
     }
 
+    /**
+     * @param commitDirector The commit director is used to get the parameter
+     *                       service so it can be used to change parameters.
+     * @return A list of change entities representing the changes made by the
+     *         parameter change. In this case a list of one element.
+     * @throws TypeInconsistentException     If the stored type of the parameter
+     *                                       does
+     *                                       not match the type gien in the
+     *                                       parameter
+     *                                       change.
+     * @throws OldValueInconsistentException If the stored value of the parameter is
+     *                                       different from the old value of the
+     *                                       parameter change.
+     */
     @Override
     public List<ChangeEntity> apply(CommitDirector commitDirector) throws CommitException {
         ParameterService parameterService = commitDirector.getParameterService();
 
         Object storedValue = parameterService.findParameterByName(name);
-        // TODO: How specific should the error message be in the responses to the
-        // client?
+
+        // Do not do anything if the parameter does not exist on service.
         if (storedValue == null) {
-            // Do not do anything if the parameter does not exist on service
             return new ArrayList<>();
         }
 
+        // Check if type is consistent with the type of the parameter already stored.
         if (!type.equalsIgnoreCase(parameterService.getParameterTypeName(name))) {
             throw new TypeInconsistentException("Parameter types do not match.");
         }
 
+        // Type the old and new values.
         Object oldValueTyped = parameterService.getTypeParsers().parse(oldValue, type);
         Object newValueTyped = parameterService.getTypeParsers().parse(newValue, type);
 
-        // Check if the value has changed since the commit was created
+        // Check if the value has changed since the commit was created.
         if (!oldValueTyped.equals(storedValue)) {
             throw new OldValueInconsistentException(
                     "Old value inconsistent with stored value. Stored value has changed since the commit was created.");
         }
 
+        // Update the value of the parameter using the new value.
         parameterService.updateParameter(name, newValueTyped);
 
+        // Make a change entity representing the change and return.
         ChangeEntity resultingChangeEntity = new ParameterChangeEntityFactory().createChangeEntity(this);
-
         return List.of(resultingChangeEntity);
     }
 
